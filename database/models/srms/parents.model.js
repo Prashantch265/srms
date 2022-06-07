@@ -18,12 +18,27 @@ module.exports = (sequelize, dataTypes) => {
             type: dataTypes.STRING(25),
             allowNull: false
         },
+        guardiansName: {
+            field: "guardians_name",
+            type: dataTypes.STRING(25),
+            allowNull: false
+        },
         email: {
             field: "email",
             type: dataTypes.STRING(30),
             allowNull: false
         },
-        contactNo: {
+        fathersContactNo: {
+            field: "contact_no",
+            type: dataTypes.STRING,
+            allowNull: false
+        },
+        mothersContactNo: {
+            field: "contact_no",
+            type: dataTypes.STRING,
+            allowNull: false
+        },
+        guardianContactNo: {
             field: "contact_no",
             type: dataTypes.STRING,
             allowNull: false

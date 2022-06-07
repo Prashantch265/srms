@@ -18,7 +18,7 @@ const stream = require("./utils/");
 const passport = require("passport");
 const httpContext = require("express-http-context");
 
-require("./lib/passport-jwt")(passport);
+// require("./lib/passport-jwt")(passport);
 
 const app = new express();
 
@@ -37,7 +37,7 @@ if (process.env.NODE_ENV && process.env.NODE_ENV === "development") {
  * for sequelize
  */
 db.sequelize
-  .sync({ force: true })
+  .authenticate()
   .then(() => logger.info("DB connected"))
   .catch((err) => logger.error(err.stack));
 

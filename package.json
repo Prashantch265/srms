@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run build && cross-env NODE_ENV=production node dist/server.js",
     "dev": "cross-env NODE_ENV=development nodemon --inspect",
-    "migration:run": "npx sequelize-cli db:migrate",
+    "migration:run": "cross-env NODE_ENV=development npx sequelize-cli db:migrate",
     "migration:revert": "npx sequelize-cli db:migrate:undo",
     "seed:run": "npx sequelize-cli db:seed",
     "seed:revert": "npx sequelize-cli db:seed:undo"
@@ -51,7 +51,11 @@
     "pg": "^8.7.1",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.6.5",
+    "sequelize-cli": "^6.4.1",
     "winston": "^3.3.3",
     "winston-daily-rotate-file": "^4.5.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
   }
 }

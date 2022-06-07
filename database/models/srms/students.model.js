@@ -48,15 +48,26 @@ module.exports = (sequelize, dataTypes) => {
             references: {
                 model: "batch",
                 key: "id",
-            }
+            },
+            onDelete: "cascade"
         },
         sectionId: {
             field: "section_id",
             type: dataTypes.INTEGER,
             references: {
-                model: "sections",
+                model: "section",
                 key: "id",
-            }
+            },
+            onDelete: "cascade"
+        },
+        userName: {
+            field: "user_name",
+            type: dataTypes.STRING,
+            references: {
+                model: "users",
+                key: "user_name",
+            },
+            onDelete: "cascade"
         }
     }
 

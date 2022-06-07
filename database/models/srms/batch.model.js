@@ -19,9 +19,9 @@ module.exports = (sequelize, dataTypes) => {
         }
     }
 
-    const section = { ...obj, ...CommonEntity };
+    const batch = { ...obj, ...CommonEntity };
 
-    const Section = sequelize.define("section", section, { freezeTableName: true });
+    const Batch = sequelize.define("batch", batch, { freezeTableName: true });
 
-    return Section;
+    return Batch;
 }

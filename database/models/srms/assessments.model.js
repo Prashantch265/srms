@@ -13,15 +13,15 @@ module.exports = (sequelize, dataTypes) => {
             type: dataTypes.STRING,
             allowNull: false
         },
-        displayName: {
-            field: "display_name",
-            type: dataTypes.STRING
+        description: {
+            field: "description",
+            type: dataTypes.TEXT('tiny')
         }
-    }
+    };
 
-    const section = { ...obj, ...CommonEntity };
+    const assessment = { ...obj, ...CommonEntity };
 
-    const Section = sequelize.define("section", section, { freezeTableName: true });
+    const Assessment = sequelize.define("assessments", assessment);
 
-    return Section;
+    return Assessment;
 }
