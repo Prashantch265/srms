@@ -1,18 +1,18 @@
-const Privilege = require('../../database/models/internal-user/privilege.model');
+const { Privilege } = require('../../database/models');
 const { db } = require('../../lib/sequelize');
 const { QueryTypes } = require('sequelize');
 
 const findOneByField = async (where) => {
     where = { ...where, isActive: true, isDeleted: false };
-    return await Privilege.findOne({where});
+    return await Privilege.findOne({ where });
 }
 
-const register = async (data, userId) => {
+const add = async (data, userId) => {
     return await Privilege.create(data, { userId });
 }
 
 const update = async (data) => {
-    return await Privilege.save(data);
+    return await data.save();
 }
 
 const remove = async (id, userId) => {
@@ -20,4 +20,4 @@ const remove = async (id, userId) => {
     return id;
 }
 
-module.exports = { register, update, findOneByField, remove };
+module.exports = { add, update, findOneByField, remove };

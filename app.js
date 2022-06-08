@@ -94,7 +94,7 @@ app.use((err, req, res, next) => {
       errorObj = errorResponse(403, errorMsg['notAuthorized'], `[${req.method}] ${req.path}`);
     } else {
       logger.error(
-          `[${req.method}] ${req.path} >> StatusCode : ${status}, Message : ${message} "\n" Stack : ${err.stack}`
+        `[${req.method}] ${req.path} >> StatusCode : ${status}, Message : ${message} "\n" Stack : ${err.stack}`
       );
       errorObj = errorResponse(status, formattedMsg(err, errorMsg) || message, `[${req.method}] ${req.path}`);
     }

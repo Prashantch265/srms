@@ -93,11 +93,35 @@ const match = (path, url) => {
   return matches;
 };
 
-const cookieExtractor = function(req) {
+const cookieExtractor = function (req) {
   let token;
   if (req && req.cookies) token = req.cookies['AuthToken'];
   return token;
 };
 
+const parseFilter = (pageNo, size, sort) => {
+  const page = pageNo ? Math.abs(pageNo) : 1;
+  const limit = size ? Math.abs(size) : 10;
+  const sortVal = sort ? (sort === 'desc' ? 'DESC' : 'ASC') : 'DESC';
+  const offset = (page - 1) * limit;
+  return { limit, page, sortVal, offset };
+}
 
-module.exports = { successResponse, errorResponse, isEmpty, isIterable, write, formattedMsg, deleteFile, match, cookieExtractor };
+const paginatedResponse = (count, data, limit, offset, escapePg = false) => {
+  const total = !isNaN(count) ? count : count?.length ? parseInt(count[0].count) : 0;
+  let totalPages = Math.ceil(total / limit);
+  let hasNext = total - offset > limit;
+  if (escapePg) {
+    totalPages = 1;
+    hasNext = false;
+  }
+  return {
+    records: data,
+    totalRecords: total,
+    totalPages: totalPages,
+    hasNext,
+  };
+}
+
+
+module.exports = { successResponse, errorResponse, isEmpty, isIterable, write, formattedMsg, deleteFile, match, cookieExtractor, parseFilter, paginatedResponse };
