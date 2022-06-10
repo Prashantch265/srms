@@ -1,7 +1,7 @@
 const { SuccessResponse, ErrorResponse } = require("./response");
 const { logger } = require("./logger");
 const util = require("util");
-const fs = require('fs');
+const fs = require("fs");
 
 const successResponse = (status, data, message, source) => {
   if (!data) throw new Error(`Data required to send response to client`);
@@ -55,9 +55,12 @@ const write = (message) => {
 
 const formattedMsg = (err, errorMsg) => {
   return err.source
-    ? util.format(errorMsg[err.message], ...(typeof err.source === 'string' ? [err.source] : err.source))
+    ? util.format(
+        errorMsg[err.message],
+        ...(typeof err.source === "string" ? [err.source] : err.source)
+      )
     : errorMsg[err.message];
-}
+};
 
 const deleteFile = async (path) => {
   await fs.unlink(path, function (err) {
@@ -66,49 +69,26 @@ const deleteFile = async (path) => {
   return;
 };
 
-const pathToRegExp = path => {
-  const pattern = path
-    // Escape literal dots
-    .replace(/\./g, '\\.')
-    // Escape literal slashes
-    .replace(/\//g, '/')
-    // Escape literal question marks
-    .replace(/\?/g, '\\?')
-    // Ignore trailing slashes
-    .replace(/\/+$/, '')
-    // Replace wildcard with any zero-to-any character sequence
-    .replace(/\*+/g, '.*')
-    // Replace parameters with named capturing groups
-    .replace(/:([^\d|^\/][a-zA-Z0-9_]*(?=(?:\/|\\.)|$))/g, (_, paramName) => `(?<${paramName}>[^\/]+?)`)
-    // Allow optional trailing slash
-    .concat('(\\/|$)');
-  return new RegExp(pattern, 'gi');
-};
-
-const match = (path, url) => {
-  const expression = path instanceof RegExp ? path : pathToRegExp(path);
-  const match = expression.exec(url) || false;
-
-  const matches = path instanceof RegExp ? !!match : !!match && match[0] === match.input;
-  return matches;
-};
-
 const cookieExtractor = function (req) {
   let token;
-  if (req && req.cookies) token = req.cookies['AuthToken'];
+  if (req && req.cookies) token = req.cookies["AuthToken"];
   return token;
 };
 
 const parseFilter = (pageNo, size, sort) => {
   const page = pageNo ? Math.abs(pageNo) : 1;
   const limit = size ? Math.abs(size) : 10;
-  const sortVal = sort ? (sort === 'desc' ? 'DESC' : 'ASC') : 'DESC';
+  const sortVal = sort ? (sort === "desc" ? "DESC" : "ASC") : "DESC";
   const offset = (page - 1) * limit;
   return { limit, page, sortVal, offset };
-}
+};
 
 const paginatedResponse = (count, data, limit, offset, escapePg = false) => {
-  const total = !isNaN(count) ? count : count?.length ? parseInt(count[0].count) : 0;
+  const total = !isNaN(count)
+    ? count
+    : count?.length
+    ? parseInt(count[0].count)
+    : 0;
   let totalPages = Math.ceil(total / limit);
   let hasNext = total - offset > limit;
   if (escapePg) {
@@ -121,7 +101,17 @@ const paginatedResponse = (count, data, limit, offset, escapePg = false) => {
     totalPages: totalPages,
     hasNext,
   };
-}
+};
 
-
-module.exports = { successResponse, errorResponse, isEmpty, isIterable, write, formattedMsg, deleteFile, match, cookieExtractor, parseFilter, paginatedResponse };
+module.exports = {
+  successResponse,
+  errorResponse,
+  isEmpty,
+  isIterable,
+  write,
+  formattedMsg,
+  deleteFile,
+  cookieExtractor,
+  parseFilter,
+  paginatedResponse,
+};

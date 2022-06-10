@@ -1,4 +1,4 @@
-const CommonEntity = require('../common');
+const CommonEntity = require("../common");
 
 module.exports = (sequelize, dataTypes) => {
   const obj = {
@@ -10,18 +10,18 @@ module.exports = (sequelize, dataTypes) => {
     },
     userName: {
       field: "user_name",
-      type: dataTypes.STRING(50),
+      type: dataTypes.STRING(255),
       allowNull: false,
-      unique: true
+      unique: true,
     },
     password: {
       field: "password",
       type: dataTypes.STRING,
       allowNull: false,
     },
-  }
+  };
 
-  const user = { ...obj, ...CommonEntity }
+  const user = { ...obj, ...CommonEntity };
   const User = sequelize.define("users", user);
 
   return User;

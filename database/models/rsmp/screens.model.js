@@ -22,4 +22,4 @@ module.exports = (sequelize, dataTypes) => {
   const Screen = sequelize.define("screens", screen);
 
   return Screen;
-}
+};

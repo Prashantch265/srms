@@ -3,7 +3,12 @@ if (process.env.NODE_ENV && process.env.NODE_ENV === "development")
 
 module.exports = {
   port: process.env.PORT || 3000,
-  jwtSecret: process.env.JWT_SECRET,
+  jwtConfig: {
+    accessTokenExpiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN,
+    refreshTokenExpiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN,
+    accessTokenSecret: process.env.ACCESS_TOKEN_SECRET,
+    refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET,
+  },
   keycloakConfig: {
     clientId: process.env.KEYCLOAK_CLIENT_ID,
     realm: process.env.KEYCLOAK_REALM,
@@ -44,5 +49,17 @@ module.exports = {
         ":" +
         (process.env.MONGO_PORT || "27017") +
         "/mernproject",
+  },
+  mailerConfig: {
+    host: process.env.MAILER_HOST,
+    port: process.env.MAILER_PORT,
+    service: process.env.MAILER_SERVICE,
+    secure: true,
+    // requireTLS: true,
+    auth: {
+      user: process.env.EMAIL_ADDRESS,
+      pass: process.env.EMAIL_PASSWORD,
+    },
+    logger: true,
   },
 };

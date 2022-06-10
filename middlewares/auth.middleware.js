@@ -4,28 +4,31 @@ const { unprotectedRoutes } = require("../config/protect");
 const { match } = require("node-match-path");
 
 const authMiddleware = (req, res, next) => {
-    try {
-        let isMatch = false;
-        unprotectedRoutes.forEach(route => {
-            const { matches } = match(route, req.path);
-            if (matches) {
-                isMatch = true;
-            }
-        });
-        if (isMatch) {
-            next();
-        } else {
-            passport.authenticate('jwt', { session: false })(req, res, async () => {
-                const userInfo = (({ userId, email, userName, role }) => ({ userId, email, userName, role }))(
-                    req.user[0],
-                );
-                httpContext.set('user', userInfo);
-                next();
-            });
-        }
-    } catch (err) {
-        next(err);
+  try {
+    let isMatch = false;
+    unprotectedRoutes.forEach((route) => {
+      const { matches } = match(route, req.path);
+      if (matches) {
+        isMatch = true;
+      }
+    });
+    if (isMatch) {
+      next();
+    } else {
+      passport.authenticate("jwt", { session: false })(req, res, async () => {
+        const userInfo = (({ userId, email, userName, role }) => ({
+          userId,
+          email,
+          userName,
+          role,
+        }))(req.user[0]);
+        httpContext.set("user", userInfo);
+        next();
+      });
     }
-}
+  } catch (err) {
+    next(err);
+  }
+};
 
 module.exports = { authMiddleware };

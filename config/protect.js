@@ -6,11 +6,12 @@ const allowedOrigins = [
 ];
 
 const unprotectedRoutes = [
+  "/",
+  "/favicon.ico",
   "/auth/signin",
   "/auth/register",
-  "/internal/signin",
 ];
 
-const allowedExtension = [];
+const allowedExtension = ["jpeg", "jpg", "png", "gif", "svg"];
 
 module.exports = { allowedOrigins, unprotectedRoutes, allowedExtension };
