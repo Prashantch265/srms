@@ -5,7 +5,6 @@ module.exports = {
   Screen: db.screens,
   User: db.users,
   Student: db.students,
-  Parent: db.parents,
   Section: db.section,
   Batch: db.batch,
   Semester: db.semester,

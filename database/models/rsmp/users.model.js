@@ -19,6 +19,10 @@ module.exports = (sequelize, dataTypes) => {
       type: dataTypes.STRING,
       allowNull: false,
     },
+    profilePic: {
+      field: "profile_pic",
+      type: dataTypes.STRING,
+    },
   };
 
   const user = { ...obj, ...CommonEntity };

@@ -1,4 +1,4 @@
-const UserService = require("../../services/user/user.service");
+const UserService = require("../../services/rsmp/users.service");
 
 const registerUser = async (req, res, next) => {
   const data = req.body;
@@ -13,7 +13,8 @@ const fetchAllUser = async (req, res, next) => {
     const resData = await UserService.getByRole(role);
     return res.json(resData);
   }
-  const resData = await UserService.getAll();
+  const resData = await UserService.getAllUsers();
+  if (resData.success === false) return next(resData);
   return res.json(resData);
 };
 

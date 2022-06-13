@@ -1,8 +1,8 @@
-const RoleService = require("../../services/user/role.service");
+const RoleService = require("../../services/rsmp/role.service");
 
 const addRole = async (req, res, next) => {
   const data = req.body;
-  const resData = await RoleService.create(data);
+  const resData = await RoleService.add(data);
   if (resData.success === false) return next(resData);
   return res.json(resData);
 };

@@ -11,8 +11,8 @@ const addStudentDetails = async (data) => {
   return await Student.create(data);
 };
 
-const updateStudentDetails = async (data) => {
-  return await data.save();
+const updateStudentDetails = async (data, id) => {
+  return await Student.update(data, { where: { id: id } });
 };
 
 const findAll = async () => {};

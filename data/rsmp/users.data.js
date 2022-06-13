@@ -11,8 +11,8 @@ const register = async (data) => {
   return await User.create(data);
 };
 
-const update = async (data) => {
-  return await data.save();
+const update = async (data, userId) => {
+  return await User.update(data, { where: { userId: userId } });
 };
 
 const remove = async (id) => {

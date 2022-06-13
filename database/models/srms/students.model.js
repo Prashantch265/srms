@@ -33,14 +33,38 @@ module.exports = (sequelize, dataTypes) => {
       type: dataTypes.STRING,
       allowNull: false,
     },
-    parentId: {
-      field: "parent_id",
-      type: dataTypes.INTEGER,
-      references: {
-        model: "parents", // refers to table name
-        key: "id", // 'id' refers to column name in table
-      },
-      onDelete: "CASCADE",
+    fathersName: {
+      field: "fathers_name",
+      type: dataTypes.STRING(25),
+      allowNull: false,
+    },
+    mothersName: {
+      field: "mothers_name",
+      type: dataTypes.STRING(25),
+      allowNull: false,
+    },
+    guardiansName: {
+      field: "guardians_name",
+      type: dataTypes.STRING(25),
+    },
+    parentsEmail: {
+      field: "parents_email",
+      type: dataTypes.STRING(30),
+      allowNull: false,
+    },
+    fathersContactNo: {
+      field: "contact_no",
+      type: dataTypes.STRING,
+      allowNull: false,
+    },
+    mothersContactNo: {
+      field: "contact_no",
+      type: dataTypes.STRING,
+      allowNull: false,
+    },
+    guardianContactNo: {
+      field: "contact_no",
+      type: dataTypes.STRING,
     },
     batchId: {
       field: "batch_id",

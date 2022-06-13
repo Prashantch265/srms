@@ -42,7 +42,10 @@ if (process.env.NODE_ENV && process.env.NODE_ENV === "development") {
  */
 db.sequelize
   .authenticate()
-  .then(() => logger.info("DB connected"))
+  .then(() => {
+    // db.sequelize.sync({ force: true });
+    logger.info("DB connected");
+  })
   .catch((err) => logger.error(err.stack));
 
 /**
@@ -59,6 +62,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(compression());
 app.use(httpContext.middleware);
+app.use(express.static(path.join(__dirname, "./public/frontend")));
 // app.use(authMiddleware);
 
 app.use(
@@ -70,7 +74,7 @@ app.use(
   })
 );
 
-// require("./routes/")(app);
+require("./routes/")(app);
 
 app.get("/", (req, res) => {
   res.status(200).json({ msg: "hello" });

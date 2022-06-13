@@ -1,20 +1,20 @@
-const { Role } = require("../../database/models");
+const { Batch } = require("../../database/models");
 
 const findOneByField = async (where) => {
   where = { ...where, isActive: true, isDeleted: false };
-  return await Role.findOne({ where });
+  return await Batch.findOne({ where });
 };
 
 const add = async (data) => {
-  return await Role.create(data);
+  return await Batch.create(data);
 };
 
 const update = async (data, id) => {
-  return await Role.update(data, { where: { id: id } });
+  return await Batch.update(data, { where: { id: id } });
 };
 
 const remove = async (id) => {
-  await Role.update(
+  await Batch.update(
     { isActive: false, isDeleted: true },
     { where: { id: id } }
   );
@@ -22,7 +22,7 @@ const remove = async (id) => {
 };
 
 const fetchAll = async () => {
-  return await Role.findAll({ where: { isActive: true, isDeleted: false } });
+  return await Batch.findAll({ where: { isActive: true, isDeleted: false } });
 };
 
 module.exports = { findOneByField, add, update, fetchAll, remove };

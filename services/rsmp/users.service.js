@@ -1,7 +1,6 @@
 const UserData = require("../../data/rsmp/users.data");
 const bcrypt = require("bcrypt");
-const { errorResponse } = require("../../utils");
-const { successResponse } = require("../../utils");
+const { errorResponse, successResponse } = require("../../utils");
 
 const registerNewUser = async (data) => {
   const { userName, password } = data;
@@ -10,29 +9,30 @@ const registerNewUser = async (data) => {
   const salt = await bcrypt.genSalt(10);
   data.password = await bcrypt.hash(password, salt);
   const res = await UserData.register(data);
-  return res;
+  return successResponse(200, res, "create", "user");
 };
 
 const updateUser = async (data, userId) => {
   const existingUser = UserData.findOneByField({ userId: userId });
+  if (!existingUser) return errorResponse(400, "notFound", "user");
   const updatedUser = { ...data, ...existingUser };
   const res = await UserData.update(updatedUser);
-  return res;
+  return successResponse(200, res, "update", "user");
 };
 
 const getAllUsers = async () => {
   const res = await UserData.fetchAll();
-  return res;
+  return successResponse(200, res, "fetch", "user");
 };
 
 const getUserById = async (userId) => {
   const res = await UserData.findOneByField({ userId: userId });
-  return res;
+  return successResponse(200, res, "fetch", "user");
 };
 
 const deleteUser = async (userId) => {
   const res = await UserData.remove(userId);
-  return res;
+  return successResponse(200, res, "delete", "user");
 };
 
 module.exports = {
