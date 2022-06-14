@@ -66,6 +66,7 @@ const deleteStudentDetails = async (id) => {
 };
 
 module.exports = {
+  findOneByField,
   addStudentDetails,
   updateStudentDetails,
   findAll,

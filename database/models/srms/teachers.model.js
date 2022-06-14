@@ -18,6 +18,11 @@ module.exports = (sequelize, dataTypes) => {
       type: dataTypes.ENUM(["male", "female", "others"]),
       allowNull: false,
     },
+    address: {
+      field: "address",
+      type: dataTypes.STRING(155),
+      allowNull: false,
+    },
     contactNo: {
       field: "contact_no",
       type: dataTypes.STRING,
