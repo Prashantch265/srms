@@ -53,17 +53,17 @@ module.exports = (sequelize, dataTypes) => {
       allowNull: false,
     },
     fathersContactNo: {
-      field: "contact_no",
+      field: "fathers_contact_no",
       type: dataTypes.STRING,
       allowNull: false,
     },
     mothersContactNo: {
-      field: "contact_no",
+      field: "mothers_contact_no",
       type: dataTypes.STRING,
       allowNull: false,
     },
     guardianContactNo: {
-      field: "contact_no",
+      field: "guardians_contact_no",
       type: dataTypes.STRING,
     },
     batchId: {
@@ -71,6 +71,16 @@ module.exports = (sequelize, dataTypes) => {
       type: dataTypes.INTEGER,
       references: {
         model: "batch",
+        key: "id",
+      },
+      onDelete: "cascade",
+    },
+    semesterId: {
+      field: "semester_id",
+      type: dataTypes.INTEGER,
+      defaultValue: 1,
+      references: {
+        model: "semester",
         key: "id",
       },
       onDelete: "cascade",
