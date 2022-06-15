@@ -1,43 +1,58 @@
 const UserService = require("../../services/rsmp/users.service");
 
 const registerUser = async (req, res, next) => {
-  const data = req.body;
-  const resData = await UserService.create(data);
-  if (resData.success === false) return next(resData);
-  return res.json(resData);
+  try {
+    const data = req.body;
+    const resData = await UserService.create(data);
+    return res.json(resData);
+  } catch (error) {
+    next(error);
+  }
 };
 
 const fetchAllUser = async (req, res, next) => {
-  const { role } = req.query;
-  if (role) {
-    const resData = await UserService.getByRole(role);
+  try {
+    const { role } = req.query;
+    if (role) {
+      const resData = await UserService.getByRole(role);
+      return res.json(resData);
+    }
+    const resData = await UserService.getAllUsers();
     return res.json(resData);
+  } catch (error) {
+    next(error);
   }
-  const resData = await UserService.getAllUsers();
-  if (resData.success === false) return next(resData);
-  return res.json(resData);
 };
 
 const updateUser = async (req, res, next) => {
-  const data = req.body;
-  const userId = req.params.userId;
-  const resData = await UserService.update(data, userId);
-  if (resData.success === false) return next(resData);
-  return res.json(resData);
+  try {
+    const data = req.body;
+    const userId = req.params.userId;
+    const resData = await UserService.update(data, userId);
+    return res.json(resData);
+  } catch (error) {
+    next(error);
+  }
 };
 
 const fetchUserById = async (req, res, next) => {
-  const userId = req.params.userId;
-  const resData = await UserService.getById(userId);
-  if (resData.success === false) return next(resData);
-  return res.json(resData);
+  try {
+    const userId = req.params.userId;
+    const resData = await UserService.getById(userId);
+    return res.json(resData);
+  } catch (error) {
+    next(error);
+  }
 };
 
 const deleteUser = async (req, res, next) => {
-  const userId = req.params.userId;
-  const resData = await UserService.remove(userId);
-  if (resData.success === false) return next(resData);
-  return res.json(resData);
+  try {
+    const userId = req.params.userId;
+    const resData = await UserService.remove(userId);
+    return res.json(resData);
+  } catch (error) {
+    next(error);
+  }
 };
 
 module.exports = {

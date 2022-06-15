@@ -1,34 +1,34 @@
 const SectionData = require("../../data/srms/section.data");
-const { errorResponse, successResponse } = require("../../utils");
+const HttpException = require("../../utils/httpException");
 
 const add = async (data) => {
   const existingSection = await SectionData.findOneByField({ name: data.name });
-  if (existingSection) return errorResponse(400, "duplicateData", "section");
+  if (existingSection) throw new HttpException(400, "duplicateData", "section");
   const res = await SectionData.add(data);
-  return successResponse(200, res, "create", "section");
+  return res;
 };
 
 const update = async (data, id) => {
   const existingSection = await SectionData.findOneByField({ id: id });
-  if (!existingSection) return errorResponse(400, "notFound", "section");
+  if (!existingSection) throw new HttpException(400, "notFound", "section");
   const updatedSection = { ...data, ...existingSection };
   const res = await SectionData.update(updatedSection, id);
-  return successResponse(200, res, "update", "section");
+  return res;
 };
 
 const findAll = async () => {
   const res = await SectionData.fetchAll();
-  return successResponse(200, res, "fetch", "section");
+  return res;
 };
 
 const findById = async (id) => {
   const res = await SectionData.findOneByField({ id: id });
-  return successResponse(200, res, "fetch", "section");
+  return res;
 };
 
 const remove = async (id) => {
   const res = await SectionData.remove(id);
-  return successResponse(200, res, "delete", "section");
+  return res;
 };
 
 module.exports = { add, update, findAll, findById, remove };

@@ -2,18 +2,18 @@ const StudentData = require("../../data/srms/students.data");
 const BatchData = require("../../data/srms/batch.data");
 const SectionData = require("../../data/srms/section.data");
 const SemesterData = require("../../data/srms/semester.data");
-const { errorResponse, successResponse } = require("../../utils/");
+const HttpException = require("../../utils/httpException");
 
 const validateForiegnKey = async (obj) => {
   if (obj.batchId) {
     const batch = await BatchData.findOneByField({ id: obj.batchId });
-    if (!batch) return errorResponse(400, "notFound", "batch");
+    if (!batch) throw new HttpException(400, "notFound", "batch");
   } else if (obj.sectionId) {
     const section = await SectionData.findOneByField({ id: obj.sectionId });
-    if (!section) return errorResponse(400, "notFound", "section");
+    if (!section) throw new HttpException(400, "notFound", "section");
   } else if (obj.semesterId) {
     const semester = await SemesterData.findOneByField({ id: obj.semesterId });
-    if (!semester) return errorResponse(400, "notFound", "semester");
+    if (!semester) throw new HttpException(400, "notFound", "semester");
   }
 
   return;
@@ -27,9 +27,9 @@ const addDetail = async (data) => {
     dob: data.name,
     fathersName: data.fathersName,
   });
-  if (existingStudent) return errorResponse(200, "duplicateData", "student");
+  if (existingStudent) throw new HttpException(200, "duplicateData", "student");
   const res = await StudentData.addStudentDetails(data);
-  return successResponse(200, res, "create", "student");
+  return res;
 };
 
 const updateDetail = async (data, id) => {
@@ -40,30 +40,30 @@ const updateDetail = async (data, id) => {
   };
   await validateForiegnKey(obj);
   const existingStudent = await StudentData.findOneByField({ id: id });
-  if (!existingStudent) return errorResponse(400, "notFound", "student");
+  if (!existingStudent) throw new HttpException(400, "notFound", "student");
   const updatedStudent = { ...data, ...existingStudent };
   const res = await StudentData.updateStudentDetails(updatedStudent, id);
-  return successResponse(200, res, "update", "student");
+  return res;
 };
 
 const getAll = async (semId) => {
   if (semId) {
     const res = await StudentData.findBySemester(semId);
-    return successResponse(200, res, "fetch", "student");
+    return res;
   }
   const res = await StudentData.findAll();
-  return successResponse(200, res, "fetch", "student");
+  return res;
 };
 
 const getById = async (id) => {
   const res = await StudentData.findById(id);
-  if (!res) return errorResponse(400, "notFound", "student");
-  return successResponse(200, res, "fetch", "student");
+  if (!res) throw new HttpException(400, "notFound", "student");
+  return res;
 };
 
 const remove = async (id) => {
   const res = await StudentData.deleteStudentDetails(id);
-  return successResponse(200, res, "delete", "student");
+  return res;
 };
 
 module.exports = { addDetail, updateDetail, getAll, getById, remove };

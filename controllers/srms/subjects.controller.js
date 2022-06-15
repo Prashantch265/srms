@@ -1,18 +1,25 @@
 const SubjectService = require("../../services/srms/subjects.service");
+const { successResponse } = require("../../utils");
 
 const add = async (req, res, next) => {
-  const data = req.body;
-  const resData = await SubjectService.add(data);
-  if (resData.success === false) return next(resData);
-  return res.json(resData);
+  try {
+    const data = req.body;
+    const resData = await SubjectService.add(data);
+    return successResponse(res, resData, "create", "subject");
+  } catch (error) {
+    next(error);
+  }
 };
 
 const update = async (req, res, next) => {
-  const data = req.body;
-  const id = req.params.id;
-  const resData = await SubjectService.update(data, id);
-  if (resData.success === false) return next(resData);
-  return res.json(resData);
+  try {
+    const data = req.body;
+    const id = req.params.id;
+    const resData = await SubjectService.update(data, id);
+    return successResponse(res, resData, "update", "subject");
+  } catch (error) {
+    next(error);
+  }
 };
 
 const getAll = async (req, res, next) => {
@@ -20,22 +27,27 @@ const getAll = async (req, res, next) => {
   let resData;
   if (semId) resData = await SubjectService.getBySemester(semId);
   resData = await SubjectService.getAll();
-  if (resData.success === false) return next(resData);
-  return res.json(resData);
+  return successResponse(res, resData, "fetch", "subject");
 };
 
 const getById = async (req, res, next) => {
-  const id = req.params.id;
-  const resData = await SubjectService.getById(id);
-  if (resData.success === false) return next(resData);
-  return res.json(resData);
+  try {
+    const id = req.params.id;
+    const resData = await SubjectService.getById(id);
+    return successResponse(res, resData, "fetch", "subject");
+  } catch (error) {
+    next(error);
+  }
 };
 
 const remove = async (req, res, next) => {
-  const id = req.params.id;
-  const resData = await SubjectService.remove(id);
-  if (resData.success === false) return next(resData);
-  return res.json(resData);
+  try {
+    const id = req.params.id;
+    const resData = await SubjectService.remove(id);
+    return successResponse(res, resData, "delete", "subject");
+  } catch (error) {
+    next(error);
+  }
 };
 
 module.exports = { add, update, getAll, getById, remove };

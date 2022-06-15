@@ -7,7 +7,8 @@ class SuccessResponse {
 }
 
 class ErrorResponse {
-  constructor(message, source) {
+  constructor(status, message, source) {
+    this.status = status;
     this.message = message;
     this.source = source;
   }

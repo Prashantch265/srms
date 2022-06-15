@@ -2,18 +2,17 @@ const { SuccessResponse, ErrorResponse } = require("./response");
 const { logger } = require("./logger");
 const util = require("util");
 const fs = require("fs");
-const { successMsg } = require("./messages/message.json");
 
-const successResponse = (status, data, message, source) => {
+const successResponse = (res, data, message, source) => {
   if (!data) throw new Error(`Data required to send response to client`);
-  if (!status) throw new Error(`http code not found`);
 
   const success = new SuccessResponse();
   success.source = source;
   success.data = data;
   success.message = message;
+  success.status = 200;
 
-  return success;
+  return res.json(success);
 };
 
 const errorResponse = (status, message, source) => {
