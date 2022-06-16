@@ -3,7 +3,6 @@ const CommonEntity = require("../common");
 module.exports = (sequelize, dataTypes) => {
   const obj = {
     id: {
-      field: "id",
       type: dataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,

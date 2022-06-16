@@ -7,51 +7,47 @@ module.exports = (sequelize, dataTypes) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    semId: {
-      field: "semester_id",
+    moduleId: {
+      field: "module_id",
       type: dataTypes.INTEGER,
       references: {
-        model: "semester",
+        model: "modules",
         key: "id",
       },
       onDelete: "CASCADE",
     },
-    secId: {
-      field: "section_id",
+    privilegeId: {
+      field: "privilege_id",
       type: dataTypes.INTEGER,
       references: {
-        model: "section",
+        model: "privileges",
         key: "id",
       },
       onDelete: "CASCADE",
     },
-    teacherId: {
-      field: "teacher_id",
+    screenId: {
+      field: "screen_id",
       type: dataTypes.INTEGER,
       references: {
-        model: "teachers",
+        model: "screens",
         key: "id",
       },
       onDelete: "CASCADE",
     },
-    subId: {
-      field: "subject_id",
+    roleId: {
+      field: "role_id",
       type: dataTypes.INTEGER,
       references: {
-        model: "subjects",
+        model: "roles",
         key: "id",
       },
       onDelete: "CASCADE",
     },
   };
 
-  const semester_section = { ...obj, ...CommonEntity };
+  const rsmp = { ...obj, ...CommonEntity };
 
-  const SemesterSection = sequelize.define(
-    "semester_section",
-    semester_section,
-    { freezeTableName: true }
-  );
+  const RSMP = sequelize.define("rsmp", rsmp, { freezeTableName: true });
 
-  return SemesterSection;
+  return RSMP;
 };

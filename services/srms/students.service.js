@@ -2,6 +2,7 @@ const StudentData = require("../../data/srms/students.data");
 const BatchData = require("../../data/srms/batch.data");
 const SectionData = require("../../data/srms/section.data");
 const SemesterData = require("../../data/srms/semester.data");
+const UserData = require("../../data/rsmp/users.data");
 const HttpException = require("../../utils/httpException");
 
 const validateForiegnKey = async (obj) => {
@@ -14,6 +15,9 @@ const validateForiegnKey = async (obj) => {
   } else if (obj.semesterId) {
     const semester = await SemesterData.findOneByField({ id: obj.semesterId });
     if (!semester) throw new HttpException(400, "notFound", "semester");
+  } else if (obj.userName) {
+    const user = await UserData.findOneByField({ userName: obj.userName });
+    if (!user) throw new HttpException(400, "notFound", "user");
   }
 
   return;
@@ -37,6 +41,7 @@ const updateDetail = async (data, id) => {
     batchId: data.batchId,
     secId: data.secId,
     semesterId: data.semesterId,
+    userName: data.userName,
   };
   await validateForiegnKey(obj);
   const existingStudent = await StudentData.findOneByField({ id: id });

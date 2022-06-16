@@ -7,13 +7,20 @@ module.exports = (sequelize, dataTypes) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    privilegeName: {
+    name: {
       field: "name",
       type: dataTypes.STRING(20),
       allowNull: false,
     },
-    description: {
-      type: dataTypes.TEXT("tiny"),
+    shortName: {
+      field: "short_name",
+      type: dataTypes.STRING(20),
+      allowNull: false,
+    },
+    code: {
+      field: "code",
+      type: dataTypes.STRING(5),
+      allowNull: false,
     },
   };
 

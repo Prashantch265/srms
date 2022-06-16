@@ -3,6 +3,10 @@ module.exports = {
   Role: db.roles,
   Privilege: db.privileges,
   Screen: db.screens,
+  Module: db.modules,
+  UserRole: db.user_role,
+  ModulePrivilege: db.module_privilege,
+  RSMP: db.rsmp,
   User: db.users,
   Student: db.students,
   Section: db.section,
@@ -16,5 +20,4 @@ module.exports = {
   PracticalMark: db.practical_marks,
   AssessmentMarking: db.assessment_marking,
   SemesterSection: db.semester_section,
-  UserRole: db.user_role,
 };
