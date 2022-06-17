@@ -1,4 +1,4 @@
-const { UserRole } = require("../../database/models/");
+const { UserRole } = require("../../database/models");
 const db = require("../../lib/sequelize");
 const { QueryTypes } = require("sequelize");
 

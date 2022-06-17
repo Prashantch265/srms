@@ -1,7 +1,7 @@
-const StudentData = require("../../data/srms/students.data");
-const BatchData = require("../../data/srms/batch.data");
-const SectionData = require("../../data/srms/section.data");
-const SemesterData = require("../../data/srms/semester.data");
+const StudentData = require("../../data/student-management/students.data");
+const BatchData = require("../../data/master-configuration/batch.data");
+const SectionData = require("../../data/master-configuration/section.data");
+const SemesterData = require("../../data/master-configuration/semester.data");
 const UserData = require("../../data/rsmp/users.data");
 const HttpException = require("../../utils/httpException");
 

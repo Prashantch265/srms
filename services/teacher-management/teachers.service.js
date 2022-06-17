@@ -1,4 +1,4 @@
-const TeacherData = require("../../data/srms/teachers.data");
+const TeacherData = require("../../data/teacher-management/teachers.data");
 const UserData = require("../../data/rsmp/users.data");
 const HttpException = require("../../utils/httpException");
 

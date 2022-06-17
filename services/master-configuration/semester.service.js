@@ -1,4 +1,4 @@
-const SemesterData = require("../../data/srms/semester.data");
+const SemesterData = require("../../data/master-configuration/semester.data");
 const HttpException = require("../../utils/httpException");
 
 const add = async (data) => {

@@ -1,4 +1,4 @@
-const TeacherService = require("../../services/srms/teachers.service");
+const TeacherService = require("../../services/teacher-management/teachers.service");
 const { successResponse } = require("../../utils");
 
 const add = async (req, res, next) => {

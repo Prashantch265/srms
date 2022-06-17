@@ -2,6 +2,7 @@ const { SuccessResponse, ErrorResponse } = require("./response");
 const { logger } = require("./logger");
 const util = require("util");
 const fs = require("fs");
+const { successMsg } = require("../utils/messages/message.json");
 
 const successResponse = (res, data, message, source) => {
   if (!data) throw new Error(`Data required to send response to client`);
@@ -9,7 +10,7 @@ const successResponse = (res, data, message, source) => {
   const success = new SuccessResponse();
   success.source = source;
   success.data = data;
-  success.message = message;
+  success.message = util.format(successMsg[message], source);
   success.status = 200;
 
   return res.json(success);

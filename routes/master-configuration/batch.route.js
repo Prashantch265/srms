@@ -1,5 +1,5 @@
 const validator = require("../../middlewares/joi.middleware");
-const BatchController = require("../../controllers/srms/batch.controller");
+const BatchController = require("../../controllers/master-configuration/batch.controller");
 const batch = require("../../validation/batch");
 
 module.exports = (router) => {

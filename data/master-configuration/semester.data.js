@@ -1,4 +1,4 @@
-const { Semester } = require("../../database/models/");
+const { Semester } = require("../../database/models");
 
 const findOneByField = async (where) => {
   where = { ...where, isActive: true, isDeleted: false };

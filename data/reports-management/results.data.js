@@ -1,4 +1,4 @@
-const { Result } = require("../../database/models/");
+const { Result } = require("../../database/models");
 const db = require("../../lib/sequelize");
 const { QueryTypes } = require("sequelize");
 

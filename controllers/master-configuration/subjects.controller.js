@@ -1,4 +1,4 @@
-const SubjectService = require("../../services/srms/subjects.service");
+const SubjectService = require("../../services/master-configuration/subjects.service");
 const { successResponse } = require("../../utils");
 
 const add = async (req, res, next) => {

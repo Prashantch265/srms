@@ -1,5 +1,5 @@
 const validator = require("../../middlewares/joi.middleware");
-const SemesterController = require("../../controllers/srms/semester.controller");
+const SemesterController = require("../../controllers/master-configuration/semester.controller");
 const semester = require("../../validation/semester");
 
 module.exports = (router) => {

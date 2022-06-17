@@ -1,4 +1,4 @@
-const { Assessment } = require("../../database/models/");
+const { Assessment } = require("../../database/models");
 
 const findOneByField = async (where) => {
   where = { ...where, isActive: true, isDeleted: false };
@@ -14,7 +14,7 @@ const update = async (data, id) => {
 };
 
 const fetchAll = async () => {
-  return await Assessment.getAll();
+  return await Assessment.findAll();
 };
 
 const remove = async (id) => {

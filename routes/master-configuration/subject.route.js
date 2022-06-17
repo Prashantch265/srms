@@ -1,5 +1,5 @@
 const validator = require("../../middlewares/joi.middleware");
-const SubjectController = require("../../controllers/srms/subjects.controller");
+const SubjectController = require("../../controllers/master-configuration/subjects.controller");
 const subject = require("../../validation/subjects");
 
 module.exports = (router) => {
@@ -9,7 +9,7 @@ module.exports = (router) => {
 
   router
     .route("/subject/:id")
-    .put(validator(subject), SubjectController.getById);
+    .put(validator(subject), SubjectController.update);
 
   router.route("/subject/:id").get(SubjectController.getById);
 

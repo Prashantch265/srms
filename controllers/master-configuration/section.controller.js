@@ -1,4 +1,4 @@
-const SectionService = require("../../services/srms/section.service");
+const SectionService = require("../../services/master-configuration/section.service");
 const { successResponse } = require("../../utils");
 
 const add = async (req, res, next) => {

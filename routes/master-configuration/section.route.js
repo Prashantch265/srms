@@ -1,5 +1,5 @@
 const validator = require("../../middlewares/joi.middleware");
-const SectionController = require("../../controllers/srms/section.controller");
+const SectionController = require("../../controllers/master-configuration/section.controller");
 const section = require("../../validation/section");
 
 module.exports = (router) => {

@@ -1,5 +1,5 @@
 const validator = require("../../middlewares/joi.middleware");
-const StudentController = require("../../controllers/srms/students.controller");
+const StudentController = require("../../controllers/student-management/students.controller");
 const student = require("../../validation/students");
 
 module.exports = (router) => {

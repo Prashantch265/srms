@@ -1,4 +1,4 @@
-const SectionData = require("../../data/srms/section.data");
+const SectionData = require("../../data/master-configuration/section.data");
 const HttpException = require("../../utils/httpException");
 
 const add = async (data) => {

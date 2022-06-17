@@ -1,11 +1,11 @@
-const SemesterService = require("../../services/srms/semester.service");
+const SemesterService = require("../../services/master-configuration/semester.service");
 const { successResponse } = require("../../utils");
 
 const add = async (req, res, next) => {
   try {
     const data = req.body;
     const resData = await SemesterService.add(data);
-    return successResponse(res, resData, "create", "semester"); 
+    return successResponse(res, resData, "create", "semester");
   } catch (error) {
     next(error);
   }
@@ -16,7 +16,7 @@ const update = async (req, res, next) => {
     const id = req.params.id;
     const data = req.body;
     const resData = await SemesterService.update(data, id);
-    return successResponse(res, resData, "update", "semester"); 
+    return successResponse(res, resData, "update", "semester");
   } catch (error) {
     next(error);
   }

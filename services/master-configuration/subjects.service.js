@@ -1,5 +1,5 @@
-const SubjectData = require("../../data/srms/subject.data");
-const SemesterData = require("../../data/srms/semester.data");
+const SubjectData = require("../../data/master-configuration/subject.data");
+const SemesterData = require("../../data/master-configuration/semester.data");
 const HttpException = require("../../utils/httpException");
 
 const validateForeignKey = async (semId) => {

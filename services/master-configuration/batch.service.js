@@ -1,4 +1,4 @@
-const BatchData = require("../../data/srms/batch.data");
+const BatchData = require("../../data/master-configuration/batch.data");
 const HttpException = require("../../utils/httpException");
 
 const add = async (data) => {

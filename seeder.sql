@@ -118,19 +118,3 @@ INSERT INTO rsmp(module_id, privilege_id, screen_id, role_id) VALUES
 (5, 3, 1, 1),
 (5, 4, 1, 1),
 (5, 5, 1, 1);
-
-
-select
-semester.display_name as "semester",
-jsonb_agg(jsonb_build_object('id', teachers.id , 'name', teachers.name, 'subject', subjects.display_name, 'section', section.display_name)) as "teachers"
-from teachers
-inner join semester_section ss on ss.teacher_id = teachers.id and ss.is_active is true
-inner join semester on  semester.id = ss.semester_id and semester.is_active is true
-inner join subjects on subjects.id = ss.subject_id and subjects.is_active is true
-inner join section on section.id = ss.section_id and section.is_active is true
-where teachers.is_active = true and teachers.is_deleted = false
-group by 1;
-
-select id, name, user_name, gender, email, contact_no, employment_type, address from teachers where teachers.is_active = true and teachers.is_deleted = false and teachers.id = 1;
-
-select  id, name, user_name, contact_no from teachers where teachers.is_active = true and teachers.is_deleted = false;
