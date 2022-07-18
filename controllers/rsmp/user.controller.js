@@ -1,27 +1,19 @@
 const UserService = require("../../services/rsmp/users.service");
+const { successResponse } = require("../../utils");
 
-const registerUser = async (req, res, next) => {
+const addUser = async (req, res, next) => {
   try {
     const data = req.body;
-    const resData = await UserService.create(data);
-    return res.json(resData);
+    const resData = await UserService.registerNewUser(data);
+    return successResponse(res, resData, "create", "User");
   } catch (error) {
     next(error);
   }
 };
 
 const fetchAllUser = async (req, res, next) => {
-  try {
-    const { role } = req.query;
-    if (role) {
-      const resData = await UserService.getByRole(role);
-      return res.json(resData);
-    }
-    const resData = await UserService.getAllUsers();
-    return res.json(resData);
-  } catch (error) {
-    next(error);
-  }
+  const resData = await UserService.getAllUsers();
+  return successResponse(res, resData, "fetch", "User");
 };
 
 const updateUser = async (req, res, next) => {
@@ -29,7 +21,7 @@ const updateUser = async (req, res, next) => {
     const data = req.body;
     const userId = req.params.userId;
     const resData = await UserService.update(data, userId);
-    return res.json(resData);
+    return successResponse(res, resData, "update", "User");
   } catch (error) {
     next(error);
   }
@@ -38,8 +30,8 @@ const updateUser = async (req, res, next) => {
 const fetchUserById = async (req, res, next) => {
   try {
     const userId = req.params.userId;
-    const resData = await UserService.getById(userId);
-    return res.json(resData);
+    const resData = await UserService.getUserById(userId);
+    return successResponse(res, resData, "fetch", "User");
   } catch (error) {
     next(error);
   }
@@ -48,17 +40,17 @@ const fetchUserById = async (req, res, next) => {
 const deleteUser = async (req, res, next) => {
   try {
     const userId = req.params.userId;
-    const resData = await UserService.remove(userId);
-    return res.json(resData);
+    const resData = await UserService.deleteUser(userId);
+    return successResponse(res, resData, "delete", "User");
   } catch (error) {
     next(error);
   }
 };
 
 module.exports = {
-  registerUser,
+  addUser,
+  updateUser,
   fetchAllUser,
   fetchUserById,
-  updateUser,
   deleteUser,
 };

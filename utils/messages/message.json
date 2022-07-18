@@ -4,7 +4,7 @@
     "usernameNotAvailable": "Username is not available.Choose another username.",
     "notAuthorized": "You are not authorized to access this resource.",
     "notAuthenticated": "You are not authenticated to access this resource.",
-    "invalidCredential": "Email or Password doesn't match",
+    "invalidCredential": "invalid Email or Password",
     "notFound": "%s not found.",
     "duplicateData": "Duplicate %s found.",
     "tokenExpired": "Access Token has expired.",

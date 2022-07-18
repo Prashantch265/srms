@@ -55,6 +55,7 @@ db.sequelize
 //   logger.error(err.stack);
 // });
 
+app.set("view engine", "ejs");
 app.use(hpp());
 app.use(helmet());
 app.use(express.json());

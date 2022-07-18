@@ -5,7 +5,7 @@ const UserController = require("../../controllers/rsmp/user.controller");
 module.exports = (router) => {
   router
     .route("/user")
-    .post(validator(userRegistration), UserController.registerUser);
+    .post(validator(userRegistration), UserController.addUser);
 
   router.route("/user").get(UserController.fetchAllUser);
 
