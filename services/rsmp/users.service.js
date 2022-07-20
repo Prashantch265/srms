@@ -6,12 +6,16 @@ const HttpException = require("../../utils/httpException");
 
 const registerNewUser = async (data) => {
   let { userName, password, roleId } = data;
+  let role;
   const existingUser = await UserData.findOneByField({ userName: userName });
   if (existingUser) throw new HttpException(400, "duplicateData", "user");
   const salt = await bcrypt.genSalt(10);
   data.password = await bcrypt.hash(password, salt);
   const res = await UserData.register(data);
-  if (!roleId) roleId = await RoleData.findOneByField({ name: "student" });
+  if (!roleId) {
+    role = await RoleData.findOneByField({ name: "student" });
+    roleId = role.id;
+  }
   await UserRoleService.add({ userId: res.userId, roleId: roleId });
   return res;
 };
@@ -21,7 +25,6 @@ const updateUser = async (data, userId) => {
   if (!existingUser) throw new HttpException(400, "notFound", "user");
   const updatedUser = { ...data, ...existingUser };
   const res = await UserData.update(updatedUser);
-  await 
   return res;
 };
 

@@ -14,10 +14,12 @@ const CommonEntity = {
   createdBy: {
     field: "created_by",
     type: DataTypes.UUID,
+    allowNull: true,
   },
   updatedBy: {
     field: "updated_by",
     type: DataTypes.UUID,
+    allowNull: true,
   },
 };
 

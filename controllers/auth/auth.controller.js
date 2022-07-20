@@ -12,6 +12,8 @@ const authenticate = async (req, res, next) => {
   }
 };
 
+const init = async (req, res, next) => {};
+
 const forgotPassword = async (req, res, next) => {
   try {
   } catch (error) {
