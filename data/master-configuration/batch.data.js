@@ -22,7 +22,10 @@ const remove = async (id) => {
 };
 
 const fetchAll = async () => {
-  return await Batch.findAll({ where: { isActive: true, isDeleted: false } });
+  return await Batch.findAll({
+    order: [["created_at", "DESC"]],
+    where: { isActive: true, isDeleted: false },
+  });
 };
 
 module.exports = { findOneByField, add, update, fetchAll, remove };

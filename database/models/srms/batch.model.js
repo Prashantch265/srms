@@ -17,6 +17,11 @@ module.exports = (sequelize, dataTypes) => {
       field: "display_name",
       type: dataTypes.STRING,
     },
+    passedOut: {
+      field: "passed_out",
+      type: dataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   };
 
   const batch = { ...obj, ...CommonEntity };

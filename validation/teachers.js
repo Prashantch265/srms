@@ -6,5 +6,5 @@ module.exports = Joi.object().keys({
   gender: Joi.string().valid("male", "female", "others"),
   contactNo: Joi.string().min(10).max(10).required(),
   email: Joi.string().email().required(),
-  type: Joi.string().valid("permanent", "part-time"),
+  type: Joi.string().valid("full-time", "part-time"),
 });

@@ -35,7 +35,7 @@ module.exports = (sequelize, dataTypes) => {
     },
     type: {
       field: "employment_type",
-      type: dataTypes.ENUM(["permanent", "part-time"]),
+      type: dataTypes.ENUM(["full-time", "part-time"]),
       allowNull: false,
     },
     userName: {

@@ -14,7 +14,9 @@ const update = async (data, id) => {
 };
 
 const fetchAll = async () => {
-  return await Assessment.findAll();
+  return await Assessment.findAll({
+    where: { isActive: true, isDeleted: false },
+  });
 };
 
 const remove = async (id) => {

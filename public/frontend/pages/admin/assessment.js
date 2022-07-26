@@ -31,11 +31,6 @@ function loadAssessment() {
           <td>${key.description}</td>
           <td>
             <div class="btn-group">
-              <button type="button" class="btn btn-block btn-default m-1" id="view${i}" value="${
-          key.id
-        }">
-                <i class="fas fa-eye"></i>
-              </button>
               <button type="button" class="btn btn-default m-1" data-toggle="modal" data-target="#modal-default" id="edit${i}" value="${
           key.id
         }">
@@ -51,16 +46,13 @@ function loadAssessment() {
           </td>
         </tr>`;
         document
-          .getElementById(`view${i}`)
-          .addEventListener("click", () => viewBatch(i));
-        document
           .getElementById(`edit${i}`)
           .addEventListener("click", () =>
             editAssessment(i, key.name, key.description)
           );
         document
           .getElementById(`delete${i}`)
-          .addEventListener("click", () => deleteBatch(i));
+          .addEventListener("click", () => deleteAssessment(i));
       }
     });
 }
@@ -113,71 +105,6 @@ function addAssessment() {
     });
 }
 
-function viewBatch(i) {
-  let id = document.getElementById(`view${i}`).value;
-  fetch("http://localhost:3000/assessment/" + id, {
-    headers: {
-      "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
-    },
-    method: "GET",
-  })
-    .then((res) => {
-      return res.json();
-    })
-    .then((resData) => {
-      console.log(resData);
-      let data = resData.data;
-
-      let i = 1;
-
-      document.getElementById("listTable").innerHTML = "";
-
-      document.getElementById("listTable").innerHTML += `<thead>
-      <tr>
-        <th style="width: 10px">#</th>
-        <th>Name</th>
-        <th>Batch</th>
-        <th>Semester</th>
-        <th>Section</th>
-        <th>Username</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody id="assessmentTable">
-    </tbody>`;
-
-      if (resData.status === 200) {
-        for (let key of data) {
-          document.getElementById("assessmentTable").innerHTML += `<tr>
-          <td>${i}</td>
-          <td>${key.name}</td>
-          <td>${key.assessment}</td>
-          <td>${key.semester}</td>
-          <td>${key.section}</td>
-          <td>${key.userName}</td>
-          <td>
-            <div class="btn-group">
-              <button type="button" class="btn btn-block btn-default m-1" id="view${i}" value="${key.id}">
-                <i class="fas fa-eye"></i>
-              </button>
-            </div>
-          </td>
-          </tr>`;
-        }
-        return Toast.fire({
-          icon: "success",
-          title: resData.message,
-        });
-      } else {
-        return Toast.fire({
-          icon: "error",
-          title: resData.message,
-        });
-      }
-    });
-}
-
 function editAssessment(i, name, description) {
   document.getElementById("name").value = name;
   document.getElementById("description").value = description;
@@ -222,7 +149,7 @@ function update(id) {
     });
 }
 
-function deleteBatch(i) {
+function deleteAssessment(i) {
   let id = document.getElementById(`delete${i}`).value;
   fetch("http://localhost:3000/assessment/" + id, {
     headers: {

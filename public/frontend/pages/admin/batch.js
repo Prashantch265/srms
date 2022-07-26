@@ -29,6 +29,7 @@ function loadBatch() {
           <td>${i++}</td>
           <td>${key.name}</td>
           <td>${key.displayName}</td>
+          <td>${key.passedOut}</td>
           <td>
             <div class="btn-group">
               <button type="button" class="btn btn-block btn-default m-1" id="view${i}" value="${
@@ -181,6 +182,9 @@ function viewBatch(i) {
 function editBatch(i, name, displayName) {
   document.getElementById("name").value = name;
   document.getElementById("displayName").value = displayName;
+
+  document.getElementById("passedOut").hidden = false;
+
   let id = document.getElementById(`edit${i}`).value;
   document.getElementById("createBatch").addEventListener("click", (e) => {
     e.preventDefault();
@@ -191,6 +195,9 @@ function editBatch(i, name, displayName) {
 function update(id) {
   const name = document.getElementById("name").value;
   const displayName = document.getElementById("displayName").value;
+  let passedOut = false;
+  const checkBoxes = document.getElementsByClassName("form-check-input");
+  if (checkBoxes[0].checked) passedOut = true;
   console.log(name);
   fetch("http://localhost:3000/batch/" + id, {
     headers: {
@@ -198,7 +205,7 @@ function update(id) {
       //    Authorization: `Bearer ${token}`,
     },
     method: "PUT",
-    body: JSON.stringify({ name, displayName }),
+    body: JSON.stringify({ name, displayName, passedOut }),
   })
     .then((res) => {
       return res.json();

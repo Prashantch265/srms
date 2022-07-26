@@ -5,7 +5,7 @@ const teacher = require("../../validation/teachers");
 module.exports = (router) => {
   router.route("/teacher").post(validator(teacher), TeacherController.add);
 
-  router.route("/teacher").get(validator(teacher), TeacherController.getAll);
+  router.route("/teacher").get(TeacherController.getAll);
 
   router.route("/teacher/:id").get(TeacherController.getById);
 

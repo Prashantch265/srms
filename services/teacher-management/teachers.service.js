@@ -12,7 +12,7 @@ const add = async (data) => {
   const existingTeacher = await TeacherData.findOneByField({
     name: data.name,
     email: data.email,
-    contact: data.contact,
+    contactNo: data.contactNo,
   });
   if (existingTeacher) throw new HttpException(400, "duplicateData", "teacher");
   const res = TeacherData.addTeacherDetails(data);
