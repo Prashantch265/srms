@@ -31,25 +31,36 @@ function loadBatch() {
           <td>${key.displayName}</td>
           <td>
             <div class="btn-group">
-              <button type="button" class="btn btn-block btn-default m-1" id="view" value="${
-                key.id
-              }">
+              <button type="button" class="btn btn-block btn-default m-1" id="view${i}" value="${
+          key.id
+        }">
                 <i class="fas fa-eye"></i>
               </button>
-              <button type="button" class="btn btn-block btn-default m-1" id="edit" value="${
-                key.id
-              }">
+              <button type="button" class="btn btn-default m-1" data-toggle="modal" data-target="#modal-default" id="edit${i}" value="${
+          key.id
+        }">
+              
                 <i class="fas fa-edit"></i>
               </button>
               <button type="button" class="btn btn-block btn-default m-1" id="delete${i}" value="${
-                key.id
-              }">
+          key.id
+        }">
                 <i class="fas fa-trash-alt"></i>
               </button>
             </div>
           </td>
         </tr>`;
-        document.getElementById(`delete${i}`).addEventListener("click", deleteBatch(i), true);
+        document
+          .getElementById(`view${i}`)
+          .addEventListener("click", () => viewBatch(i));
+        document
+          .getElementById(`edit${i}`)
+          .addEventListener("click", () =>
+            editBatch(i, key.name, key.displayName)
+          );
+        document
+          .getElementById(`delete${i}`)
+          .addEventListener("click", () => deleteBatch(i));
       }
     });
 }
@@ -85,6 +96,7 @@ function addBatch() {
     })
     .then((resData) => {
       console.log(resData);
+      document.getElementById("form").reset();
       if (resData.status === 200) {
         loadBatch();
         return Toast.fire({
@@ -101,10 +113,113 @@ function addBatch() {
     });
 }
 
-const rows = document.getElementsByTagName("tr").length;
+function viewBatch(i) {
+  let id = document.getElementById(`view${i}`).value;
+  fetch("http://localhost:3000/batch/" + id, {
+    headers: {
+      "Content-Type": "application/json",
+      //    Authorization: `Bearer ${token}`,
+    },
+    method: "GET",
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .then((resData) => {
+      console.log(resData);
+      let data = resData.data;
 
-for (let index = 1; index < rows; index++) {
-  document.getElementById(`delete${index}`).addEventListener("click", deleteBatch(index));
+      let i = 1;
+
+      document.getElementById("listTable").innerHTML = "";
+
+      document.getElementById("listTable").innerHTML += `<thead>
+      <tr>
+        <th style="width: 10px">#</th>
+        <th>Name</th>
+        <th>Batch</th>
+        <th>Semester</th>
+        <th>Section</th>
+        <th>Username</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="batchTable">
+    </tbody>`;
+
+      if (resData.status === 200) {
+        for (let key of data) {
+          document.getElementById("batchTable").innerHTML += `<tr>
+          <td>${i}</td>
+          <td>${key.name}</td>
+          <td>${key.batch}</td>
+          <td>${key.semester}</td>
+          <td>${key.section}</td>
+          <td>${key.userName}</td>
+          <td>
+            <div class="btn-group">
+              <button type="button" class="btn btn-block btn-default m-1" id="view${i}" value="${key.id}">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </td>
+          </tr>`;
+        }
+        return Toast.fire({
+          icon: "success",
+          title: resData.message,
+        });
+      } else {
+        return Toast.fire({
+          icon: "error",
+          title: resData.message,
+        });
+      }
+    });
+}
+
+function editBatch(i, name, displayName) {
+  document.getElementById("name").value = name;
+  document.getElementById("displayName").value = displayName;
+  let id = document.getElementById(`edit${i}`).value;
+  document.getElementById("createBatch").addEventListener("click", (e) => {
+    e.preventDefault();
+    update(id);
+  });
+}
+
+function update(id) {
+  const name = document.getElementById("name").value;
+  const displayName = document.getElementById("displayName").value;
+  console.log(name);
+  fetch("http://localhost:3000/batch/" + id, {
+    headers: {
+      "Content-Type": "application/json",
+      //    Authorization: `Bearer ${token}`,
+    },
+    method: "PUT",
+    body: JSON.stringify({ name, displayName }),
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .then((resData) => {
+      console.log(resData);
+      document.getElementById("form").reset();
+      if (resData.status === 200) {
+        loadBatch();
+        return Toast.fire({
+          icon: "success",
+          title: resData.message,
+        });
+      } else {
+        loadBatch();
+        return Toast.fire({
+          icon: "error",
+          title: resData.message,
+        });
+      }
+    });
 }
 
 function deleteBatch(i) {

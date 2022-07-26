@@ -1,4 +1,5 @@
 const BatchData = require("../../data/master-configuration/batch.data");
+const StudentData = require("../../data/student-management/students.data");
 const HttpException = require("../../utils/httpException");
 
 const add = async (data) => {
@@ -22,7 +23,7 @@ const getAll = async () => {
 };
 
 const getById = async (id) => {
-  const res = await BatchData.findOneByField({ id: id });
+  const res = await StudentData.findByBatch(id);
   if (!res) throw new HttpException(400, "notFound", "batch");
   return res;
 };

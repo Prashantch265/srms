@@ -1,12 +1,12 @@
-document.addEventListener("load", loadSection());
+document.addEventListener("load", loadSubject());
 
-document.getElementById("createSection").addEventListener("click", (e) => {
+document.getElementById("createSubject").addEventListener("click", (e) => {
   e.preventDefault();
-  addSection();
+  addSubject();
 });
 
-function loadSection() {
-  fetch("http://localhost:3000/section", {
+function loadSubject() {
+  fetch("http://localhost:3000/subject", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -22,24 +22,20 @@ function loadSection() {
 
       let i = 1;
 
-      document.getElementById("sectionTable").innerHTML = "";
+      document.getElementById("subjectTable").innerHTML = "";
 
       for (let key of data) {
-        document.getElementById("sectionTable").innerHTML += `<tr>
+        document.getElementById("subjectTable").innerHTML += `<tr>
           <td>${i++}</td>
           <td>${key.name}</td>
           <td>${key.displayName}</td>
+          <td>${key.code}</td>
+          <td>${key.semester}</td>
           <td>
             <div class="btn-group">
-              <button type="button" class="btn btn-block btn-default m-1" id="view${i}" value="${
-          key.id
-        }">
-                <i class="fas fa-eye"></i>
-              </button>
               <button type="button" class="btn btn-default m-1" data-toggle="modal" data-target="#modal-default" id="edit${i}" value="${
           key.id
         }">
-              
                 <i class="fas fa-edit"></i>
               </button>
               <button type="button" class="btn btn-block btn-default m-1" id="delete${i}" value="${
@@ -51,16 +47,34 @@ function loadSection() {
           </td>
         </tr>`;
         document
-          .getElementById(`view${i}`)
-          .addEventListener("click", () => viewSemester(i));
-        document
           .getElementById(`edit${i}`)
           .addEventListener("click", () =>
-            editSection(i, key.name, key.displayName)
+            editSubject(i, key.name, key.displayName, key.code)
           );
         document
           .getElementById(`delete${i}`)
-          .addEventListener("click", () => deleteSemester(i));
+          .addEventListener("click", () => deleteSubject(i));
+      }
+    });
+
+  fetch("http://localhost:3000/semester", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      //    Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .then((resData) => {
+      console.log(resData);
+      let data = resData.data;
+
+      for (let key of data) {
+        document.getElementById(
+          "semester"
+        ).innerHTML += `<option value=${key.id}>${key.displayName}</option>`;
       }
     });
 }
@@ -72,24 +86,26 @@ const Toast = Swal.mixin({
   timer: 3000,
 });
 
-function addSection() {
+function addSubject() {
   const name = document.getElementById("name").value;
   const displayName = document.getElementById("displayName").value;
+  const code = document.getElementById("code").value;
+  const semId = document.getElementById("semester").value;
 
-  if (name === "" || displayName === "") {
+  if (name === "" || displayName === "" || code === "") {
     return Toast.fire({
       icon: "error",
-      title: "name and display name is required",
+      title: "please fill all fields.",
     });
   }
 
-  fetch("http://localhost:3000/section", {
+  fetch("http://localhost:3000/subject", {
     headers: {
       "Content-Type": "application/json",
       //    Authorization: `Bearer ${token}`,
     },
     method: "POST",
-    body: JSON.stringify({ name, displayName }),
+    body: JSON.stringify({ name, displayName, code, semId }),
   })
     .then((res) => {
       return res.json();
@@ -98,13 +114,13 @@ function addSection() {
       console.log(resData);
       document.getElementById("form").reset();
       if (resData.status === 200) {
-        loadSection();
+        loadSubject();
         return Toast.fire({
           icon: "success",
           title: resData.message,
         });
       } else {
-        loadSection();
+        loadSubject();
         return Toast.fire({
           icon: "error",
           title: resData.message,
@@ -113,76 +129,14 @@ function addSection() {
     });
 }
 
-function viewSemester(i) {
-  let id = document.getElementById(`view${i}`).value;
-  fetch("http://localhost:3000/section/" + id, {
-    headers: {
-      "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
-    },
-    method: "GET",
-  })
-    .then((res) => {
-      return res.json();
-    })
-    .then((resData) => {
-      console.log(resData);
-      let data = resData.data;
-
-      let i = 1;
-
-      document.getElementById("listTable").innerHTML = "";
-
-      document.getElementById("listTable").innerHTML += `<thead>
-      <tr>
-        <th style="width: 10px">#</th>
-        <th>Name</th>
-        <th>Batch</th>
-        <th>Semester</th>
-        <th>Section</th>
-        <th>Username</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody id="sectionTable">
-    </tbody>`;
-
-      if (resData.status === 200) {
-        for (let key of data) {
-          document.getElementById("sectionTable").innerHTML += `<tr>
-          <td>${i}</td>
-          <td>${key.name}</td>
-          <td>${key.batch}</td>
-          <td>${key.semester}</td>
-          <td>${key.section}</td>
-          <td>${key.userName}</td>
-          <td>
-            <div class="btn-group">
-              <button type="button" class="btn btn-block btn-default m-1" id="view${i}" value="${key.id}">
-                <i class="fas fa-eye"></i>
-              </button>
-            </div>
-          </td>
-          </tr>`;
-        }
-        return Toast.fire({
-          icon: "success",
-          title: resData.message,
-        });
-      } else {
-        return Toast.fire({
-          icon: "error",
-          title: resData.message,
-        });
-      }
-    });
-}
-
-function editSection(i, name, displayName) {
+function editSubject(i, name, displayName, code, semId) {
   document.getElementById("name").value = name;
   document.getElementById("displayName").value = displayName;
+  document.getElementById("code").value = code;
+  document.getElementById("semester").value = semId;
+
   let id = document.getElementById(`edit${i}`).value;
-  document.getElementById("createSection").addEventListener("click", (e) => {
+  document.getElementById("createSubject").addEventListener("click", (e) => {
     e.preventDefault();
     update(id);
   });
@@ -191,14 +145,17 @@ function editSection(i, name, displayName) {
 function update(id) {
   const name = document.getElementById("name").value;
   const displayName = document.getElementById("displayName").value;
+  const code = document.getElementById("code").value;
+  const semId = document.getElementById("semester").value;
+
   console.log(name);
-  fetch("http://localhost:3000/section/" + id, {
+  fetch("http://localhost:3000/subject/" + id, {
     headers: {
       "Content-Type": "application/json",
       //    Authorization: `Bearer ${token}`,
     },
     method: "PUT",
-    body: JSON.stringify({ name, displayName }),
+    body: JSON.stringify({ name, displayName, code, semId }),
   })
     .then((res) => {
       return res.json();
@@ -207,13 +164,13 @@ function update(id) {
       console.log(resData);
       document.getElementById("form").reset();
       if (resData.status === 200) {
-        loadSection();
+        loadSubject();
         return Toast.fire({
           icon: "success",
           title: resData.message,
         });
       } else {
-        loadSection();
+        loadSubject();
         return Toast.fire({
           icon: "error",
           title: resData.message,
@@ -222,9 +179,9 @@ function update(id) {
     });
 }
 
-function deleteSemester(i) {
+function deleteSubject(i) {
   let id = document.getElementById(`delete${i}`).value;
-  fetch("http://localhost:3000/section/" + id, {
+  fetch("http://localhost:3000/subject/" + id, {
     headers: {
       "Content-Type": "application/json",
       //    Authorization: `Bearer ${token}`,
@@ -237,13 +194,13 @@ function deleteSemester(i) {
     .then((resData) => {
       console.log(resData);
       if (resData.status === 200) {
-        loadSection();
+        loadSubject();
         return Toast.fire({
           icon: "success",
           title: resData.message,
         });
       } else {
-        loadSection();
+        loadSubject();
         return Toast.fire({
           icon: "error",
           title: resData.message,

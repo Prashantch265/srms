@@ -49,6 +49,16 @@ const findBySemester = async (semId) => {
   });
 };
 
+const findByBatch = async (batchId) => {
+  const replacements = [];
+  const whereQuery = ` and students.batch_id = $1 `;
+  replacements.push(batchId);
+  return await db.sequelize.query(getAllQuery + whereQuery, {
+    bind: replacements,
+    type: QueryTypes.SELECT,
+  });
+};
+
 const findById = async (id) => {
   const replacements = [];
   replacements.push(id);
@@ -71,6 +81,7 @@ module.exports = {
   updateStudentDetails,
   findAll,
   findBySemester,
+  findByBatch,
   findById,
   deleteStudentDetails,
 };
