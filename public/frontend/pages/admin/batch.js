@@ -31,17 +31,17 @@ function loadBatch() {
           <td>${key.displayName}</td>
           <td>
             <div class="btn-group">
-              <button type="button" class="btn btn-block btn-default m-1" id="view" onclick="" value="${
+              <button type="button" class="btn btn-block btn-default m-1" id="view" value="${
                 key.id
               }">
                 <i class="fas fa-eye"></i>
               </button>
-              <button type="button" class="btn btn-block btn-default m-1" id="edit" onclick="" value="${
+              <button type="button" class="btn btn-block btn-default m-1" id="edit" value="${
                 key.id
               }">
                 <i class="fas fa-edit"></i>
               </button>
-              <button type="button" class="btn btn-block btn-default m-1" id="delete" onclick="deletBatch(${key.id})" value="${
+              <button type="button" class="btn btn-block btn-default m-1" id="delete${i}" value="${
                 key.id
               }">
                 <i class="fas fa-trash-alt"></i>
@@ -49,6 +49,7 @@ function loadBatch() {
             </div>
           </td>
         </tr>`;
+        document.getElementById(`delete${i}`).addEventListener("click", deleteBatch(i), true);
       }
     });
 }
@@ -100,8 +101,14 @@ function addBatch() {
     });
 }
 
-function deleteBatch(id) {
+const rows = document.getElementsByTagName("tr").length;
 
+for (let index = 1; index < rows; index++) {
+  document.getElementById(`delete${index}`).addEventListener("click", deleteBatch(index));
+}
+
+function deleteBatch(i) {
+  let id = document.getElementById(`delete${i}`).value;
   fetch("http://localhost:3000/batch/" + id, {
     headers: {
       "Content-Type": "application/json",
