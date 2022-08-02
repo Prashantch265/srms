@@ -51,16 +51,10 @@ module.exports = {
         "/mernproject",
   },
   mailerConfig: {
-    host: process.env.MAILER_HOST,
-    port: process.env.MAILER_PORT,
-    service: process.env.MAILER_SERVICE,
-    secure: true,
-    // requireTLS: true,
     auth: {
-      user: process.env.EMAIL_ADDRESS,
-      pass: process.env.EMAIL_PASSWORD,
+      // api_user: process.env.SENDGRID_USERNAME,
+      api_key: process.env.API_KEY,
     },
-    logger: true,
   },
   domainName: process.env.DOMAIN_NAME,
 };

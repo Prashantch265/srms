@@ -52,7 +52,7 @@ function loadStudents() {
         </tr>`;
         document
           .getElementById(`edit${i}`)
-          .addEventListener("click", () => editStudent(i, key));
+          .addEventListener("click", () => editStudent(i));
         document
           .getElementById(`delete${i}`)
           .addEventListener("click", () => deleteStudent(i));
@@ -90,7 +90,7 @@ const Toast = Swal.mixin({
 
 function addStudent() {
   const name = document.getElementById("name").value;
-  let gender, batch;
+  let gender;
   const radioBtn = document.getElementsByClassName("form-check-input");
   for (let i = 0; i < radioBtn.length; i++) {
     if (radioBtn[i].checked) gender = radioBtn[i].value;
@@ -103,12 +103,30 @@ function addStudent() {
   const fathersName = document.getElementById("fathersName").value;
   const mothersName = document.getElementById("mothersName").value;
   const guardiansName = document.getElementById("guardiansName").value;
-  const 
+  const permanentAddress = document.getElementById("permanentAddress").value;
+  const currentAddress = document.getElementById("currentAddress").value;
+  const fathersContactNo = document.getElementById("fathersContactNo").value;
+  const mothersContactNo = document.getElementById("mothersContactNo").value;
+  const guardiansContactNo =
+    document.getElementById("guardiansContactNo").value;
+  const parentsEmail = document.getElementById("parentsEmail").value;
 
-  if (name === "" || displayName === "" || code === "") {
+  if (
+    name === "" ||
+    dob === "" ||
+    email === "" ||
+    contactNo === "" ||
+    fathersName === "" ||
+    mothersName === "" ||
+    permanentAddress === "" ||
+    currentAddress === "" ||
+    fathersContactNo === "" ||
+    mothersContactNo === "" ||
+    parentsEmail === ""
+  ) {
     return Toast.fire({
       icon: "error",
-      title: "please fill all fields.",
+      title: "please fill all * fields.",
     });
   }
 
@@ -118,7 +136,23 @@ function addStudent() {
       //    Authorization: `Bearer ${token}`,
     },
     method: "POST",
-    body: JSON.stringify({ name, displayName, code, semId }),
+    body: JSON.stringify({
+      name,
+      dob,
+      gender,
+      email,
+      contactNo,
+      batchId,
+      fathersName,
+      mothersName,
+      guardiansName,
+      permanentAddress,
+      currentAddress,
+      fathersContactNo,
+      mothersContactNo,
+      guardiansContactNo,
+      parentsEmail,
+    }),
   })
     .then((res) => {
       return res.json();
@@ -142,14 +176,53 @@ function addStudent() {
     });
 }
 
-function editStudent(i, object) {
-  const { name } = object;
-  document.getElementById("name").value = name;
-  document.getElementById("displayName").value = displayName;
-  document.getElementById("code").value = code;
-  document.getElementById("semester").value = semId;
-
+function editStudent(i) {
   let id = document.getElementById(`edit${i}`).value;
+
+  fetch("http://localhost:3000/student" + id, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      //    Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .then((resData) => {
+      const {
+        name,
+        dob,
+        email,
+        contactNo,
+        batch,
+        fathersName,
+        mothersName,
+        guardiansName,
+        permanentAddress,
+        currentAddress,
+        fathersContactNo,
+        mothersContactNo,
+        guardiansContactNo,
+        parentsEmail,
+      } = resData.data;
+
+      document.getElementById("name").value = name;
+      document.getElementById("dob").value = dob;
+      document.getElementById("email").value = email;
+      document.getElementById("contactNo").value = contactNo;
+      document.getElementById("batch").value = batch;
+      document.getElementById("fathersName").value = fathersName;
+      document.getElementById("mothersName").value = mothersName;
+      document.getElementById("guardiansName").value = guardiansName;
+      document.getElementById("permanentAddress").value = permanentAddress;
+      document.getElementById("currentAddress").value = currentAddress;
+      document.getElementById("fathersContactNo").value = fathersContactNo;
+      document.getElementById("mothersContactNo").value = mothersContactNo;
+      document.getElementById("guardiansContactNo").value = guardiansContactNo;
+      document.getElementById("parentsEmail").value = parentsEmail;
+    });
+
   document.getElementById("createStudent").addEventListener("click", (e) => {
     e.preventDefault();
     update(id);
@@ -158,9 +231,26 @@ function editStudent(i, object) {
 
 function update(id) {
   const name = document.getElementById("name").value;
-  const displayName = document.getElementById("displayName").value;
-  const code = document.getElementById("code").value;
-  const semId = document.getElementById("semester").value;
+  let gender;
+  const radioBtn = document.getElementsByClassName("form-check-input");
+  for (let i = 0; i < radioBtn.length; i++) {
+    if (radioBtn[i].checked) gender = radioBtn[i].value;
+  }
+
+  const dob = document.getElementById("dob").value;
+  const email = document.getElementById("email").value;
+  const contactNo = document.getElementById("contactNo").value;
+  const batchId = document.getElementById("batch").value;
+  const fathersName = document.getElementById("fathersName").value;
+  const mothersName = document.getElementById("mothersName").value;
+  const guardiansName = document.getElementById("guardiansName").value;
+  const permanentAddress = document.getElementById("permanentAddress").value;
+  const currentAddress = document.getElementById("currentAddress").value;
+  const fathersContactNo = document.getElementById("fathersContactNo").value;
+  const mothersContactNo = document.getElementById("mothersContactNo").value;
+  const guardiansContactNo =
+    document.getElementById("guardiansContactNo").value;
+  const parentsEmail = document.getElementById("parentsEmail").value;
 
   console.log(name);
   fetch("http://localhost:3000/student/" + id, {
@@ -169,7 +259,23 @@ function update(id) {
       //    Authorization: `Bearer ${token}`,
     },
     method: "PUT",
-    body: JSON.stringify({ name, displayName, code, semId }),
+    body: JSON.stringify({
+      name,
+      dob,
+      email,
+      gender,
+      contactNo,
+      batchId,
+      fathersName,
+      mothersName,
+      guardiansName,
+      permanentAddress,
+      currentAddress,
+      fathersContactNo,
+      mothersContactNo,
+      guardiansContactNo,
+      parentsEmail,
+    }),
   })
     .then((res) => {
       return res.json();

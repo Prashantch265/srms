@@ -1,11 +1,12 @@
 const nodemailer = require("nodemailer");
 const hbs = require("nodemailer-express-handlebars");
+const sgTransport = require("nodemailer-sendgrid-transport");
 const { mailerConfig } = require("../config/config");
 const path = require("path");
 
 const mailer = (data) => {
   return new Promise((resolve, reject) => {
-    const transporter = nodemailer.createTransport(mailerConfig);
+    const transporter = nodemailer.createTransport(sgTransport(mailerConfig));
 
     // point to the template folder
     const handlebarOptions = {
@@ -20,7 +21,7 @@ const mailer = (data) => {
     transporter.use("compile", hbs(handlebarOptions));
 
     let mailOptions = {
-      from: `Shanker Dev Campus <${process.env.EMAIL_ADDRESS}>`, // sender address
+      from: ["edxplor.edu@gmail.com"], // sender address
       to: `${data.reciever}`, // list of receivers
       subject: `${data.subject}`,
       template: `${data.templateFile}`, // the name of the template file i.e email.handlebars
