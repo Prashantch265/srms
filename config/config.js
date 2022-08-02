@@ -62,4 +62,5 @@ module.exports = {
     },
     logger: true,
   },
+  domainName: process.env.DOMAIN_NAME,
 };

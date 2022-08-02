@@ -66,6 +66,16 @@ module.exports = (sequelize, dataTypes) => {
       field: "guardians_contact_no",
       type: dataTypes.STRING,
     },
+    permanentAddress: {
+      field: "permanent_address",
+      type: dataTypes.STRING,
+      allowNull: false,
+    },
+    currentAddress: {
+      field: "current_address",
+      type: dataTypes.STRING,
+      allowNull: false,
+    },
     batchId: {
       field: "batch_id",
       type: dataTypes.INTEGER,

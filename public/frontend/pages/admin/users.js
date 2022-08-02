@@ -1,19 +1,14 @@
-document
-  .getElementById("passwordVisiblity")
-  .addEventListener("click", __PasswordShowHide());
+var password = document.getElementById("password");
+var toggler = document.getElementById("toggler");
 
-function __PasswordShowHide() {
-  const x = document.getElementById("password");
-  const showPassword = document.getElementById("showPassword");
-  const hidePassword = document.getElementById("hidePassword");
-  hidePassword.classList.remove("d-none");
-  if (x.type === "password") {
-    x.type = "text";
-    showPassword.style.display = "none";
-    hidePassword.style.display = "block";
+const showHidePassword = () => {
+  if (password.type == "password") {
+    password.setAttribute("type", "text");
+    toggler.classList.add("fa-eye-slash");
   } else {
-    x.type = "password";
-    showPassword.style.display = "block";
-    hidePassword.style.display = "none";
+    toggler.classList.remove("fa-eye-slash");
+    password.setAttribute("type", "password");
   }
-}
+};
+
+toggler.addEventListener("click", showHidePassword);

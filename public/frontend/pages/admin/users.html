@@ -53,6 +53,28 @@
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
 
+              <!-- Navbar Search -->
+              <li class="nav-item">
+                <a class="nav-link" data-widget="navbar-search" data-target="#main-header-search" href="#" role="button">
+                  <i class="fas fa-search"></i>
+                </a>
+                <div class="navbar-search-block" id="main-header-search">
+                  <form class="form-inline">
+                    <div class="input-group input-group-sm">
+                      <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                      <div class="input-group-append">
+                        <button class="btn btn-navbar" type="submit">
+                          <i class="fas fa-search"></i>
+                        </button>
+                        <button class="btn btn-navbar" type="button" data-widget="navbar-search">
+                          <i class="fas fa-times"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </li>
+
             <!-- Notifications Dropdown Menu -->
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
@@ -260,10 +282,21 @@
         <section class="content">
             <div class="container-fluid">
               <div class="col-lg-12">
-                <div class="card-body">
-                  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
-                    Create
-                  </button>
+                <div class="card-body row">
+                  <div class="col-md-6">
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
+                      Create
+                    </button>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label ml-auto">Filter By</label>
+                      <select class="form-control col-sm-3" id="role">
+                        <option>Role</option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -288,9 +321,7 @@
                             <div class="input-group">
                             <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
                             <div class="input-group-append">
-                                <span class="input-group-text" id="passwordVisiblity">
-                                    <i class="fas fa-eye" id="showPassword"></i>
-                                    <i class="fas fa-eye-slash d-none" id="hidePassword"></i>
+                              <span class="input-group-text"><i id="toggler"class="fas fa-eye"></i>
                                 </span>
                             </div>
                             </div>

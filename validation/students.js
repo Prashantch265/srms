@@ -13,5 +13,7 @@ module.exports = Joi.object().keys({
   fathersContactNo: Joi.string().min(10).max(10).required(),
   mothersContactNo: Joi.string().min(10).max(10).required(),
   guardiansContactNo: Joi.string().min(10).max(10).optional(),
+  permanentAddress: Joi.string().min(4).max(255).required(),
+  currentAddress: Joi.string().min(4).max(255).required(),
   batchId: Joi.number().required(),
 });
