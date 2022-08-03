@@ -1,4 +1,4 @@
-const { mailer } = require("./utils/node-mailer");
+const { sendgridMailer, nodeMailer } = require("./utils/node-mailer");
 
 const test = async () => {
   let mailerData = {
@@ -10,7 +10,7 @@ const test = async () => {
       password: "test",
     },
   };
-  return await mailer(mailerData);
+  return await nodeMailer(mailerData);
 };
 
 test();

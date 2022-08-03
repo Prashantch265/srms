@@ -50,11 +50,22 @@ module.exports = {
         (process.env.MONGO_PORT || "27017") +
         "/mernproject",
   },
-  mailerConfig: {
+  sendgridConfig: {
     auth: {
       // api_user: process.env.SENDGRID_USERNAME,
       api_key: process.env.API_KEY,
     },
+  },
+  mailerConfig: {
+    host: process.env.MAILER_HOST,
+    port: process.env.MAILER_PORT,
+    secure: false,
+    // requireTLS: true,
+    auth: {
+      user: process.env.MAILER_USER,
+      pass: process.env.MAILER_PASSWORD,
+    },
+    logger: true,
   },
   domainName: process.env.DOMAIN_NAME,
 };

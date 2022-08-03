@@ -3,7 +3,7 @@ $("#datemask").inputmask("yyyy/mm/dd", { placeholder: "yyyy/mm/dd" });
 //Money Euro
 $("[data-mask]").inputmask();
 
-document.addEventListener("load", loadStudents());
+document.addEventListener("load", loadStudents(), loadBatch());
 
 document.getElementById("createStudent").addEventListener("click", (e) => {
   e.preventDefault();
@@ -58,8 +58,10 @@ function loadStudents() {
           .addEventListener("click", () => deleteStudent(i));
       }
     });
+}
 
-  fetch("http://localhost:3000/semester", {
+function loadBatch() {
+  fetch("http://localhost:3000/batch", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -75,8 +77,11 @@ function loadStudents() {
 
       for (let key of data) {
         document.getElementById(
-          "semester"
+          "batch"
         ).innerHTML += `<option value=${key.id}>${key.displayName}</option>`;
+        document.getElementById(
+          "filter"
+        ).innerHTML += `<option id="batch${key.id}" value=${key.id}>${key.displayName}</option>`;
       }
     });
 }

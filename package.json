@@ -29,6 +29,7 @@
   },
   "homepage": "https://gitlab.com/Prashantch265/node-framework#readme",
   "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
     "bcrypt": "^5.0.1",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.5",
@@ -40,6 +41,7 @@
     "express-http-context": "^1.2.4",
     "express-session": "^1.17.2",
     "glob": "^7.1.7",
+    "handlebars": "^4.7.7",
     "helmet": "^4.6.0",
     "hpp": "^0.2.3",
     "joi": "^17.6.0",
