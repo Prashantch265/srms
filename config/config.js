@@ -57,11 +57,13 @@ module.exports = {
     },
   },
   mailerConfig: {
+    service: process.env.MAILER_SERVICE,
     host: process.env.MAILER_HOST,
     port: process.env.MAILER_PORT,
-    secure: false,
+    secure: true,
     // requireTLS: true,
     auth: {
+      type: "login",
       user: process.env.MAILER_USER,
       pass: process.env.MAILER_PASSWORD,
     },
