@@ -14,7 +14,9 @@ const findOneByField = async (where) => {
 };
 
 const register = async (data) => {
-  return await User.create(data);
+  return await db.sequelize.transaction(async (t) => {
+    return await User.create(data);
+  });
 };
 
 const update = async (data, userId) => {

@@ -5,14 +5,17 @@ const bcrypt = require("bcrypt");
 const HttpException = require("../../utils/httpException");
 
 const registerNewUser = async (data) => {
-  let { userName, password } = data;
+  let { userName, password, roleId } = data;
   const existingUser = await UserData.findOneByField({ userName: userName });
   if (existingUser) throw new HttpException(400, "duplicateData", "user");
   const salt = await bcrypt.genSalt(10);
   data.password = await bcrypt.hash(password, salt);
   const res = await UserData.register(data);
-  const { id } = await RoleData.findOneByField({ name: "admin" });
-  await UserRoleService.add({ userId: res.userId, roleId: id });
+  const role = await RoleData.findOneByField({ name: "admin" });
+  await UserRoleService.add({
+    userId: res.userId,
+    roleId: roleId ? roleId : role.id,
+  });
   return res;
 };
 

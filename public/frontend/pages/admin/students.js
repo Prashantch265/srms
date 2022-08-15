@@ -107,13 +107,13 @@ function addStudent() {
   const batchId = document.getElementById("batch").value;
   const fathersName = document.getElementById("fathersName").value;
   const mothersName = document.getElementById("mothersName").value;
-  const guardiansName = document.getElementById("guardiansName").value;
+  const guardiansName = document.getElementById("guardiansName")?.value;
   const permanentAddress = document.getElementById("permanentAddress").value;
   const currentAddress = document.getElementById("currentAddress").value;
   const fathersContactNo = document.getElementById("fathersContactNo").value;
   const mothersContactNo = document.getElementById("mothersContactNo").value;
   const guardiansContactNo =
-    document.getElementById("guardiansContactNo").value;
+    document.getElementById("guardiansContactNo")?.value;
   const parentsEmail = document.getElementById("parentsEmail").value;
 
   if (
@@ -148,15 +148,15 @@ function addStudent() {
       email,
       contactNo,
       batchId,
+      permanentAddress,
+      currentAddress,
       fathersName,
       mothersName,
       guardiansName,
-      permanentAddress,
-      currentAddress,
+      parentsEmail,
       fathersContactNo,
       mothersContactNo,
       guardiansContactNo,
-      parentsEmail,
     }),
   })
     .then((res) => {

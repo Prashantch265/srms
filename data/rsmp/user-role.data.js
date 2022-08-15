@@ -8,7 +8,9 @@ const findOneByField = async (where) => {
 };
 
 const add = async (data) => {
-  return await UserRole.create(data);
+  return await db.sequelize.transaction(async (t) => {
+    return await UserRole.create(data);
+  });
 };
 
 const update = async (data, id) => {

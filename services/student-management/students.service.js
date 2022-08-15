@@ -44,11 +44,15 @@ const addDetail = async (data) => {
     replacement: ".",
     lower: true,
     trim: true,
-  })}@${domainName}`;
+  })}${random.generateDigits(4)}@${domainName}`;
   const password = random.generate(7);
   const { id } = await RoleData.findOneByField({ name: "student" });
 
-  const user = await UserService.registerNewUser({ userName, password, id });
+  const user = await UserService.registerNewUser({
+    userName,
+    password,
+    roleId: id,
+  });
 
   data.userName = user.userName;
 

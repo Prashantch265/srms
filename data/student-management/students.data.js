@@ -28,7 +28,9 @@ const findOneByField = async (where) => {
 };
 
 const addStudentDetails = async (data) => {
-  return await Student.create(data);
+  return await db.sequelize.transaction(async (t) => {
+    return await Student.create(data);
+  });
 };
 
 const updateStudentDetails = async (data, id) => {
