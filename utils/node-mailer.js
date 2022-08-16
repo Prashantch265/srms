@@ -24,7 +24,7 @@ const nodeMailer = (data) => {
     transporter.use("compile", hbs(handlebarOptions));
 
     let mailOptions = {
-      from: `Shanker Dev Campus <${"edxplor.edu@gmail.com"}>`, // sender address
+      from: `Shanker Dev Campus <${mailerConfig.auth.user}>`, // sender address
       to: [data.reciever], // list of receivers
       subject: `${data.subject}`,
       template: `${data.templateFile}`, // the name of the template file i.e email.handlebars

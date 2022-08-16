@@ -11,11 +11,11 @@ left join section on section.id = students.section_id and section.is_active is t
 where students.is_active = true and students.is_deleted = false`;
 
 const getByIdQuery = `select
-students.id , students.name as "name", batch.name as "batch", semester.display_name as "semester", section.name as "section", 
-students.user_name as "userName", students.email, students.contact_no as "contact", students.date_of_birth as "dob", 
+students.id , students.name as "name", batch.id as "batchId", batch.name as "batch", semester.display_name as "semester", section.name as "section", 
+students.gender as gender, students.user_name as "userName", students.email, students.contact_no as "contact", students.date_of_birth as "dob",
 students.gender , students.fathers_name as "fathersName", students.mothers_name as "mothersName", students.guardians_name as "guardiansName", 
 students.fathers_contact_no as "fathersContactNo", students.mothers_contact_no as "mothersContactNo", students.guardians_contact_no as "guardiansContactNo", 
-students.parents_email as "parentsEmail"
+students.parents_email as "parentsEmail", students.permanent_address as "permanentAddress", students.current_address as "currentAddress"
 from students
 inner join batch on batch.id = students.batch_id and batch.is_active is true
 inner join semester on semester.id = students.semester_id and semester.is_active is true

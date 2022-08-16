@@ -3,7 +3,7 @@ const db = require("../../lib/sequelize");
 const { QueryTypes } = require("sequelize");
 
 const selectQuery = `select
-subjects.id, subjects.name as "name", subjects.display_name as "displayName", subjects.code, semester.display_name as "semester"
+subjects.id, subjects.name as "name", subjects.display_name as "displayName", subjects.code, semester.id as "semId"
 from subjects
 inner join semester on semester.id = subjects.semester_id and semester.is_active is true
 where subjects.is_active = true and subjects.is_deleted = false`;

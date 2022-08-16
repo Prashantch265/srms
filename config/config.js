@@ -63,9 +63,8 @@ module.exports = {
     secure: true,
     // requireTLS: true,
     auth: {
-      type: "login",
-      user: process.env.MAILER_USER,
-      pass: process.env.MAILER_PASSWORD,
+      user: process.env.EMAIL_ADDRESS,
+      pass: process.env.APP_PASSWORD,
     },
     logger: true,
   },

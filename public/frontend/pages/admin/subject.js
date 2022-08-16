@@ -49,7 +49,7 @@ function loadSubject() {
         document
           .getElementById(`edit${i}`)
           .addEventListener("click", () =>
-            editSubject(i, key.name, key.displayName, key.code)
+            editSubject(i, key.name, key.displayName, key.code, key.semId)
           );
         document
           .getElementById(`delete${i}`)

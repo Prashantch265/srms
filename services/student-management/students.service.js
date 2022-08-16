@@ -68,7 +68,7 @@ const addDetail = async (data) => {
     },
   };
 
-  await mailer(mailerData);
+  await mailer.nodeMailer(mailerData);
 
   return res;
 };

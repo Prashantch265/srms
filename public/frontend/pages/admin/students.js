@@ -37,6 +37,7 @@ function loadStudents() {
         <td>${key.semester}</td>
         <td>${key.section}</td>
         <td>${key.userName}</td>
+        <td>
             <div class="btn-group">
               <button type="button" class="btn btn-block btn-default m-1" id="view${i}" value="${key.id}">
                 <i class="fas fa-eye"></i>
@@ -50,6 +51,7 @@ function loadStudents() {
             </div>
           </td>
         </tr>`;
+        // document.getElementById(`view${i}`).addEventListener("click", () => )
         document
           .getElementById(`edit${i}`)
           .addEventListener("click", () => editStudent(i));
@@ -184,7 +186,7 @@ function addStudent() {
 function editStudent(i) {
   let id = document.getElementById(`edit${i}`).value;
 
-  fetch("http://localhost:3000/student" + id, {
+  fetch("http://localhost:3000/student/" + id, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -197,10 +199,11 @@ function editStudent(i) {
     .then((resData) => {
       const {
         name,
+        gender,
         dob,
         email,
-        contactNo,
-        batch,
+        contact,
+        batchId,
         fathersName,
         mothersName,
         guardiansName,
@@ -210,22 +213,23 @@ function editStudent(i) {
         mothersContactNo,
         guardiansContactNo,
         parentsEmail,
-      } = resData.data;
+      } = resData.data[0];
 
       document.getElementById("name").value = name;
+      document.getElementById(`${gender}`).checked = true;
       document.getElementById("dob").value = dob;
       document.getElementById("email").value = email;
-      document.getElementById("contactNo").value = contactNo;
-      document.getElementById("batch").value = batch;
+      document.getElementById("contactNo").value = contact;
+      document.getElementById("batch").value = batchId;
       document.getElementById("fathersName").value = fathersName;
       document.getElementById("mothersName").value = mothersName;
       document.getElementById("guardiansName").value = guardiansName;
       document.getElementById("permanentAddress").value = permanentAddress;
       document.getElementById("currentAddress").value = currentAddress;
+      document.getElementById("parentsEmail").value = parentsEmail;
       document.getElementById("fathersContactNo").value = fathersContactNo;
       document.getElementById("mothersContactNo").value = mothersContactNo;
       document.getElementById("guardiansContactNo").value = guardiansContactNo;
-      document.getElementById("parentsEmail").value = parentsEmail;
     });
 
   document.getElementById("createStudent").addEventListener("click", (e) => {
