@@ -7,8 +7,7 @@ students.id , students.name as "name", batch.name as "batch", semester.display_n
 from students
 inner join batch on batch.id = students.batch_id and batch.is_active is true
 inner join semester on semester.id = students.semester_id and semester.is_active is true
-left join section on section.id = students.section_id and section.is_active is true
-where students.is_active = true and students.is_deleted = false`;
+left join section on section.id = students.section_id and section.is_active is true`;
 
 const getByIdQuery = `select
 students.id , students.name as "name", batch.id as "batchId", batch.name as "batch", semester.display_name as "semester", section.name as "section", 
@@ -20,7 +19,7 @@ from students
 inner join batch on batch.id = students.batch_id and batch.is_active is true
 inner join semester on semester.id = students.semester_id and semester.is_active is true
 left join section on section.id = students.section_id and section.is_active is true
-where students.is_active = true and students.is_deleted = false and students.id = $1`;
+where students.is_deleted = false and students.id = $1`;
 
 const findOneByField = async (where) => {
   where = { ...where, isActive: true, isDeleted: false };
@@ -37,13 +36,22 @@ const updateStudentDetails = async (data, id) => {
   return await Student.update(data, { where: { id: id } });
 };
 
+const updateStudentBatch = async (data, batchId) => {
+  return await db.sequelize.transaction(async (t) => {
+    return await Student.update(data, { where: { batchId: batchId } });
+  });
+};
+
 const findAll = async () => {
-  return await db.sequelize.query(getAllQuery, { type: QueryTypes.SELECT });
+  const whereQuery = ` where students.is_active = true and students.is_deleted = false `;
+  return await db.sequelize.query(getAllQuery + whereQuery, {
+    type: QueryTypes.SELECT,
+  });
 };
 
 const findBySemester = async (semId) => {
   const replacements = [];
-  const whereQuery = ` and students.semester_id = $1 `;
+  const whereQuery = ` where students.is_active = true and students.is_deleted = false and students.semester_id = $1 `;
   replacements.push(semId);
   return await db.sequelize.query(getAllQuery + whereQuery, {
     bind: replacements,
@@ -53,7 +61,7 @@ const findBySemester = async (semId) => {
 
 const findByBatch = async (batchId) => {
   const replacements = [];
-  const whereQuery = ` and students.batch_id = $1 `;
+  const whereQuery = ` where students.is_deleted = false and students.batch_id = $1 `;
   replacements.push(batchId);
   return await db.sequelize.query(getAllQuery + whereQuery, {
     bind: replacements,
@@ -86,4 +94,5 @@ module.exports = {
   findByBatch,
   findById,
   deleteStudentDetails,
+  updateStudentBatch,
 };

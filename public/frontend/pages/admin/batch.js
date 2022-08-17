@@ -1,8 +1,9 @@
+var id;
+
 document.addEventListener("load", loadBatch());
 
-document.getElementById("createBatch").addEventListener("click", (e) => {
-  e.preventDefault();
-  addBatch();
+document.getElementById("create").addEventListener("click", () => {
+  id = null;
 });
 
 function loadBatch() {
@@ -57,7 +58,7 @@ function loadBatch() {
         document
           .getElementById(`edit${i}`)
           .addEventListener("click", () =>
-            editBatch(i, key.name, key.displayName)
+            editBatch(i, key.name, key.displayName, key.passedOut)
           );
         document
           .getElementById(`delete${i}`)
@@ -71,6 +72,15 @@ const Toast = Swal.mixin({
   position: "bottom-end",
   showConfirmButton: false,
   timer: 3000,
+});
+
+document.getElementById("createBatch").addEventListener("click", (e) => {
+  e.preventDefault();
+  if (id) {
+    update(id);
+  } else {
+    addBatch();
+  }
 });
 
 function addBatch() {
@@ -179,17 +189,15 @@ function viewBatch(i) {
     });
 }
 
-function editBatch(i, name, displayName) {
+function editBatch(i, name, displayName, passedOut) {
   document.getElementById("name").value = name;
   document.getElementById("displayName").value = displayName;
+  const checkBoxes = document.getElementsByClassName("form-check-input");
+  checkBoxes[0].checked = passedOut;
 
   document.getElementById("passedOut").hidden = false;
 
-  let id = document.getElementById(`edit${i}`).value;
-  document.getElementById("createBatch").addEventListener("click", (e) => {
-    e.preventDefault();
-    update(id);
-  });
+  id = document.getElementById(`edit${i}`).value;
 }
 
 function update(id) {

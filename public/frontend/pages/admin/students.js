@@ -10,6 +10,14 @@ document.getElementById("createStudent").addEventListener("click", (e) => {
   addStudent();
 });
 
+document.getElementById("filter").addEventListener("change", (e) => {
+  if (e.srcElement.value !== "Batch") {
+    loadStudentsByBatch(e.srcElement.value);
+  } else {
+    loadStudents();
+  }
+});
+
 function loadStudents() {
   fetch("http://localhost:3000/student", {
     method: "GET",
@@ -24,41 +32,25 @@ function loadStudents() {
     .then((resData) => {
       console.log(resData);
       let data = resData.data;
+      createStudentTable(data);
+    });
+}
 
-      let i = 1;
-
-      document.getElementById("studentTable").innerHTML = "";
-
-      for (let key of data) {
-        document.getElementById("studentTable").innerHTML += `<tr>
-        <td>${i}</td>
-        <td>${key.name}</td>
-        <td>${key.batch}</td>
-        <td>${key.semester}</td>
-        <td>${key.section}</td>
-        <td>${key.userName}</td>
-        <td>
-            <div class="btn-group">
-              <button type="button" class="btn btn-block btn-default m-1" id="view${i}" value="${key.id}">
-                <i class="fas fa-eye"></i>
-              </button>
-              <button type="button" class="btn btn-default m-1" data-toggle="modal" data-target="#modal-default" id="edit${i}" value="${key.id}">
-                <i class="fas fa-edit"></i>
-              </button>
-              <button type="button" class="btn btn-block btn-default m-1" id="delete${i}" value="${key.id}">
-                <i class="fas fa-trash-alt"></i>
-              </button>
-            </div>
-          </td>
-        </tr>`;
-        // document.getElementById(`view${i}`).addEventListener("click", () => )
-        document
-          .getElementById(`edit${i}`)
-          .addEventListener("click", () => editStudent(i));
-        document
-          .getElementById(`delete${i}`)
-          .addEventListener("click", () => deleteStudent(i));
-      }
+function loadStudentsByBatch(id) {
+  fetch("http://localhost:3000/batch/" + id, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      //    Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .then((resData) => {
+      console.log(resData);
+      let data = resData.data;
+      createStudentTable(data);
     });
 }
 
@@ -86,6 +78,43 @@ function loadBatch() {
         ).innerHTML += `<option id="batch${key.id}" value=${key.id}>${key.displayName}</option>`;
       }
     });
+}
+
+function createStudentTable(data) {
+  let i = 1;
+
+  document.getElementById("studentTable").innerHTML = "";
+
+  for (let key of data) {
+    document.getElementById("studentTable").innerHTML += `<tr>
+        <td>${i}</td>
+        <td>${key.name}</td>
+        <td>${key.batch}</td>
+        <td>${key.semester}</td>
+        <td>${key.section}</td>
+        <td>${key.userName}</td>
+        <td>
+            <div class="btn-group">
+              <button type="button" class="btn btn-block btn-default m-1" id="view${i}" value="${key.id}">
+                <i class="fas fa-eye"></i>
+              </button>
+              <button type="button" class="btn btn-default m-1" data-toggle="modal" data-target="#modal-default" id="edit${i}" value="${key.id}">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button type="button" class="btn btn-block btn-default m-1" id="delete${i}" value="${key.id}">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </div>
+          </td>
+        </tr>`;
+    // document.getElementById(`view${i}`).addEventListener("click", () => )
+    document
+      .getElementById(`edit${i}`)
+      .addEventListener("click", () => editStudent(i));
+    document
+      .getElementById(`delete${i}`)
+      .addEventListener("click", () => deleteStudent(i));
+  }
 }
 
 const Toast = Swal.mixin({

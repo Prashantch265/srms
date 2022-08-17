@@ -105,9 +105,29 @@ const getById = async (id) => {
   return res;
 };
 
+const getByBatch = async (batchId) => {
+  const res = await StudentData.findByBatch(batchId);
+  if (!res) throw new HttpException(400, "notFound", "student");
+  return res;
+};
+
+const getBySemester = async (semId) => {
+  const res = await StudentData.findBySemester(semId);
+  if (!res) throw new HttpException(400, "notFound", "student");
+  return res;
+};
+
 const remove = async (id) => {
   const res = await StudentData.deleteStudentDetails(id);
   return res;
 };
 
-module.exports = { addDetail, updateDetail, getAll, getById, remove };
+module.exports = {
+  addDetail,
+  updateDetail,
+  getAll,
+  getById,
+  remove,
+  getByBatch,
+  getBySemester,
+};

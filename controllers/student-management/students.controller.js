@@ -37,6 +37,26 @@ const getById = async (req, res, next) => {
   }
 };
 
+const getByBatch = async (req, res, next) => {
+  try {
+    const batchId = req.params.id;
+    const resData = await StudentService.getByBatch(batchId);
+    return successResponse(res, resData, "fetch", "student");
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getBySemester = async (req, res, next) => {
+  try {
+    const semId = req.params.id;
+    const resData = await StudentService.getBySemester(semId);
+    return successResponse(res, resData, "fetch", "student");
+  } catch (error) {
+    next(error);
+  }
+};
+
 const remove = async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -47,4 +67,12 @@ const remove = async (req, res, next) => {
   }
 };
 
-module.exports = { add, update, getAll, getById, remove };
+module.exports = {
+  add,
+  update,
+  getAll,
+  getById,
+  remove,
+  getByBatch,
+  getBySemester,
+};

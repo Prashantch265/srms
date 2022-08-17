@@ -1,4 +1,5 @@
 const { Batch } = require("../../database/models");
+const StudentData = require("../../data/student-management/students.data");
 
 const findOneByField = async (where) => {
   where = { ...where, isActive: true, isDeleted: false };
@@ -10,6 +11,8 @@ const add = async (data) => {
 };
 
 const update = async (data, id) => {
+  const { passedOut } = data;
+  if (passedOut) StudentData.updateStudentBatch({ isActive: false }, id);
   return await Batch.update(data, { where: { id: id } });
 };
 

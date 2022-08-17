@@ -1,0 +1,1 @@
+var console = (function () {})(console);
