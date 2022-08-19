@@ -15,16 +15,20 @@ const authMiddleware = (req, res, next) => {
     if (isMatch) {
       next();
     } else {
-      passport.authenticate("jwt", { session: false })(req, res, async () => {
-        const userInfo = (({ userId, email, userName, role }) => ({
-          userId,
-          email,
-          userName,
-          role,
-        }))(req.user[0]);
-        httpContext.set("user", userInfo);
-        next();
-      });
+      passport.authenticate("jwt", { session: false, failureRedirect: "/" })(
+        req,
+        res,
+        async () => {
+          const userInfo = (({ userId, userName, name, role }) => ({
+            userId,
+            userName,
+            name,
+            role,
+          }))(req.user[0]);
+          httpContext.set("user", userInfo);
+          next();
+        }
+      );
     }
   } catch (err) {
     next(err);

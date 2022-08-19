@@ -23,6 +23,11 @@ module.exports = (sequelize, dataTypes) => {
       field: "profile_pic",
       type: dataTypes.STRING,
     },
+    firstTimeLogin: {
+      field: "first_time_login",
+      type: dataTypes.BOOLEAN,
+      defaultValue: true,
+    },
   };
 
   const user = { ...obj, ...CommonEntity };

@@ -6,4 +6,8 @@ module.exports = (router) => {
   router
     .route("/auth/login")
     .post(validator(login), AuthController.authenticate);
+
+  router.route("/auth/init").get(AuthController.init);
+
+  // router.route("/auth/forgot-password").post()
 };

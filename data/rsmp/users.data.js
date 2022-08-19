@@ -2,10 +2,17 @@ const { User } = require("../../database/models/index");
 const db = require("../../lib/sequelize");
 const { QueryTypes } = require("sequelize");
 
-let selectQuery = `select users.user_name, users.profile_pic, roles.name
+let selectQuery = `select
+users.user_id as "userId", users.user_name as "userName", users.profile_pic as "profilePic", roles.name as "role",
+case
+    when students.name is not null then students.name
+    when teachers.name is not null then teachers.name
+end as "name"
 from user_role
 inner join users on user_role.user_id = users.user_id
 inner join roles on roles.id = user_role.role_id
+left join students on students.user_name = users.user_name
+left join teachers on teachers.user_name = users.user_name
 where users.is_deleted = false and users.is_active = true`;
 
 const findOneByField = async (where) => {
@@ -36,8 +43,20 @@ const fetchAll = async () => {
 };
 
 const fetchById = async (userId) => {
-  let whereQuery = ` and users.userId = $1`;
-  let replacements = [userId];
+  const replacements = [];
+  let whereQuery = ` and users.user_id = $1`;
+  replacements.push(userId);
+  return await db.sequelize.query(selectQuery + whereQuery, {
+    bind: replacements,
+    type: QueryTypes.SELECT,
+  });
 };
 
-module.exports = { register, update, findOneByField, remove, fetchAll };
+module.exports = {
+  register,
+  update,
+  findOneByField,
+  remove,
+  fetchAll,
+  fetchById,
+};

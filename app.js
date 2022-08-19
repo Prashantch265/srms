@@ -16,8 +16,9 @@ const path = require("path");
 const { stream, formattedMsg } = require("./utils/");
 const passport = require("passport");
 const httpContext = require("express-http-context");
+const { authMiddleware } = require("./middlewares/auth.middleware");
 
-// require("./lib/passport-jwt")(passport);
+require("./lib/passport-jwt")(passport);
 
 const app = new express();
 
@@ -64,7 +65,7 @@ app.use(cookieParser());
 app.use(compression());
 app.use(httpContext.middleware);
 app.use(express.static(path.join(__dirname, "./public/frontend")));
-// app.use(authMiddleware);
+app.use(authMiddleware);
 
 app.use(
   session({

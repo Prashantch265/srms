@@ -20,7 +20,7 @@ const updateUser = async (req, res, next) => {
   try {
     const data = req.body;
     const userId = req.params.userId;
-    const resData = await UserService.update(data, userId);
+    const resData = await UserService.updateUser(data, userId);
     return successResponse(res, resData, "update", "User");
   } catch (error) {
     next(error);
