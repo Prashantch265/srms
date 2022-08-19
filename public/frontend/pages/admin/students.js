@@ -9,6 +9,7 @@ document.addEventListener("load", loadStudents(), loadBatch());
 
 document.getElementById("create").addEventListener("click", () => {
   id = null;
+  document.getElementById("form").reset();
 });
 
 document.getElementById("filter").addEventListener("change", (e) => {

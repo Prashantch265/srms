@@ -4,6 +4,7 @@ document.addEventListener("load", loadAssessment());
 
 document.getElementById("create").addEventListener("click", () => {
   id = null;
+  document.getElementById("form").reset();
 });
 
 function loadAssessment() {

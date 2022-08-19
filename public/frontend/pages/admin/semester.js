@@ -4,6 +4,7 @@ document.addEventListener("load", loadSemester());
 
 document.getElementById("create").addEventListener("click", () => {
   id = null;
+  document.getElementById("form").reset();
 });
 
 function loadSemester() {

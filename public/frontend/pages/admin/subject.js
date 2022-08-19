@@ -4,6 +4,7 @@ document.addEventListener("load", loadSubject());
 
 document.getElementById("create").addEventListener("click", () => {
   id = null;
+  document.getElementById("form").reset();
 });
 
 function loadSubject() {
@@ -85,15 +86,6 @@ const Toast = Swal.mixin({
   position: "bottom-end",
   showConfirmButton: false,
   timer: 3000,
-});
-
-document.getElementById("createSubject").addEventListener("click", (e) => {
-  e.preventDefault();
-  if (id) {
-    update(id);
-  } else {
-    addSubject();
-  }
 });
 
 function addSubject() {

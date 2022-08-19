@@ -4,6 +4,7 @@ document.addEventListener("load", loadBatch());
 
 document.getElementById("create").addEventListener("click", () => {
   id = null;
+  document.getElementById("form").reset();
 });
 
 function loadBatch() {

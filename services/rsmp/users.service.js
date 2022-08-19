@@ -20,11 +20,19 @@ const registerNewUser = async (data) => {
 };
 
 const updateUser = async (data, userId) => {
+  let { password } = data;
   const existingUser = UserData.findOneByField({ userId: userId });
   if (!existingUser) throw new HttpException(400, "notFound", "user");
-  const updatedUser = { ...data, ...existingUser };
-  const res = await UserData.update(updatedUser);
-  return res;
+  const isMatch = await bcrypt.compare(password, existingUser.password);
+  if (!isMatch) {
+    if (existingUser.firstTimeLogin) data.firstTimeLogin = false;
+    const salt = await bcrypt.genSalt(10);
+    data.password = await bcrypt.hash(password, salt);
+    const updatedUser = { ...data, ...existingUser };
+    const res = await UserData.update(updatedUser);
+    return res;
+  }
+  return;
 };
 
 const getAllUsers = async () => {
@@ -33,7 +41,7 @@ const getAllUsers = async () => {
 };
 
 const getUserById = async (userId) => {
-  const res = await UserData.findOneByField({ userId: userId });
+  const res = await UserData.fetchById(userId);
   return res;
 };
 

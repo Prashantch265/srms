@@ -1,6 +1,25 @@
+document.addEventListener("load", checkToken());
+
+function checkToken() {
+  const user = JSON.parse(window.localStorage.getItem("user"));
+  if (user) {
+    const { role } = user;
+    if (role === "admin") window.location.replace("./pages/admin/");
+    else if (role === "student") window.location.replace("./pages/student/");
+    else if (role === "teacher") window.location.replace("./pages/teacher/");
+  }
+}
+
 document.getElementById("signin").addEventListener("click", (e) => {
   e.preventDefault();
   validateLogin();
+});
+
+const Toast = Swal.mixin({
+  toast: true,
+  position: "bottom-end",
+  showConfirmButton: false,
+  timer: 3000,
 });
 
 function validateLogin() {
@@ -26,9 +45,30 @@ function validateLogin() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, password }),
-    }).then((data) => {
-      console.log(data);
-    });
+      body: JSON.stringify({ userName: email, password }),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((resData) => {
+        console.log(resData);
+        const data = resData.data;
+        document.getElementById("form").reset();
+        if (resData.status === 200) {
+          window.localStorage.setItem("user", JSON.stringify(resData.data));
+          const { role } = data;
+          if (role === "admin")
+            return window.location.replace("./pages/admin/");
+          else if (role === "student")
+            return window.location.replace("./pages/student/");
+          else if (role === "teacher")
+            return window.location.replace("./pages/teacher/");
+        } else {
+          return Toast.fire({
+            icon: "error",
+            title: resData.message,
+          });
+        }
+      });
   }
 }

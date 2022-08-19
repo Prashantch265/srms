@@ -40,7 +40,7 @@ const addDetail = async (data) => {
   });
   if (existingStudent) throw new HttpException(200, "duplicateData", "student");
 
-  const userName = ` ${slugify(name, {
+  const userName = `${slugify(name, {
     replacement: ".",
     lower: true,
     trim: true,
