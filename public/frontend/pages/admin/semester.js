@@ -1,8 +1,9 @@
+var id;
+
 document.addEventListener("load", loadSemester());
 
-document.getElementById("createSemester").addEventListener("click", (e) => {
-  e.preventDefault();
-  addSemester();
+document.getElementById("create").addEventListener("click", () => {
+  id = null;
 });
 
 function loadSemester() {
@@ -70,6 +71,15 @@ const Toast = Swal.mixin({
   position: "bottom-end",
   showConfirmButton: false,
   timer: 3000,
+});
+
+document.getElementById("createSemester").addEventListener("click", (e) => {
+  e.preventDefault();
+  if (id) {
+    update(id);
+  } else {
+    addSemester();
+  }
 });
 
 function addSemester() {

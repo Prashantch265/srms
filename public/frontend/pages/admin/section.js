@@ -1,8 +1,9 @@
+var id;
+
 document.addEventListener("load", loadSection());
 
-document.getElementById("createSection").addEventListener("click", (e) => {
-  e.preventDefault();
-  addSection();
+document.getElementById("create").addEventListener("click", () => {
+  id = null;
 });
 
 function loadSection() {
@@ -70,6 +71,15 @@ const Toast = Swal.mixin({
   position: "bottom-end",
   showConfirmButton: false,
   timer: 3000,
+});
+
+document.getElementById("createSection").addEventListener("click", (e) => {
+  e.preventDefault();
+  if (id) {
+    update(id);
+  } else {
+    addSection();
+  }
 });
 
 function addSection() {

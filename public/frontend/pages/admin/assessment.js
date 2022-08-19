@@ -1,8 +1,9 @@
+var id;
+
 document.addEventListener("load", loadAssessment());
 
-document.getElementById("createAssessment").addEventListener("click", (e) => {
-  e.preventDefault();
-  addAssessment();
+document.getElementById("create").addEventListener("click", () => {
+  id = null;
 });
 
 function loadAssessment() {
@@ -64,6 +65,15 @@ const Toast = Swal.mixin({
   timer: 3000,
 });
 
+document.getElementById("createAssessment").addEventListener("click", (e) => {
+  e.preventDefault();
+  if (id) {
+    update(id);
+  } else {
+    addAssessment();
+  }
+});
+
 function addAssessment() {
   const name = document.getElementById("name").value;
   const description = document.getElementById("description").value;
@@ -108,11 +118,7 @@ function addAssessment() {
 function editAssessment(i, name, description) {
   document.getElementById("name").value = name;
   document.getElementById("description").value = description;
-  let id = document.getElementById(`edit${i}`).value;
-  document.getElementById("createAssessment").addEventListener("click", (e) => {
-    e.preventDefault();
-    update(id);
-  });
+  id = document.getElementById(`edit${i}`).value;
 }
 
 function update(id) {
