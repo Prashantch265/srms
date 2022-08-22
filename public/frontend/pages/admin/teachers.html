@@ -284,13 +284,143 @@
               <div class="col-lg-12">
                 <div class="card-body row">
                   <div class="col-md-6">
-                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
+                    <button type="button" class="btn btn-default" id="create" data-toggle="modal" data-target="#modal-default">
                       Create
                     </button>
                   </div>
                 </div>
               </div>
+            
+
+            <div class="modal fade" id="modal-default">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Create Student</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form id="form">
+                      <div class="card-body">
+                        <div class="form-group">
+                          <label for="exampleInputName">Name *</label>
+                          <input type="text" class="form-control" id="name"  name="name" placeholder="Enter name">
+                        </div>
+                        <label>Gender *</label>
+                        <div class="form-group row">
+                          <div class="form-check mr-2">
+                            <input class="form-check-input" type="radio" id="male" value="male">
+                            <label class="form-check-label">Male</label>
+                          </div>
+                          <div class="form-check mr-2">
+                            <input class="form-check-input" type="radio" id="female" value="female">
+                            <label class="form-check-label">Female</label>
+                          </div>
+                          <div class="form-check mr-2">
+                            <input class="form-check-input" type="radio" id="others" value="others">
+                            <label class="form-check-label">Non-Binary</label>
+                          </div>
+                        </div>  
+
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Email *</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                            </div>
+                            <input type="email" class="form-control" id="email"  name="email" placeholder="Enter Email">
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="form-group col-sm-6">
+                            <label>Contact No. *</label>
+          
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                              </div>
+                              <input type="text" class="form-control" name="contactNo" id="contactNo"
+                                     data-inputmask="'mask': ['999-999-9999 [x99999]', '+099 99 99 9999[9]-9999']" data-mask>
+                            </div>
+                            <!-- /.input group -->
+                          </div>
+
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Type *</label>
+                                <select class="form-control" id="type">
+                                  <option>select</option>
+                                  <option value="full-time">full-time</option>
+                                  <option value="part-time">part-time</option>
+                                </select>
+                            </div>
+                        </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label>Address *</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="address" name="address">
+                          </div>
+                        </div>
+
+                      </div>
+                      
+                    </form>
+                  </div>
+                  <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="createTeacher" data-dismiss="modal">Save</button>
+                  </div>
+                </div>
+                <!-- /.modal-content -->
+              </div>
+              <!-- /.modal-dialog -->
             </div>
+            <!-- /.modal -->
+
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header">
+                  <a href="./students.html" style="color: rgba(0,0,0,.5);">Students</a>                      
+                  <div class="card-tools">
+                    <ul class="pagination pagination-sm float-right">
+                      <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                      <li class="page-item"><a class="page-link" href="#">1</a></li>
+                      <li class="page-item"><a class="page-link" href="#">2</a></li>
+                      <li class="page-item"><a class="page-link" href="#">3</a></li>
+                      <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body p-0">
+                  <table class="table" id="listTable">
+                    <thead>
+                      <tr>
+                        <th style="width: 10px">#</th>
+                        <th>Name</th>
+                        <th>User Name</th>
+                        <th>Contact No.</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="teacherTable">
+                    </tbody>
+                  </table>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+              </div>
+
+          </div>
         </section>
 
         </div>

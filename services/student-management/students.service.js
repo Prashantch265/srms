@@ -10,6 +10,7 @@ const random = require("random-key");
 const { domainName } = require("../../config/config");
 const UserService = require("../rsmp/users.service");
 const mailer = require("../../utils/node-mailer");
+const SemesterSectionStudent = require("../../data/student-management/semester-section.data");
 
 const validateForiegnKey = async (obj) => {
   if (obj.batchId) {
@@ -81,13 +82,26 @@ const updateDetail = async (data, id) => {
   return res;
 };
 
-const manageStudent = async (data) => {
+const manageStudent = async (data, id) => {
   let obj = {
     batchId: data.batchId,
     secId: data.secId,
     semesterId: data.semesterId,
   };
   await validateForiegnKey(obj);
+
+  if (id) {
+    const existingMapping = await SemesterSectionStudent.findOneByField({
+      id: id,
+    });
+    if (!existingMapping) throw new HttpException(400, "notFound", "mapping");
+    const updatedMapping = { ...data, ...existingMapping };
+    const res = await SemesterSectionStudent.update(updatedMapping, id);
+    return res;
+  }
+
+  const res = await SemesterSectionStudent.add(data);
+  return res;
 };
 
 const getAll = async (semId) => {
@@ -122,6 +136,11 @@ const remove = async (id) => {
   return res;
 };
 
+const removeMapping = async (id) => {
+  const res = await SemesterSectionStudent.remove(id);
+  return res;
+};
+
 module.exports = {
   addDetail,
   updateDetail,
@@ -130,4 +149,6 @@ module.exports = {
   remove,
   getByBatch,
   getBySemester,
+  manageStudent,
+  removeMapping,
 };

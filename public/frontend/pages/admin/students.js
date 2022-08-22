@@ -224,7 +224,7 @@ function addStudent() {
 }
 
 function editStudent(i) {
-  let id = document.getElementById(`edit${i}`).value;
+  id = document.getElementById(`edit${i}`).value;
 
   fetch("http://localhost:3000/student/" + id, {
     method: "GET",
@@ -271,11 +271,6 @@ function editStudent(i) {
       document.getElementById("mothersContactNo").value = mothersContactNo;
       document.getElementById("guardiansContactNo").value = guardiansContactNo;
     });
-
-  document.getElementById("createStudent").addEventListener("click", (e) => {
-    e.preventDefault();
-    update(id);
-  });
 }
 
 function update(id) {

@@ -2,9 +2,13 @@ const db = require("../../lib/sequelize");
 const { QueryTypes } = require("sequelize");
 const { Teacher } = require("../../database/models");
 
-const getAllQuery = `select  id, name, user_name, contact_no from teachers where teachers.is_active = true and teachers.is_deleted = false`;
+const getAllQuery = `select
+teachers.id, teachers.name, users.user_name as "userName", teachers.contact_no as "contactNo"
+from teachers
+inner join users on users.user_name = teachers.user_name and users.is_active is true
+where teachers.is_active = true and teachers.is_deleted = false`;
 
-const getByIdQuery = `select id, name, user_name, gender, email, contact_no, employment_type, address from teachers where teachers.is_active = true and teachers.is_deleted = false and teachers.id = $1`;
+const getByIdQuery = `select id, name, gender, email, contact_no as "contactNo", employment_type as "employmentType", address from teachers where teachers.is_active = true and teachers.is_deleted = false and teachers.id = $1`;
 
 const getBySemesterQuery = `select
 semester.display_name as "semester",
@@ -23,7 +27,9 @@ const findOneByField = async (where) => {
 };
 
 const addTeacherDetails = async (data) => {
-  return await Teacher.create(data);
+  return await db.sequelize.transaction(async (t) => {
+    return await Teacher.create(data);
+  });
 };
 
 const updateTeacherDetails = async (data, id) => {

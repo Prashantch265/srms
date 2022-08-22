@@ -192,11 +192,7 @@ function viewSemester(i) {
 function editSection(i, name, displayName) {
   document.getElementById("name").value = name;
   document.getElementById("displayName").value = displayName;
-  let id = document.getElementById(`edit${i}`).value;
-  document.getElementById("createSection").addEventListener("click", (e) => {
-    e.preventDefault();
-    update(id);
-  });
+  id = document.getElementById(`edit${i}`).value;
 }
 
 function update(id) {

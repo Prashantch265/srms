@@ -88,6 +88,15 @@ const Toast = Swal.mixin({
   timer: 3000,
 });
 
+document.getElementById("createSubject").addEventListener("click", (e) => {
+  e.preventDefault();
+  if (id) {
+    update(id);
+  } else {
+    addSubject();
+  }
+});
+
 function addSubject() {
   const name = document.getElementById("name").value;
   const displayName = document.getElementById("displayName").value;
@@ -137,11 +146,7 @@ function editSubject(i, name, displayName, code, semId) {
   document.getElementById("code").value = code;
   document.getElementById("semester").value = semId;
 
-  let id = document.getElementById(`edit${i}`).value;
-  document.getElementById("createSubject").addEventListener("click", (e) => {
-    e.preventDefault();
-    update(id);
-  });
+  id = document.getElementById(`edit${i}`).value;
 }
 
 function update(id) {
