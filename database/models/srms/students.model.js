@@ -85,16 +85,6 @@ module.exports = (sequelize, dataTypes) => {
       },
       onDelete: "cascade",
     },
-    semesterId: {
-      field: "semester_id",
-      type: dataTypes.INTEGER,
-      defaultValue: 1,
-      references: {
-        model: "semester",
-        key: "id",
-      },
-      onDelete: "cascade",
-    },
     sectionId: {
       field: "section_id",
       type: dataTypes.INTEGER,

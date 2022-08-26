@@ -20,5 +20,5 @@ module.exports = {
   PracticalMark: db.practical_marks,
   AssessmentMarking: db.assessment_marking,
   SemesterSection: db.semester_section,
-  SemesterSectionStudent: db.semester_section_student,
+  SemesterStudent: db.semester_student,
 };

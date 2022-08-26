@@ -10,7 +10,7 @@ const random = require("random-key");
 const { domainName } = require("../../config/config");
 const UserService = require("../rsmp/users.service");
 const mailer = require("../../utils/node-mailer");
-const SemesterSectionStudent = require("../../data/student-management/semester-section.data");
+const SemesterStudent = require("../../data/student-management/semester-student.data");
 
 const validateForiegnKey = async (obj) => {
   if (obj.batchId) {
@@ -59,6 +59,12 @@ const addDetail = async (data) => {
 
   const res = await StudentData.addStudentDetails(data);
 
+  const semester = await SemesterData.findOneByField({
+    name: "First Semester",
+  });
+
+  await SemesterStudent.add({ semId: semester.id, studentId: res.id });
+
   let mailerData = {
     reciever: res.email,
     subject: "SRMS login credential",
@@ -82,26 +88,23 @@ const updateDetail = async (data, id) => {
   return res;
 };
 
-const manageStudent = async (data, id) => {
+const addMappingSemesterStudent = async (data) => {
   let obj = {
     batchId: data.batchId,
-    secId: data.secId,
     semesterId: data.semesterId,
   };
   await validateForiegnKey(obj);
 
-  if (id) {
-    const existingMapping = await SemesterSectionStudent.findOneByField({
-      id: id,
-    });
-    if (!existingMapping) throw new HttpException(400, "notFound", "mapping");
-    const updatedMapping = { ...data, ...existingMapping };
-    const res = await SemesterSectionStudent.update(updatedMapping, id);
-    return res;
-  }
+  const students = await SemesterStudent.getStudentsByBatch(data.batchId);
+  for (const id of students) {
+    let data = {
+      semId: data.semesterId,
+      studentId: id,
+    };
 
-  const res = await SemesterSectionStudent.add(data);
-  return res;
+    await SemesterStudent.add(data);
+  }
+  return [];
 };
 
 const getAll = async (semId) => {
@@ -136,11 +139,6 @@ const remove = async (id) => {
   return res;
 };
 
-const removeMapping = async (id) => {
-  const res = await SemesterSectionStudent.remove(id);
-  return res;
-};
-
 module.exports = {
   addDetail,
   updateDetail,
@@ -149,6 +147,5 @@ module.exports = {
   remove,
   getByBatch,
   getBySemester,
-  manageStudent,
-  removeMapping,
+  addMappingSemesterStudent,
 };

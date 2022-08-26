@@ -16,15 +16,6 @@ module.exports = (sequelize, dataTypes) => {
       },
       onDelete: "CASCADE",
     },
-    secId: {
-      field: "section_id",
-      type: dataTypes.INTEGER,
-      references: {
-        model: "section",
-        key: "id",
-      },
-      onDelete: "CASCADE",
-    },
     studentId: {
       field: "student_id",
       type: dataTypes.INTEGER,
@@ -36,11 +27,11 @@ module.exports = (sequelize, dataTypes) => {
     },
   };
 
-  const semester_section_student = { ...obj, ...CommonEntity };
+  const semester_student = { ...obj, ...CommonEntity };
 
   const SemesterSection = sequelize.define(
-    "semester_section_student",
-    semester_section_student,
+    "semester_student",
+    semester_student,
     { freezeTableName: true }
   );
 
