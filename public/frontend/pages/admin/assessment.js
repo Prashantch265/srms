@@ -28,33 +28,37 @@ function loadAssessment() {
 
       for (let key of data) {
         document.getElementById("assessmentTable").innerHTML += `<tr>
-          <td>${i++}</td>
+          <td>${i}</td>
           <td>${key.name}</td>
           <td>${key.description}</td>
           <td>
             <div class="btn-group">
-              <button type="button" class="btn btn-default m-1" data-toggle="modal" data-target="#modal-default" id="edit${i}" value="${
-          key.id
-        }">
+              <button type="button" class="btn btn-default m-1" data-toggle="modal" data-target="#modal-default" id="edit${i}" value="${key.id}">
               
                 <i class="fas fa-edit"></i>
               </button>
-              <button type="button" class="btn btn-block btn-default m-1" id="delete${i}" value="${
-          key.id
-        }">
+              <button type="button" class="btn btn-block btn-default m-1" id="delete${i}" value="${key.id}">
                 <i class="fas fa-trash-alt"></i>
               </button>
             </div>
           </td>
         </tr>`;
+
+        i++;
+      }
+
+      for (let i = 1; i <= data.length; i++) {
         document
           .getElementById(`edit${i}`)
           .addEventListener("click", () =>
-            editAssessment(i, key.name, key.description)
+            editAssessment(i, data[i - 1].name, data[i - 1].description).bind(
+              null,
+              i
+            )
           );
         document
           .getElementById(`delete${i}`)
-          .addEventListener("click", () => deleteAssessment(i));
+          .addEventListener("click", () => deleteAssessment(i).bind(null, i));
       }
     });
 }
@@ -70,8 +74,10 @@ document.getElementById("createAssessment").addEventListener("click", (e) => {
   e.preventDefault();
   if (id) {
     update(id);
+    document.getElementById("form").reset();
   } else {
     addAssessment();
+    document.getElementById("form").reset();
   }
 });
 

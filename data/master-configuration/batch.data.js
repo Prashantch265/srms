@@ -31,4 +31,18 @@ const fetchAll = async () => {
   });
 };
 
-module.exports = { findOneByField, add, update, fetchAll, remove };
+const fetchCurrentBatch = async () => {
+  return await Batch.findAll({
+    order: [["created_at", "DESC"]],
+    where: { passedOut: false, isActive: true, isDeleted: false },
+  });
+};
+
+module.exports = {
+  findOneByField,
+  add,
+  update,
+  fetchAll,
+  remove,
+  fetchCurrentBatch,
+};

@@ -28,42 +28,45 @@ function loadBatch() {
 
       for (let key of data) {
         document.getElementById("batchTable").innerHTML += `<tr>
-          <td>${i++}</td>
+          <td>${i}</td>
           <td>${key.name}</td>
           <td>${key.displayName}</td>
           <td>${key.passedOut}</td>
           <td>
             <div class="btn-group">
-              <button type="button" class="btn btn-block btn-default m-1" id="view${i}" value="${
-          key.id
-        }">
+              <button type="button" class="btn btn-block btn-default m-1" id="view${i}" value="${key.id}">
                 <i class="fas fa-eye"></i>
               </button>
-              <button type="button" class="btn btn-default m-1" data-toggle="modal" data-target="#modal-default" id="edit${i}" value="${
-          key.id
-        }">
-              
+              <button type="button" class="btn btn-default m-1" data-toggle="modal" data-target="#modal-default" id="edit${i}" value="${key.id}">
                 <i class="fas fa-edit"></i>
               </button>
-              <button type="button" class="btn btn-block btn-default m-1" id="delete${i}" value="${
-          key.id
-        }">
+              <button type="button" class="btn btn-block btn-default m-1" id="delete${i}" value="${key.id}">
                 <i class="fas fa-trash-alt"></i>
               </button>
             </div>
           </td>
         </tr>`;
+
+        i++;
+      }
+
+      for (let i = 1; i <= data.length; i++) {
         document
           .getElementById(`view${i}`)
-          .addEventListener("click", () => viewBatch(i));
+          .addEventListener("click", () => viewBatch(i).bind(null, i));
         document
           .getElementById(`edit${i}`)
           .addEventListener("click", () =>
-            editBatch(i, key.name, key.displayName, key.passedOut)
+            editBatch(
+              i,
+              data[i - 1].name,
+              data[i - 1].displayName,
+              data[i - 1].passedOut
+            ).bind(null, i)
           );
         document
           .getElementById(`delete${i}`)
-          .addEventListener("click", () => deleteBatch(i));
+          .addEventListener("click", () => deleteBatch(i).bind(null, i));
       }
     });
 }
@@ -79,8 +82,10 @@ document.getElementById("createBatch").addEventListener("click", (e) => {
   e.preventDefault();
   if (id) {
     update(id);
+    document.getElementById("form").reset();
   } else {
     addBatch();
+    document.getElementById("form").reset();
   }
 });
 
@@ -176,6 +181,8 @@ function viewBatch(i) {
             </div>
           </td>
           </tr>`;
+
+          i++;
         }
         return Toast.fire({
           icon: "success",

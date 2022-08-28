@@ -40,6 +40,16 @@ const getById = async (req, res, next) => {
   }
 };
 
+const getBySemester = async (req, res, next) => {
+  try {
+    const semId = req.params.id;
+    const resData = await SubjectService.getBySemester(semId);
+    return successResponse(res, resData, "fetch", "subject");
+  } catch (error) {
+    next(error);
+  }
+}
+
 const remove = async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -50,4 +60,4 @@ const remove = async (req, res, next) => {
   }
 };
 
-module.exports = { add, update, getAll, getById, remove };
+module.exports = { add, update, getAll, getById, getBySemester, remove };

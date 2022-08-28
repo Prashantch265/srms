@@ -25,6 +25,15 @@ module.exports = (sequelize, dataTypes) => {
       },
       onDelete: "CASCADE",
     },
+    batchId: {
+      field: "batch_id",
+      type: dataTypes.INTEGER,
+      references: {
+        model: "batch",
+        key: "id",
+      },
+      onDelete: "cascade",
+    },
   };
 
   const semester_student = { ...obj, ...CommonEntity };

@@ -28,41 +28,43 @@ function loadSemester() {
 
       for (let key of data) {
         document.getElementById("semesterTable").innerHTML += `<tr>
-          <td>${i++}</td>
+          <td>${i}</td>
           <td>${key.name}</td>
           <td>${key.displayName}</td>
           <td>
             <div class="btn-group">
-              <button type="button" class="btn btn-block btn-default m-1" id="view${i}" value="${
-          key.id
-        }">
+              <button type="button" class="btn btn-block btn-default m-1" id="view${i}" value="${key.id}">
                 <i class="fas fa-eye"></i>
               </button>
-              <button type="button" class="btn btn-default m-1" data-toggle="modal" data-target="#modal-default" id="edit${i}" value="${
-          key.id
-        }">
+              <button type="button" class="btn btn-default m-1" data-toggle="modal" data-target="#modal-default" id="edit${i}" value="${key.id}">
               
                 <i class="fas fa-edit"></i>
               </button>
-              <button type="button" class="btn btn-block btn-default m-1" id="delete${i}" value="${
-          key.id
-        }">
+              <button type="button" class="btn btn-block btn-default m-1" id="delete${i}" value="${key.id}">
                 <i class="fas fa-trash-alt"></i>
               </button>
             </div>
           </td>
         </tr>`;
+
+        i++;
+      }
+
+      for (let i = 1; i <= data.length; i++) {
         document
           .getElementById(`view${i}`)
-          .addEventListener("click", () => viewSemester(i));
+          .addEventListener("click", () => viewSemester(i).bind(null, i));
         document
           .getElementById(`edit${i}`)
           .addEventListener("click", () =>
-            editSemester(i, key.name, key.displayName)
+            editSemester(i, data[i - 1].name, data[i - 1].displayName).bind(
+              null,
+              i
+            )
           );
         document
           .getElementById(`delete${i}`)
-          .addEventListener("click", () => deleteSemester(i));
+          .addEventListener("click", () => deleteSemester(i).bind(null, i));
       }
     });
 }
@@ -78,8 +80,10 @@ document.getElementById("createSemester").addEventListener("click", (e) => {
   e.preventDefault();
   if (id) {
     update(id);
+    document.getElementById("form").reset();
   } else {
     addSemester();
+    document.getElementById("form").reset();
   }
 });
 
@@ -175,6 +179,8 @@ function viewSemester(i) {
             </div>
           </td>
           </tr>`;
+
+          i++;
         }
         return Toast.fire({
           icon: "success",

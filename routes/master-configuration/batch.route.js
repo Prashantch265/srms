@@ -7,6 +7,8 @@ module.exports = (router) => {
 
   router.route("/batch").get(BatchController.getAll);
 
+  router.route("/batch/current").get(BatchController.getCurrent);
+
   router.route("/batch/:id").get(BatchController.getById);
 
   router.route("/batch/:id").put(validator(batch), BatchController.update);

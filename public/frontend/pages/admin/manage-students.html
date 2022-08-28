@@ -316,14 +316,8 @@
                         <div class="col-md-6">
                           <div class="form-group">
                             <label>Batch</label>
-                            <select class="form-control select2bs4" style="width: 100%;">
+                            <select class="form-control select2bs4" id="selectBatch" style="width: 100%;">
                               <option selected="selected">Select</option>
-                              <option>Alaska</option>
-                              <option>California</option>
-                              <option>Delaware</option>
-                              <option>Tennessee</option>
-                              <option>Texas</option>
-                              <option>Washington</option>
                             </select>
                           </div>
                           <!-- /.form-group -->
@@ -332,14 +326,8 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Semester</label>
-                                <select class="form-control select2bs4" style="width: 100%;">
+                                <select class="form-control select2bs4" id="selectSemester" style="width: 100%;">
                                   <option selected="selected">Select</option>
-                                  <option>Alaska</option>
-                                  <option>California</option>
-                                  <option>Delaware</option>
-                                  <option>Tennessee</option>
-                                  <option>Texas</option>
-                                  <option>Washington</option>
                                 </select>
                             </div>
                           <!-- /.form-group -->
@@ -347,12 +335,41 @@
                         <!-- /.col -->
                       </div>
                       <!-- /.row -->
-                      
+
                     </form>
                   </div>
                   <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="createTeacher" data-dismiss="modal">Save</button>
+                    <button type="button" class="btn btn-primary" id="updateSemester" data-dismiss="modal">Save</button>
+                  </div>
+                </div>
+                <!-- /.modal-content -->
+              </div>
+              <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+
+            <div class="modal fade" id="modal-sm">
+              <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Update Section</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <label>Section</label>
+                      <select class="form-control select2bs4" id="section" style="width: 100%;">
+                        <option selected="selected">Select</option>
+                      </select>
+                    </div>
+                    <!-- /.form-group -->
+                  </div>
+                  <div class="modal-footer justify-content-between" id="btn-row">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="updateSection" data-dismiss="modal">Save changes</button>
                   </div>
                 </div>
                 <!-- /.modal-content -->

@@ -89,17 +89,25 @@ const updateDetail = async (data, id) => {
 };
 
 const addMappingSemesterStudent = async (data) => {
+  const { batchId, semesterId } = data;
   let obj = {
-    batchId: data.batchId,
-    semesterId: data.semesterId,
+    batchId: batchId,
+    semesterId: semesterId,
   };
   await validateForiegnKey(obj);
 
-  const students = await SemesterStudent.getStudentsByBatch(data.batchId);
-  for (const id of students) {
+  const existingMapping = await SemesterStudent.getExistingMappingByBatch(
+    data.batchId
+  );
+
+  if (existingMapping) await SemesterStudent.remove(batchId);
+
+  const students = await SemesterStudent.getStudentsByBatch(batchId);
+  for (const student of students) {
     let data = {
-      semId: data.semesterId,
-      studentId: id,
+      batchId: parseInt(batchId),
+      semId: parseInt(semesterId),
+      studentId: student.id,
     };
 
     await SemesterStudent.add(data);

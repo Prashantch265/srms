@@ -319,14 +319,9 @@
                             <div class="col-md-6">
                               <div class="form-group">
                                 <label>Teacher</label>
-                                <select class="form-control select2bs4" style="width: 100%;">
+                                <select class="form-control select2bs4" id="selectTeacher" style="width: 100%;">
                                   <option selected="selected">Select</option>
-                                  <option>Alaska</option>
-                                  <option>California</option>
-                                  <option>Delaware</option>
-                                  <option>Tennessee</option>
-                                  <option>Texas</option>
-                                  <option>Washington</option>
+                                  
                                 </select>
                               </div>
                               <!-- /.form-group -->
@@ -335,14 +330,9 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Semester</label>
-                                    <select class="form-control select2bs4" style="width: 100%;">
+                                    <select class="form-control select2bs4" id="selectSemester" style="width: 100%;">
                                       <option selected="selected">Select</option>
-                                      <option>Alaska</option>
-                                      <option>California</option>
-                                      <option>Delaware</option>
-                                      <option>Tennessee</option>
-                                      <option>Texas</option>
-                                      <option>Washington</option>
+                                      
                                     </select>
                                 </div>
                               <!-- /.form-group -->
@@ -356,14 +346,8 @@
                                 <div class="form-group">
                                     <label>Section</label>
                                     <div class="select2-purple">
-                                        <select class="select2" multiple="multiple" data-placeholder="Select" style="width: 100%;">
-                                            <option>Alabama</option>
-                                            <option>Alaska</option>
-                                            <option>California</option>
-                                            <option>Delaware</option>
-                                            <option>Tennessee</option>
-                                            <option>Texas</option>
-                                            <option>Washington</option>
+                                        <select class="select2" multiple="multiple" id="selectSection" data-placeholder="Select" style="width: 100%;">
+                                            
                                         </select>
                                     </div>
                                 </div>
@@ -374,15 +358,10 @@
                               <div class="form-group">
                                 <label>Subject</label>
                                 <div class="select2-purple">
-                                    <select class="select2" multiple="multiple" data-placeholder="Select" style="width: 100%;">
-                                        <option>Alabama</option>
-                                        <option>Alaska</option>
-                                        <option>California</option>
-                                        <option>Delaware</option>
-                                        <option>Tennessee</option>
-                                        <option>Texas</option>
-                                        <option>Washington</option>
-                                    </select>
+                                  <select class="form-control select2bs4" id="selectSubject" style="width: 100%;">
+                                    <option selected="selected">Select</option>
+                                    
+                                  </select>
                                 </div>
                               </div>
                               <!-- /.form-group -->
@@ -395,7 +374,7 @@
                   </div>
                   <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="createTeacher" data-dismiss="modal">Save</button>
+                    <button type="button" class="btn btn-primary" id="createMapping" data-dismiss="modal">Save</button>
                   </div>
                 </div>
                 <!-- /.modal-content -->
@@ -407,7 +386,7 @@
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header">
-                  <a href="./students.html" style="color: rgba(0,0,0,.5);">Students</a>                      
+                  <a href="./manage-teacher.html" style="color: rgba(0,0,0,.5);">Teachers</a>                      
                   <div class="card-tools">
                     <ul class="pagination pagination-sm float-right">
                       <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
@@ -420,19 +399,43 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body p-0">
-                  <table class="table" id="listTable">
-                    <thead>
-                      <tr>
-                        <th style="width: 10px">#</th>
-                        <th>Name</th>
-                        <th>User Name</th>
-                        <th>Contact No.</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody id="teacherTable">
-                    </tbody>
-                  </table>
+                  
+                  <div class="card">
+                    <div class="card-header border-transparent">
+                      <h3 class="card-title" id="teacherName"> </h3>
+
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                          <i class="fas fa-minus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body p-0">
+                      <div class="table-responsive">
+                        <table class="table m-0">
+                          <thead>
+                          <tr>
+                            <th>Semester</th>
+                            <th>Section</th>
+                            <th>Subject Code</th>
+                            <th>Subject Name</th>
+                          </tr>
+                          </thead>
+                          <tbody id="subjectList">
+                          </tbody>
+                        </table>
+                      </div>
+                      <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer clearfix">
+                      <a href="javascript:void(0)" class="btn btn-sm btn-info float-left">Place New Order</a>
+                      <a href="javascript:void(0)" class="btn btn-sm btn-secondary float-right">View All Orders</a>
+                    </div>
+                    <!-- /.card-footer -->
+                  </div>
+                  <!-- /.card -->
                 </div>
                 <!-- /.card-body -->
               </div>

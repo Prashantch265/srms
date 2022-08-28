@@ -8,19 +8,21 @@ const findOneByField = async (where) => {
 };
 
 const add = async (data) => {
-  return await SemesterSection.create(data);
+  return await db.sequelize.transaction(async (t) => {
+    return await SemesterSection.create(data);
+  });
 };
 
 const update = async (data, id) => {
-  return await SemesterSection.update(data, { where: { id: id } });
+  return await SemesterSection.update(data, { where: { teacherId: id } });
 };
 
-const remove = async (id) => {
+const remove = async (teacherId, subId) => {
   await SemesterSection.update(
     { isActive: false, isDeleted: true },
-    { where: { id: id } }
+    { where: { teacherId: teacherId, subId: subId } }
   );
-  return id;
+  return teacherId;
 };
 
 module.exports = { findOneByField, add, update, remove };

@@ -27,6 +27,11 @@ const getAll = async (req, res, next) => {
   return successResponse(res, resData, "fetch", "batch");
 };
 
+const getCurrent = async (req, res, next) => {
+  const resData = await BatchService.getCurrent();
+  return successResponse(res, resData, "fetch", "batch");
+};
+
 const getById = async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -47,4 +52,4 @@ const remove = async (req, res, next) => {
   }
 };
 
-module.exports = { add, update, getAll, getById, remove };
+module.exports = { add, update, getAll, getById, remove, getCurrent };

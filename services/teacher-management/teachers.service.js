@@ -7,20 +7,17 @@ const { domainName } = require("../../config/config");
 const UserService = require("../rsmp/users.service");
 const mailer = require("../../utils/node-mailer");
 const SemesterData = require("../../data/master-configuration/semester.data");
-const SemesterSection = require("../../data/teacher-management/semester-section.data");
 const SectionData = require("../../data/master-configuration/section.data");
 const SubjectData = require("../../data/master-configuration/subject.data");
+const SemesterSubject = require("../../data/teacher-management/semester-subject.data");
 
 const validateForiegnKey = async (data) => {
-  const { semId, secId, teacherId, subId } = data;
+  const { semId, teacherId, subId } = data;
   const teacher = await TeacherData.findOneByField({ id: teacherId });
   if (!teacher) throw new HttpException(400, "notFound", "teacher");
 
   const semester = await SemesterData.findOneByField({ id: semId });
   if (!semester) throw new HttpException(400, "notFound", "semester");
-
-  const section = await SectionData.findOneByField({ id: secId });
-  if (!section) throw new HttpException(400, "notFound", "section");
 
   const subject = await SubjectData.findOneByField({ id: subId });
   if (!subject) throw new HttpException(400, "notFound", "subject");
@@ -76,17 +73,18 @@ const update = async (data, id) => {
   return res;
 };
 
-const manageTeacher = async (data, id) => {
-  await validateForiegnKey(data);
-  if (id) {
-    const existingMapping = await SemesterSection.findOneByField({ id: id });
-    if (!existingMapping) throw new HttpException(400, "notFound", "mapping");
-    const updatedMapping = { ...data, ...existingMapping };
-    const res = await SemesterSection.update(updatedMapping, id);
-    return res;
+const manageTeacher = async (data) => {
+  const { teacherId, semId, sections, subId } = data;
+
+  await validateForiegnKey({ semId, teacherId, subId });
+
+  for (const section of sections) {
+    let obj = { teacherId, semId, subId };
+    obj.secId = section;
+    await SemesterSubject.add(obj);
   }
-  const res = await SemesterSection.add(data);
-  return res;
+
+  return [];
 };
 
 const getAll = async () => {
@@ -104,13 +102,18 @@ const getBySemester = async (semId) => {
   return res;
 };
 
+const getAllMapping = async (semId) => {
+  const res = await TeacherData.findBySemester(semId);
+  return res;
+};
+
 const remove = async (id) => {
   const res = await TeacherData.deleteTeacherDetails(id);
   return res;
 };
 
-const removeMapping = async (id) => {
-  const res = await SemesterData.remove(id);
+const removeMapping = async (teacherId, subId) => {
+  const res = await SemesterData.remove(teacherId, subId);
   return res;
 };
 
@@ -123,4 +126,5 @@ module.exports = {
   remove,
   manageTeacher,
   removeMapping,
+  getAllMapping,
 };

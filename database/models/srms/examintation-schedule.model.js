@@ -38,13 +38,13 @@ module.exports = (sequelize, dataTypes) => {
     },
   };
 
-  const practicalSchedule = { ...obj, ...CommonEntity };
+  const examintationSchedule = { ...obj, ...CommonEntity };
 
-  const PracticalSchedule = sequelize.define(
-    "practical_schedule",
-    practicalSchedule,
+  const ExaminationSchedule = sequelize.define(
+    "examination_schedule",
+    examintationSchedule,
     { freezeTableName: true }
   );
 
-  return PracticalSchedule;
+  return ExaminationSchedule;
 };

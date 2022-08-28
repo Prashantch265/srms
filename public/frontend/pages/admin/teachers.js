@@ -53,13 +53,18 @@ function createTeacherTable(data) {
             </div>
           </td>
         </tr>`;
+
+    i++;
+  }
+
+  for (let i = 1; i <= data.length; i++) {
     // document.getElementById(`view${i}`).addEventListener("click", () => )
     document
       .getElementById(`edit${i}`)
-      .addEventListener("click", () => editTeacher(i));
+      .addEventListener("click", () => editTeacher(i).bind(null, i));
     document
       .getElementById(`delete${i}`)
-      .addEventListener("click", () => deleteTeacher(i));
+      .addEventListener("click", () => deleteTeacher(i).bind(null, i));
   }
 }
 

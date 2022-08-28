@@ -13,5 +13,7 @@ module.exports = (router) => {
     .route("/student/:id")
     .put(validator(student), StudentController.update);
 
+  router.route("/student/:id").patch(StudentController.update);
+
   router.route("/student/:id").delete(StudentController.remove);
 };

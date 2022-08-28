@@ -22,7 +22,10 @@ const remove = async (id) => {
 };
 
 const fetchAll = async () => {
-  return await Section.findAll({ where: { isActive: true, isDeleted: false } });
+  return await Section.findAll({
+    where: { isActive: true, isDeleted: false },
+    order: [["displayName", "ASC"]],
+  });
 };
 
 module.exports = { findOneByField, add, update, fetchAll, remove };

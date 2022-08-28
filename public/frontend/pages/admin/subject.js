@@ -28,34 +28,41 @@ function loadSubject() {
 
       for (let key of data) {
         document.getElementById("subjectTable").innerHTML += `<tr>
-          <td>${i++}</td>
+          <td>${i}</td>
           <td>${key.name}</td>
           <td>${key.displayName}</td>
           <td>${key.code}</td>
           <td>${key.semester}</td>
           <td>
             <div class="btn-group">
-              <button type="button" class="btn btn-default m-1" data-toggle="modal" data-target="#modal-default" id="edit${i}" value="${
-          key.id
-        }">
+              <button type="button" class="btn btn-default m-1" data-toggle="modal" data-target="#modal-default" id="edit${i}" value="${key.id}">
                 <i class="fas fa-edit"></i>
               </button>
-              <button type="button" class="btn btn-block btn-default m-1" id="delete${i}" value="${
-          key.id
-        }">
+              <button type="button" class="btn btn-block btn-default m-1" id="delete${i}" value="${key.id}">
                 <i class="fas fa-trash-alt"></i>
               </button>
             </div>
           </td>
         </tr>`;
+
+        i++;
+      }
+
+      for (let i = 1; i <= data.lengt; i++) {
         document
           .getElementById(`edit${i}`)
           .addEventListener("click", () =>
-            editSubject(i, key.name, key.displayName, key.code, key.semId)
+            editSubject(
+              i,
+              data[i - 1].name,
+              data[i - 1].displayName,
+              data[i - 1].code,
+              data[i - 1].semId
+            ).bind(null, i)
           );
         document
           .getElementById(`delete${i}`)
-          .addEventListener("click", () => deleteSubject(i));
+          .addEventListener("click", () => deleteSubject(i).bind(null, i));
       }
     });
 
@@ -92,8 +99,10 @@ document.getElementById("createSubject").addEventListener("click", (e) => {
   e.preventDefault();
   if (id) {
     update(id);
+    document.getElementById("form").reset();
   } else {
     addSubject();
+    document.getElementById("form").reset();
   }
 });
 

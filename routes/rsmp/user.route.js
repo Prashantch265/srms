@@ -16,4 +16,6 @@ module.exports = (router) => {
     .put(validator(userRegistration.updateUser), UserController.updateUser);
 
   router.route("/user/:userId").delete(UserController.deleteUser);
+
+  router.route("/user/role/:id").get(UserController.fetchByRole);
 };

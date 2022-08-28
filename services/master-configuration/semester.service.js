@@ -25,7 +25,7 @@ const getAll = async () => {
 };
 
 const getById = async (id) => {
-  const res = await SemesterData.findOneByField({ id: id });
+  const res = await SemesterData.fetchById(id);
   return res;
 };
 

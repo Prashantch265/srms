@@ -14,4 +14,6 @@ module.exports = (router) => {
   router.route("/subject/:id").get(SubjectController.getById);
 
   router.route("/subject/:id").delete(SubjectController.remove);
+
+  router.route("/subject/semester/:id").get(SubjectController.getBySemester);
 };

@@ -21,7 +21,7 @@ const registerNewUser = async (data) => {
 
 const updateUser = async (data, userId) => {
   let { password } = data;
-  const existingUser = UserData.findOneByField({ userId: userId });
+  const existingUser = await UserData.findOneByField({ userId: userId });
   if (!existingUser) throw new HttpException(400, "notFound", "user");
   const isMatch = await bcrypt.compare(password, existingUser.password);
   if (!isMatch) {
@@ -29,10 +29,18 @@ const updateUser = async (data, userId) => {
     const salt = await bcrypt.genSalt(10);
     data.password = await bcrypt.hash(password, salt);
     const updatedUser = { ...data, ...existingUser };
-    const res = await UserData.update(updatedUser);
+    const res = await UserData.update(updatedUser, userId);
     return res;
   }
   return;
+};
+
+const addProfilePicture = async (data, userId) => {
+  const existingUser = await UserData.findOneByField({ userId: userId });
+  if (!existingUser) throw new HttpException(400, "notFound", "user");
+  const updatedUser = { ...data, ...existingUser };
+  const res = await UserData.update(updatedUser, userId);
+  return res;
 };
 
 const getAllUsers = async () => {
@@ -42,6 +50,11 @@ const getAllUsers = async () => {
 
 const getUserById = async (userId) => {
   const res = await UserData.fetchById(userId);
+  return res;
+};
+
+const getUserByRole = async (roleId) => {
+  const res = await UserData.fetchByRole(roleId);
   return res;
 };
 
@@ -56,4 +69,6 @@ module.exports = {
   getAllUsers,
   getUserById,
   deleteUser,
+  getUserByRole,
+  addProfilePicture,
 };

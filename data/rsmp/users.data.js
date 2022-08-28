@@ -52,6 +52,15 @@ const fetchById = async (userId) => {
   });
 };
 
+const fetchByRole = async (roleId) => {
+  const replacements = [roleId];
+  let whereQuery = ` and roles.id = $1 `;
+  return await db.sequelize.query(selectQuery + whereQuery, {
+    bind: replacements,
+    type: QueryTypes.SELECT,
+  });
+};
+
 module.exports = {
   register,
   update,
@@ -59,4 +68,5 @@ module.exports = {
   remove,
   fetchAll,
   fetchById,
+  fetchByRole,
 };

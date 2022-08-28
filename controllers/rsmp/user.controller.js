@@ -1,5 +1,6 @@
 const UserService = require("../../services/rsmp/users.service");
 const { successResponse } = require("../../utils");
+const httpContext = require("express-http-context");
 
 const addUser = async (req, res, next) => {
   try {
@@ -27,10 +28,31 @@ const updateUser = async (req, res, next) => {
   }
 };
 
+const addProfilePicture = async (req, res, next) => {
+  try {
+    const { userId } = httpContext.get("user");
+    const file = req.file.filename;
+    const resData = await UserService.updateUser(file, userId);
+    return successResponse(res, resData, "update", "User");
+  } catch (error) {
+    next(error);
+  }
+};
+
 const fetchUserById = async (req, res, next) => {
   try {
     const userId = req.params.userId;
     const resData = await UserService.getUserById(userId);
+    return successResponse(res, resData, "fetch", "User");
+  } catch (error) {
+    next(error);
+  }
+};
+
+const fetchByRole = async (req, res, next) => {
+  try {
+    const roleId = req.params.id;
+    const resData = await UserService.getUserByRole(roleId);
     return successResponse(res, resData, "fetch", "User");
   } catch (error) {
     next(error);
@@ -53,4 +75,6 @@ module.exports = {
   fetchAllUser,
   fetchUserById,
   deleteUser,
+  fetchByRole,
+  addProfilePicture,
 };

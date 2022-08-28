@@ -22,6 +22,11 @@ const getAll = async () => {
   return res;
 };
 
+const getCurrent = async () => {
+  const res = await BatchData.fetchCurrentBatch();
+  return res;
+};
+
 const getById = async (id) => {
   const res = await StudentData.findByBatch(id);
   if (!res) throw new HttpException(400, "notFound", "batch");
@@ -35,4 +40,4 @@ const remove = async (id) => {
   return res;
 };
 
-module.exports = { add, update, getAll, getById, remove };
+module.exports = { add, update, getAll, getById, remove, getCurrent };

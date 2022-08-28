@@ -109,13 +109,17 @@ function createStudentTable(data) {
             </div>
           </td>
         </tr>`;
+    i++;
+  }
+
+  for (let i = 1; i <= data.length; i++) {
     // document.getElementById(`view${i}`).addEventListener("click", () => )
     document
       .getElementById(`edit${i}`)
-      .addEventListener("click", () => editStudent(i));
+      .addEventListener("click", () => editStudent(i).bind(null, i));
     document
       .getElementById(`delete${i}`)
-      .addEventListener("click", () => deleteStudent(i));
+      .addEventListener("click", () => deleteStudent(i).bind(null, i));
   }
 }
 
@@ -130,8 +134,10 @@ document.getElementById("createStudent").addEventListener("click", (e) => {
   e.preventDefault();
   if (id) {
     update(id);
+    document.getElementById("form").reset();
   } else {
     addStudent();
+    document.getElementById("form").reset();
   }
 });
 
@@ -205,8 +211,6 @@ function addStudent() {
       return res.json();
     })
     .then((resData) => {
-      console.log(resData);
-      document.getElementById("form").reset();
       if (resData.status === 200) {
         loadStudents();
         return Toast.fire({

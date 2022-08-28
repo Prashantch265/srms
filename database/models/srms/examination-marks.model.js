@@ -2,6 +2,21 @@ const CommonEntity = require("../common");
 
 module.exports = (sequelize, dataTypes) => {
   const obj = {
+    id: {
+      field: "id",
+      type: dataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    assessmentId: {
+      field: "assessment_id",
+      type: dataTypes.INTEGER,
+      references: {
+        model: "assessments",
+        key: "id",
+      },
+      onDelete: "CASCADE",
+    },
     subId: {
       field: "subject_id",
       type: dataTypes.INTEGER,
@@ -31,9 +46,12 @@ module.exports = (sequelize, dataTypes) => {
     },
   };
 
-  const practicalMarks = { ...obj, ...CommonEntity };
+  const examinationMarks = { ...obj, ...CommonEntity };
 
-  const PracticalMarks = sequelize.define("practical_marks", practicalMarks);
+  const ExaminationMarks = sequelize.define(
+    "examination_marks",
+    examinationMarks
+  );
 
-  return PracticalMarks;
+  return ExaminationMarks;
 };
