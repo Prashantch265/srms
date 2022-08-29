@@ -1,15 +1,14 @@
 var userId;
 
-var password = document.getElementById("password");
 var toggler = document.getElementById("toggler");
 
 const showHidePassword = () => {
-  if (password.type == "password") {
-    password.setAttribute("type", "text");
+  if (document.getElementById("password").type == "password") {
+    document.getElementById("password").setAttribute("type", "text");
     toggler.classList.add("fa-eye-slash");
   } else {
     toggler.classList.remove("fa-eye-slash");
-    password.setAttribute("type", "password");
+    document.getElementById("password").setAttribute("type", "password");
   }
 };
 

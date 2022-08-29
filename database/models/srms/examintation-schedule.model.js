@@ -26,6 +26,15 @@ module.exports = (sequelize, dataTypes) => {
       },
       onDelete: "CASCADE",
     },
+    semesterId: {
+      field: "semester_id",
+      type: dataTypes.INTEGER,
+      references: {
+        model: "semester",
+        key: "id",
+      },
+      onDelete: "CASCADE",
+    },
     date: {
       field: "date",
       type: dataTypes.STRING,
