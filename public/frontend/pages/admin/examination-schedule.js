@@ -1,11 +1,3 @@
-//Initialize Select2 Elements
-$(".select2").select2();
-
-//Initialize Select2 Elements
-$(".select2bs4").select2({
-  theme: "bootstrap4",
-});
-
 const Toast = Swal.mixin({
   toast: true,
   position: "bottom-end",
@@ -21,9 +13,9 @@ mainInput.nepaliDatePicker();
 //   }
 // });
 
-$("#selectSemester").on("select2:select", (e) => {
-  if (e.currentTarget.options[1].value) {
-    loadSubjectsBySemester(e.currentTarget.options[1].value);
+document.getElementById("selectSemester").addEventListener("change", (e) => {
+  if (e.srcElement.value) {
+    loadSubjectsBySemester(e.srcElement.value);
   }
 });
 
@@ -48,9 +40,53 @@ function loadSchedules() {
       //    Authorization: `Bearer ${token}`,
     },
   })
-    .then((res) => res.json)
+    .then((res) => res.json())
     .then((resData) => {
       let data = resData.data;
+
+      let i = 1;
+      for (let keys of data) {
+        document.getElementById("main-content").innerHTML += `<div class="card">
+        <div class="card-header" id="assessment">${keys.assessment}</div>`;
+        for (let semesters of keys.schedules) {
+          document.getElementById(
+            "main-content"
+          ).innerHTML += `<div class="row justify-content-center mt-4">
+        <div class="col-7">
+          <div class="card">
+            <div class="card-header" style="background-color: rgb(184, 184, 184);">
+              <h3 class="card-title" id="semester">${semesters.semester}</h3>
+              </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0">
+              <table class="table table-hover text-nowrap">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Subject</th>
+                  </tr>
+                </thead>
+                <tbody id="subjects${i}">`;
+          for (let subjects of semesters.subjects) {
+            document.getElementById(`subjects${i}`).innerHTML += `<tr> 
+              <td>${subjects.date}</td>
+              <td>${subjects.time}</td>
+              <td>${subjects.subject}</td>
+            </tr>`;
+          }
+          document.getElementById("main-content").innerHTML += `</tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>`;
+          i++;
+        }
+        document.getElementById("main-content").innerHTML += `</div>
+        <!-- /.row -->
+  
+      </div>`;
+      }
     });
 }
 
@@ -108,6 +144,7 @@ function loadSubjectsBySemester(id) {
     .then((resData) => {
       let data = resData.data;
 
+      document.getElementById("selectSubject").innerHTML = "";
       for (let subject of data) {
         document.getElementById(
           "selectSubject"
@@ -134,13 +171,13 @@ function add() {
     .then((res) => res.json())
     .then((resData) => {
       if (resData.status === 200) {
-        loadAssessment();
+        loadSchedules();
         return Toast.fire({
           icon: "success",
           title: resData.message,
         });
       } else {
-        loadAssessment();
+        loadSchedules();
         return Toast.fire({
           icon: "error",
           title: resData.message,

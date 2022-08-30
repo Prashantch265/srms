@@ -3,11 +3,9 @@ const { QueryTypes } = require("sequelize");
 const { Student } = require("../../database/models");
 
 const getAllQuery = `select
-students.id , students.name as "name", batch.name as "batch", semester.display_name as "semester", section.display_name as "section", students.user_name as "userName"
+students.id , students.name as "name", batch.name as "batch", section.display_name as "section", students.user_name as "userName"
 from students
 inner join batch on batch.id = students.batch_id and batch.is_active is true
-left join semester_student on semester_student.student_id = students.id and semester_student.is_active is true
-inner join semester on semester.id = semester_student.semester_id and semester.is_active is true
 left join section on section.id = students.section_id and section.is_active is true`;
 
 const getByIdQuery = `select
@@ -23,7 +21,7 @@ inner join semester on semester.id = semester_student.semester_id and semester.i
 left join section on section.id = students.section_id and section.is_active is true
 where students.is_deleted = false and students.id = $1`;
 
-const order = ` order by students.name asc `;
+const order = ` order by batch.name, students.name asc `;
 
 const findOneByField = async (where) => {
   where = { ...where, isActive: true, isDeleted: false };

@@ -23,7 +23,7 @@ const update = async (req, res, next) => {
 };
 
 const getAll = async (req, res, next) => {
-  const resData = await StudentService.getDataFromMapping();
+  const resData = await StudentService.getAll();
   return successResponse(res, resData, "fetch", "student");
 };
 

@@ -21,4 +21,5 @@ module.exports = {
   AssessmentMarking: db.assessment_marking,
   SemesterSection: db.semester_section,
   SemesterStudent: db.semester_student,
+  Attendance: db.attendance,
 };

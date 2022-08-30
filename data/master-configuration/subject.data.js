@@ -22,7 +22,8 @@ const update = async (data, id) => {
 };
 
 const fetchAll = async () => {
-  const res = await db.sequelize.query(selectQuery, {
+  const order = ` order by semester.name asc `;
+  const res = await db.sequelize.query(selectQuery + order, {
     type: QueryTypes.SELECT,
   });
   return res;
@@ -31,8 +32,9 @@ const fetchAll = async () => {
 const fetchById = async (id) => {
   const replacements = [];
   const whereQuery = ` and subjects.id = $1`;
+  const order = ` order by semester.name asc `;
   replacements.push(id);
-  const res = await db.sequelize.query(selectQuery + whereQuery, {
+  const res = await db.sequelize.query(selectQuery + whereQuery + order, {
     bind: replacements,
     type: QueryTypes.SELECT,
   });

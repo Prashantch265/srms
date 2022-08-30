@@ -5,6 +5,7 @@ document.addEventListener("load", loadSubject());
 document.getElementById("create").addEventListener("click", () => {
   id = null;
   document.getElementById("form").reset();
+  loadSemester();
 });
 
 function loadSubject() {
@@ -65,7 +66,9 @@ function loadSubject() {
           .addEventListener("click", () => deleteSubject(i).bind(null, i));
       }
     });
+}
 
+function loadSemester() {
   fetch("http://localhost:3000/semester", {
     method: "GET",
     headers: {
@@ -80,6 +83,7 @@ function loadSubject() {
       console.log(resData);
       let data = resData.data;
 
+      document.getElementById("semester").innerHTML = "";
       for (let key of data) {
         document.getElementById(
           "semester"

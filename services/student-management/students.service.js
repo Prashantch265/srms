@@ -63,7 +63,11 @@ const addDetail = async (data) => {
     name: "First Semester",
   });
 
-  await SemesterStudent.add({ semId: semester.id, studentId: res.id });
+  await SemesterStudent.add({
+    semId: semester.id,
+    studentId: res.id,
+    batchId: data.batchId,
+  });
 
   let mailerData = {
     reciever: res.email,
@@ -115,6 +119,11 @@ const addMappingSemesterStudent = async (data) => {
   return [];
 };
 
+const getAll = async () => {
+  const res = await StudentData.findAll();
+  return res;
+};
+
 const getById = async (id) => {
   const res = await StudentData.findById(id);
   if (!res) throw new HttpException(400, "notFound", "student");
@@ -146,6 +155,7 @@ module.exports = {
   addDetail,
   updateDetail,
   getById,
+  getAll,
   remove,
   getBySemester,
   addMappingSemesterStudent,

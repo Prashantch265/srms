@@ -92,7 +92,6 @@ function createStudentTable(data) {
         <td>${i}</td>
         <td>${key.name}</td>
         <td>${key.batch}</td>
-        <td>${key.semester}</td>
         <td>${key.section}</td>
         <td>${key.userName}</td>
         <td>

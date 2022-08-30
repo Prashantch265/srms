@@ -7,7 +7,6 @@ const { domainName } = require("../../config/config");
 const UserService = require("../rsmp/users.service");
 const mailer = require("../../utils/node-mailer");
 const SemesterData = require("../../data/master-configuration/semester.data");
-const SectionData = require("../../data/master-configuration/section.data");
 const SubjectData = require("../../data/master-configuration/subject.data");
 const SemesterSubject = require("../../data/teacher-management/semester-subject.data");
 
@@ -117,6 +116,12 @@ const removeMapping = async (teacherId, subId) => {
   return res;
 };
 
+const getMappingDataByTeacherId = async (userName) => {
+  const { id } = await TeacherData.findOneByField({ userName: userName });
+  const res = await SemesterSubject.getDataByTeacherId(id);
+  return res;
+};
+
 module.exports = {
   add,
   update,
@@ -127,4 +132,5 @@ module.exports = {
   manageTeacher,
   removeMapping,
   getAllMapping,
+  getMappingDataByTeacherId,
 };
