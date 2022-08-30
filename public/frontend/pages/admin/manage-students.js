@@ -33,7 +33,7 @@ const Toast = Swal.mixin({
 });
 
 function loadStudents() {
-  fetch("http://localhost:3000/student", {
+  fetch("http://localhost:3000/manage-student", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -189,7 +189,7 @@ function loadSection() {
 }
 
 function loadStudentsByBatch(id) {
-  fetch("http://localhost:3000/batch/" + id, {
+  fetch("http://localhost:3000/manage-student/" + id, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

@@ -99,7 +99,6 @@ document.getElementById("createSubject").addEventListener("click", (e) => {
   e.preventDefault();
   if (id) {
     update(id);
-    document.getElementById("form").reset();
   } else {
     addSubject();
     document.getElementById("form").reset();

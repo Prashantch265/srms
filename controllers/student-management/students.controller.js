@@ -23,7 +23,7 @@ const update = async (req, res, next) => {
 };
 
 const getAll = async (req, res, next) => {
-  const resData = await StudentService.getAll();
+  const resData = await StudentService.getDataFromMapping();
   return successResponse(res, resData, "fetch", "student");
 };
 
@@ -40,7 +40,7 @@ const getById = async (req, res, next) => {
 const getByBatch = async (req, res, next) => {
   try {
     const batchId = req.params.id;
-    const resData = await StudentService.getByBatch(batchId);
+    const resData = await StudentService.getDataFromMappingByBatch(batchId);
     return successResponse(res, resData, "fetch", "student");
   } catch (error) {
     next(error);
@@ -50,7 +50,7 @@ const getByBatch = async (req, res, next) => {
 const getBySemester = async (req, res, next) => {
   try {
     const semId = req.params.id;
-    const resData = await StudentService.getBySemester(semId);
+    const resData = await StudentService.getAll(semId);
     return successResponse(res, resData, "fetch", "student");
   } catch (error) {
     next(error);

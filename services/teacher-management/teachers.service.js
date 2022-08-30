@@ -98,12 +98,12 @@ const getById = async (id) => {
 };
 
 const getBySemester = async (semId) => {
-  const res = await TeacherData.findBySemester(semId);
+  const res = await SemesterSubject.getBySemester(semId);
   return res;
 };
 
-const getAllMapping = async (semId) => {
-  const res = await TeacherData.findBySemester(semId);
+const getAllMapping = async () => {
+  const res = await SemesterSubject.getAll();
   return res;
 };
 

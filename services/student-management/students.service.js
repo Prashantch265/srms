@@ -115,23 +115,8 @@ const addMappingSemesterStudent = async (data) => {
   return [];
 };
 
-const getAll = async (semId) => {
-  if (semId) {
-    const res = await StudentData.findBySemester(semId);
-    return res;
-  }
-  const res = await StudentData.findAll();
-  return res;
-};
-
 const getById = async (id) => {
   const res = await StudentData.findById(id);
-  if (!res) throw new HttpException(400, "notFound", "student");
-  return res;
-};
-
-const getByBatch = async (batchId) => {
-  const res = await StudentData.findByBatch(batchId);
   if (!res) throw new HttpException(400, "notFound", "student");
   return res;
 };
@@ -147,13 +132,23 @@ const remove = async (id) => {
   return res;
 };
 
+const getDataFromMapping = async () => {
+  const res = await SemesterStudent.getStudentList();
+  return res;
+};
+
+const getDataFromMappingByBatch = async (batchId) => {
+  const res = await SemesterStudent.getStudentListByBatch(batchId);
+  return res;
+};
+
 module.exports = {
   addDetail,
   updateDetail,
-  getAll,
   getById,
   remove,
-  getByBatch,
   getBySemester,
   addMappingSemesterStudent,
+  getDataFromMapping,
+  getDataFromMappingByBatch,
 };

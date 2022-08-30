@@ -11,4 +11,23 @@ const updateSemester = async (req, res, next) => {
   }
 };
 
-module.exports = { updateSemester };
+const getAll = async (req, res, next) => {
+  try {
+    const resData = await StudentService.getDataFromMapping();
+    return successResponse(res, resData, "fetch", "student");
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getByBatch = async (req, res, next) => {
+  try {
+    const batchId = req.params.id;
+    const resData = await StudentService.getDataFromMappingByBatch(batchId);
+    return successResponse(res, resData, "fetch", "student");
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { updateSemester, getAll, getByBatch };

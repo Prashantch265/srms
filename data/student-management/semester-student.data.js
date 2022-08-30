@@ -11,6 +11,16 @@ inner join students on students.id = semester_student.student_id and students.is
 inner join batch on batch.id = students.batch_id and batch.is_active is true and batch.passed_out is false
 where semester_student.is_active = true and semester_student.is_deleted = false and batch.id = $1`;
 
+const getStudentsQuery = `select
+students.id, students.name as "name", batch.name as "batch", semester.display_name as "semester", section.display_name as "section",
+students.user_name as "userName"
+from semester_student
+inner join semester on semester.id = semester_student.semester_id and semester.is_active is true
+inner join students on students.id = semester_student.student_id and students.is_active is true
+inner join batch on batch.id = semester_student.batch_id and batch.is_active is true and batch.passed_out is false
+left join section on section.id = students.section_id and section.is_active is true
+where semester_student.is_active = true and semester_student.is_deleted = false `;
+
 const findOneByField = async (where) => {
   where = { ...where, isActive: true, isDeleted: false };
   return await SemesterStudent.findOne({ where });
@@ -25,6 +35,23 @@ const add = async (data) => {
 const update = async (data, id) => {
   return await db.sequelize.transaction(async (t) => {
     return await SemesterStudent.update(data, { where: { id: id } });
+  });
+};
+
+const getStudentList = async () => {
+  const order = ` order by students.name asc `;
+  return await db.sequelize.query(getStudentsQuery + order, {
+    type: QueryTypes.SELECT,
+  });
+};
+
+const getStudentListByBatch = async (batchId) => {
+  const replacements = [batchId];
+  const whereQuery = ` and semester_student.batch_id = $1 `;
+  const order = ` order by students.name asc `;
+  return await db.sequelize.query(getStudentsQuery + whereQuery + order, {
+    bind: replacements,
+    type: QueryTypes.SELECT,
   });
 };
 
@@ -62,4 +89,6 @@ module.exports = {
   remove,
   getStudentsByBatch,
   getExistingMappingByBatch,
+  getStudentList,
+  getStudentListByBatch,
 };

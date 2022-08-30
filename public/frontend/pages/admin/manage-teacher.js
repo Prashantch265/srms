@@ -22,7 +22,10 @@ document.addEventListener(
 );
 
 document.getElementById("filter").addEventListener("change", (e) => {
-  if (e.srcElement.value) {
+  if (e.srcElement.value !== "Semester") {
+    loadMappingBySemester(e.srcElement.value);
+  } else {
+    loadMapping();
   }
 });
 
@@ -123,6 +126,22 @@ function loadSubjectsBySemester(id) {
 
 function loadMapping() {
   fetch("http://localhost:3000/manage-teacher", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      //    Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => res.json())
+    .then((resData) => {
+      let data = resData.data;
+
+      console.log(data);
+    });
+}
+
+function loadMappingBySemester(semId) {
+  fetch("http://localhost:3000/manage-teacher/" + semId, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
