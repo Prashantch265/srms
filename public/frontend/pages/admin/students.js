@@ -99,6 +99,10 @@ function createStudentTable(data) {
               <button type="button" class="btn btn-block btn-default m-1" id="view${i}" value="${key.id}">
                 <i class="fas fa-eye"></i>
               </button>
+              <button type="button" class="btn btn-block btn-default m-1" id="drop${i}" value="${key.id}">
+                <i class="fas fa-minus-circle"></i>
+              </button>
+              </button>
               <button type="button" class="btn btn-default m-1" data-toggle="modal" data-target="#modal-default" id="edit${i}" value="${key.id}">
                 <i class="fas fa-edit"></i>
               </button>
@@ -112,7 +116,7 @@ function createStudentTable(data) {
   }
 
   for (let i = 1; i <= data.length; i++) {
-    // document.getElementById(`view${i}`).addEventListener("click", () => )
+    document.getElementById(`drop${i}`).addEventListener("click", () => )
     document
       .getElementById(`edit${i}`)
       .addEventListener("click", () => editStudent(i).bind(null, i));
@@ -226,6 +230,31 @@ function addStudent() {
     });
 }
 
+function dropStudent(i){
+  const id = document.getElementById(`edit${i}`).value;
+
+  fetch("http://localhost:3000/student/" + id,  {
+    headers: {
+      "Content-Type": "application/json",
+      //    Authorization: `Bearer ${token}`,
+    },
+    method: "PATCH",
+    body: JSON.stringify({dropOut: true})
+  }).then(res => res.json()).then(resData => {
+    if (resData.status === 200) {
+      return Toast.fire({
+        icon: "success",
+        title: resData.message,
+      });
+    } else {
+      return Toast.fire({
+        icon: "error",
+        title: resData.message,
+      });
+    }
+  })
+}
+
 function editStudent(i) {
   id = document.getElementById(`edit${i}`).value;
 
@@ -328,7 +357,6 @@ function update(id) {
       return res.json();
     })
     .then((resData) => {
-      console.log(resData);
       document.getElementById("form").reset();
       if (resData.status === 200) {
         loadStudents();

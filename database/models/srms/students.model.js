@@ -103,6 +103,11 @@ module.exports = (sequelize, dataTypes) => {
       },
       onDelete: "cascade",
     },
+    dropOut: {
+      field: "drop_out",
+      type: dataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   };
 
   const student = { ...obj, ...CommonEntity };
