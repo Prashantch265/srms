@@ -5,30 +5,28 @@ const { QueryTypes } = require("sequelize");
 const getAllQuery = `select
 assessments.name as "assessment",
 jsonb_agg(jsonb_build_object('semester', semesters.name, 'subjects', semesters.subjects)) as "schedules"
-from
-examination_schedule
+from assessments
 inner join (
-
-    select
-    semester.id as "id",
-    semester.display_name as "name",
-    schedules.subjects as "subjects"
-    from
-    semester
-    inner join (
-    select
-    examination_schedule.semester_id as "semesterId",
-    json_agg(jsonb_build_object('date', examination_schedule.date, 'time', examination_schedule.time, 'subject', subjects.name)) as "subjects"
-    from examination_schedule
-    inner join subjects on examination_schedule.subject_id = subjects.id and subjects.is_active is true
-    where examination_schedule.is_active = true and examination_schedule.is_deleted = false
-    group by 1
-    order by 1
-    ) schedules
-    on schedules."semesterId" = semester.id and semester.is_active is true
-
-) semesters on semesters.id = examination_schedule.semester_id
-inner join assessments on assessments.id =  examination_schedule.assessment_id and assessments.is_active is true
+select
+semester.id as "id",
+schedules."assessmentId",
+semester.display_name as "name",
+schedules.subjects as "subjects"
+from
+semester
+inner join (
+select
+examination_schedule.semester_id as "semesterId",
+examination_schedule.assessment_id as "assessmentId",
+json_agg(jsonb_build_object('date', examination_schedule.date, 'time', examination_schedule.time, 'subject', subjects.name)) as "subjects"
+from examination_schedule
+inner join subjects on examination_schedule.subject_id = subjects.id and subjects.is_active is true
+where examination_schedule.is_active = true and examination_schedule.is_deleted = false
+group by 1, 2
+order by 1
+) schedules
+on schedules."semesterId" = semester.id and semester.is_active is true
+) semesters on semesters."assessmentId" = assessments.id and assessments.is_active is true
 group by 1
 order by 1`;
 

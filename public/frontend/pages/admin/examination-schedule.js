@@ -46,7 +46,7 @@ function loadSchedules() {
 
       let i = 1;
       for (let keys of data) {
-        document.getElementById("main-content").innerHTML += `<div class="card">
+        document.getElementById("main-content").innerHTML += `
         <div class="card-header" id="assessment">${keys.assessment}</div>`;
         for (let semesters of keys.schedules) {
           document.getElementById(
@@ -83,9 +83,7 @@ function loadSchedules() {
           i++;
         }
         document.getElementById("main-content").innerHTML += `</div>
-        <!-- /.row -->
-  
-      </div>`;
+        <!-- /.row -->`;
       }
     });
 }
@@ -171,13 +169,9 @@ function add() {
     .then((res) => res.json())
     .then((resData) => {
       if (resData.status === 200) {
-        loadSchedules();
-        return Toast.fire({
-          icon: "success",
-          title: resData.message,
-        });
+        location.reload();
+        return false;
       } else {
-        loadSchedules();
         return Toast.fire({
           icon: "error",
           title: resData.message,
