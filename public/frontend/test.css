@@ -1,0 +1,9 @@
+body {
+backgroundColor: rgb(200, 222, 105);
+borderColor: rgb(88, 124, 195);
+pointRadius: false;
+pointColor: rgb(233, 132, 112);
+pointStrokeColor: #54c075;
+pointHighlightFill: rgb(212, 69, 69);
+pointHighlightStroke: rgb(179, 172, 172)
+}

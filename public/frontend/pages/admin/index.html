@@ -107,8 +107,8 @@
                 <div class="image">
                 <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                 </div>
-                <div class="info">
-                <a href="#" class="d-block">Alexander Pierce</a>
+                <div class="info" id="name">
+                <a href="#" class="d-block"></a>
                 </div>
             </div>
 
@@ -290,9 +290,7 @@
         
                       <div class="info-box-content">
                         <span class="info-box-text">Admin</span>
-                        <span class="info-box-number">
-                          10
-                        </span>
+                        <span class="info-box-number" id="totalAdminCount"></span>
                       </div>
                       <!-- /.info-box-content -->
                     </div>
@@ -322,7 +320,7 @@
         
                       <div class="info-box-content">
                         <span class="info-box-text">Teachers</span>
-                        <span class="info-box-number">760</span>
+                        <span class="info-box-number" id="totalTeacherCount"></span>
                       </div>
                       <!-- /.info-box-content -->
                     </div>
@@ -335,7 +333,7 @@
         
                       <div class="info-box-content">
                         <span class="info-box-text">Students</span>
-                        <span class="info-box-number">2,000</span>
+                        <span class="info-box-number" id="totalStudentCount"></span>
                       </div>
                       <!-- /.info-box-content -->
                     </div>
@@ -350,7 +348,7 @@
                     <!-- DONUT CHART -->
                     <div class="card card-info">
                       <div class="card-header">
-                        <h3 class="card-title">No. Of Students</h3>
+                        <h3 class="card-title">Student Count By Semester</h3>
 
                         <div class="card-tools">
                           <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -368,7 +366,84 @@
                     </div>
                     <!-- /.card -->
                   </div>
+
+                  <div class="col-md-6">
+                    <!-- STACKED BAR CHART -->
+                    <div class="card card-success">
+                      <div class="card-header">
+                        <h3 class="card-title">Student Gender Ratio By Semester</h3>
+
+                        <div class="card-tools">
+                          <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                          </button>
+                          <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <div class="chart">
+                          <canvas id="stackedBarChartStudent" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                        </div>
+                      </div>
+                      <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                  </div>
                 </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <!-- PIE CHART -->
+                      <div class="card card-danger">
+                        <div class="card-header">
+                          <h3 class="card-title">Pie Chart</h3>
+
+                          <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                              <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                              <i class="fas fa-times"></i>
+                            </button>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                        </div>
+                        <!-- /.card-body -->
+                      </div>
+                      <!-- /.card -->
+                  </div>
+
+                  <div class="col-md-6">
+                    <!-- STACKED BAR CHART -->
+                    <div class="card card-info">
+                      <div class="card-header">
+                        <h3 class="card-title">Teacher Gender Ratio</h3>
+
+                        <div class="card-tools">
+                          <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                          </button>
+                          <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <div class="chart">
+                          <canvas id="stackedBarChartTeacher" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                        </div>
+                      </div>
+                      <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                  </div>
+                </div>
+
+
               </div>
 
           </section>
@@ -410,5 +485,7 @@
     <script src="../../dist/js/pages/dashboard.js"></script>
 
     <script src="./index.js"></script>
+
+    <script src="../../init.js"></script>
 </body>
 </html>

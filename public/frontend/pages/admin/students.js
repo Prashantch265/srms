@@ -239,7 +239,7 @@ function dropStudent(i) {
       //    Authorization: `Bearer ${token}`,
     },
     method: "PATCH",
-    body: JSON.stringify({ dropOut: true }),
+    body: JSON.stringify({ isActive: false }),
   })
     .then((res) => res.json())
     .then((resData) => {
