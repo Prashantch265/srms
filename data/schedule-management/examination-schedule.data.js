@@ -2,7 +2,7 @@ const { ExaminationSchedule } = require("../../database/models");
 const db = require("../../lib/sequelize");
 const { QueryTypes } = require("sequelize");
 
-const getAllQuery = `select
+const getAllQuery = (whereQuery) => `select
 assessments.name as "assessment",
 jsonb_agg(jsonb_build_object('semester', semesters.name, 'subjects', semesters.subjects)) as "schedules"
 from assessments
@@ -27,6 +27,9 @@ order by 1
 ) schedules
 on schedules."semesterId" = semester.id and semester.is_active is true
 ) semesters on semesters."assessmentId" = assessments.id and assessments.is_active is true
+where assessments.is_active = true and assessments.is_deleted = false ${
+  whereQuery ? whereQuery : ""
+}
 group by 1
 order by 1`;
 
@@ -42,13 +45,13 @@ const add = async (data) => {
 };
 
 const getAllExaminationSchedule = async () => {
-  return await db.sequelize.query(getAllQuery, { type: QueryTypes.SELECT });
+  return await db.sequelize.query(getAllQuery(), { type: QueryTypes.SELECT });
 };
 
 const getByAssessment = async (assessmentId) => {
   const whereQuery = ` and assessments.id = $1 `;
   const replacements = [assessmentId];
-  return await db.sequelize.query(getAllQuery + replacements, {
+  return await db.sequelize.query(getAllQuery(whereQuery), {
     bind: replacements,
     type: QueryTypes.SELECT,
   });

@@ -99,9 +99,6 @@ function createStudentTable(data) {
               <button type="button" class="btn btn-block btn-default m-1" id="view${i}" value="${key.id}">
                 <i class="fas fa-eye"></i>
               </button>
-              <button type="button" class="btn btn-block btn-default m-1" id="drop${i}" value="${key.id}">
-                <i class="fas fa-minus-circle"></i>
-              </button>
               </button>
               <button type="button" class="btn btn-default m-1" data-toggle="modal" data-target="#modal-default" id="edit${i}" value="${key.id}">
                 <i class="fas fa-edit"></i>
@@ -116,7 +113,10 @@ function createStudentTable(data) {
   }
 
   for (let i = 1; i <= data.length; i++) {
-    document.getElementById(`drop${i}`).addEventListener("click", () => )
+    document.getElementById(`view${i}`).addEventListener();
+    // document
+    //   .getElementById(`drop${i}`)
+    //   .addEventListener("click", () => dropStudent(i).bind(null, i));
     document
       .getElementById(`edit${i}`)
       .addEventListener("click", () => editStudent(i).bind(null, i));
@@ -230,29 +230,31 @@ function addStudent() {
     });
 }
 
-function dropStudent(i){
+function dropStudent(i) {
   const id = document.getElementById(`edit${i}`).value;
 
-  fetch("http://localhost:3000/student/" + id,  {
+  fetch("http://localhost:3000/student/" + id, {
     headers: {
       "Content-Type": "application/json",
       //    Authorization: `Bearer ${token}`,
     },
     method: "PATCH",
-    body: JSON.stringify({dropOut: true})
-  }).then(res => res.json()).then(resData => {
-    if (resData.status === 200) {
-      return Toast.fire({
-        icon: "success",
-        title: resData.message,
-      });
-    } else {
-      return Toast.fire({
-        icon: "error",
-        title: resData.message,
-      });
-    }
+    body: JSON.stringify({ dropOut: true }),
   })
+    .then((res) => res.json())
+    .then((resData) => {
+      if (resData.status === 200) {
+        return Toast.fire({
+          icon: "success",
+          title: resData.message,
+        });
+      } else {
+        return Toast.fire({
+          icon: "error",
+          title: resData.message,
+        });
+      }
+    });
 }
 
 function editStudent(i) {

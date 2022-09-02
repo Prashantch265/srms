@@ -8,10 +8,13 @@ const Toast = Swal.mixin({
 var mainInput = document.getElementById("nepali-datepicker");
 mainInput.nepaliDatePicker();
 
-// document.getElementById("filter").addEventListener("change", (e) => {
-//   if (e.srcElement.value) {
-//   }
-// });
+document.getElementById("filter").addEventListener("change", (e) => {
+  if (e.srcElement.value !== "Assessment") {
+    loadSchedulesByAssessment(e.srcElement.value);
+  } else {
+    loadSchedules();
+  }
+});
 
 document.getElementById("selectSemester").addEventListener("change", (e) => {
   if (e.srcElement.value) {
@@ -45,6 +48,77 @@ function loadSchedules() {
       let data = resData.data;
 
       let i = 1;
+
+      document.getElementById("main-content").innerHTML = "";
+
+      for (let keys of data) {
+        document.getElementById("main-content").innerHTML += `
+        <div class="card-header" id="assessment">${keys.assessment}</div>`;
+        for (let semesters of keys.schedules) {
+          document.getElementById(
+            "main-content"
+          ).innerHTML += `<div class="row justify-content-center mt-4">
+        <div class="col-7">
+          <div class="card">
+            <div class="card-header" style="background-color: rgb(184, 184, 184);">
+              <div class="row">
+                <div class="col-sm-10>
+                  <h3 class="card-title" id="semester">${semesters.semester}</h3>
+                </div>
+                <div class="col-sm-2 ml-auto">
+                  <button type="button" class="btn btn-block" id="delete${i}" value="">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </div>
+              </div>
+              </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0">
+              <table class="table table-hover text-nowrap">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Subject</th>
+                  </tr>
+                </thead>
+                <tbody id="subjects${i}">`;
+          for (let subjects of semesters.subjects) {
+            document.getElementById(`subjects${i}`).innerHTML += `<tr> 
+              <td>${subjects.date}</td>
+              <td>${subjects.time}</td>
+              <td>${subjects.subject}</td>
+            </tr>`;
+          }
+          document.getElementById("main-content").innerHTML += `</tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>`;
+          i++;
+        }
+        document.getElementById("main-content").innerHTML += `</div>
+        <!-- /.row -->`;
+      }
+    });
+}
+
+function loadSchedulesByAssessment(id) {
+  fetch("http://localhost:3000/examination-schedule/" + id, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      //    Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => res.json())
+    .then((resData) => {
+      let data = resData.data;
+
+      let i = 1;
+
+      document.getElementById("main-content").innerHTML = "";
+
       for (let keys of data) {
         document.getElementById("main-content").innerHTML += `
         <div class="card-header" id="assessment">${keys.assessment}</div>`;
@@ -123,6 +197,9 @@ function loadAssessment() {
       let data = resData.data;
 
       for (let subject of data) {
+        document.getElementById(
+          "filter"
+        ).innerHTML += `<option value=${subject.id}>${subject.name}</option>`;
         document.getElementById(
           "selectAssessment"
         ).innerHTML += `<option value=${subject.id}>${subject.name}</option>`;
