@@ -18,8 +18,6 @@
     <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <!-- JQVMap -->
     <link rel="stylesheet" href="../../plugins/jqvmap/jqvmap.min.css">
-     <!-- SweetAlert2 -->
-    <link rel="stylesheet" href="../../plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
     <!-- overlayScrollbars -->
@@ -28,6 +26,8 @@
     <link rel="stylesheet" href="../../plugins/daterangepicker/daterangepicker.css">
     <!-- summernote -->
     <link rel="stylesheet" href="../../plugins/summernote/summernote-bs4.min.css">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="../../plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -52,28 +52,6 @@
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
-
-              <!-- Navbar Search -->
-              <li class="nav-item">
-                <a class="nav-link" data-widget="navbar-search" data-target="#main-header-search" href="#" role="button">
-                  <i class="fas fa-search"></i>
-                </a>
-                <div class="navbar-search-block" id="main-header-search">
-                  <form class="form-inline">
-                    <div class="input-group input-group-sm">
-                      <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-                      <div class="input-group-append">
-                        <button class="btn btn-navbar" type="submit">
-                          <i class="fas fa-search"></i>
-                        </button>
-                        <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                          <i class="fas fa-times"></i>
-                        </button>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </li>
 
             <!-- Notifications Dropdown Menu -->
             <li class="nav-item dropdown">
@@ -131,8 +109,8 @@
                 <div class="image">
                 <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                 </div>
-                <div class="info">
-                <a href="#" class="d-block">Alexander Pierce</a>
+                <div class="info" id="name">
+                <a href="#" class="d-block"></a>
                 </div>
             </div>
 
@@ -223,7 +201,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                      <a href="./manage-teacher.html" class="nav-link">
+                      <a href="./teachers.html" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Manage Teacher</p>
                       </a>
@@ -269,7 +247,7 @@
                       </a>
                   </li>
                   </ul>
-                </li>  
+                </li>    
                 <li class="nav-item">
                   <a href="#" class="nav-link">
                     <i class="fas fa-calendar-alt"></i>
@@ -294,7 +272,7 @@
                           </a>
                       </li>
                   </ul> -->
-                </li>       
+                </li>     
             </ul>
             </nav>
             <!-- /.sidebar-menu -->
@@ -306,149 +284,52 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                <div class="col-lg-12">
-                    <div class="card-body row">
-                      <div class="col-md-6">
-                        <button type="button" class="btn btn-default" id="upgrade-semester" data-toggle="modal" data-target="#modal-default">
-                          Upgrade Semester
-                        </button>
+              <div class="row justify-content-center">
+                <!-- Profile Image -->
+                <div class="card card-primary card-outline col-md-6 mt-5">
+                    <div class="card-body box-profile">
+                    <div class="text-center">
+                        <img class="profile-user-img img-fluid img-circle"
+                            src="../../dist/img/user4-128x128.jpg"
+                            alt="User profile picture">
+                    </div>
+                    
+    
+                    <h3 class="profile-username text-center" id="name">Nina Mcintire</h3>
+    
+                    <p class="text-muted text-center" id="role"></p>
+    
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Password</label>
+                        <div class="input-group">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
+                        <div class="input-group-append">
+                          <span class="input-group-text"><i id="toggler"class="fas fa-eye"></i>
+                            </span>
+                        </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirmPassword" placeholder="Re-enter your password">
                       </div>
     
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-2 col-form-label ml-auto">Filter By</label>
-                          <select class="form-control col-sm-3" id="filter">
-                            <option>Batch</option>
-                          </select>
-                        </div>
-                      </div>
+                    <a href="#" class="btn btn-primary btn-block" id="update"><b>Update</b></a>
                     </div>
-                  </div>
-            
-
-            <div class="modal fade" id="modal-default">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h4 class="modal-title">Update Semester</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <form id="form">
-                      <div class="row">
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <label>Batch</label>
-                            <select class="form-control select2bs4" id="selectBatch" style="width: 100%;">
-                              <option selected="selected">Select</option>
-                            </select>
-                          </div>
-                          <!-- /.form-group -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Semester</label>
-                                <select class="form-control select2bs4" id="selectSemester" style="width: 100%;">
-                                  <option selected="selected">Select</option>
-                                </select>
-                            </div>
-                          <!-- /.form-group -->
-                        </div>
-                        <!-- /.col -->
-                      </div>
-                      <!-- /.row -->
-
-                    </form>
-                  </div>
-                  <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="updateSemester" data-dismiss="modal">Save</button>
-                  </div>
+                    <!-- /.card-body -->
                 </div>
-                <!-- /.modal-content -->
-              </div>
-              <!-- /.modal-dialog -->
+                <!-- /.card -->
+              </div>    
             </div>
-            <!-- /.modal -->
 
-            <div class="modal fade" id="modal-sm">
-              <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h4 class="modal-title">Update Section</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <div class="form-group">
-                      <label>Section</label>
-                      <select class="form-control select2bs4" id="section" style="width: 100%;">
-                        <option selected="selected">Select</option>
-                      </select>
-                    </div>
-                    <!-- /.form-group -->
-                  </div>
-                  <div class="modal-footer justify-content-between" id="btn-row">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="updateSection" data-dismiss="modal">Save changes</button>
-                  </div>
-                </div>
-                <!-- /.modal-content -->
-              </div>
-              <!-- /.modal-dialog -->
-            </div>
-            <!-- /.modal -->
-
-            <div class="col-md-12">
-              <div class="card">
-                <div class="card-header">
-                  <a href="./students.html" style="color: rgba(0,0,0,.5);">Students</a>                      
-                  <div class="card-tools">
-                    <ul class="pagination pagination-sm float-right">
-                      <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                      <li class="page-item"><a class="page-link" href="#">1</a></li>
-                      <li class="page-item"><a class="page-link" href="#">2</a></li>
-                      <li class="page-item"><a class="page-link" href="#">3</a></li>
-                      <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                    </ul>
-                  </div>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body p-0">
-                  <table class="table" id="listTable">
-                    <thead>
-                      <tr>
-                        <th style="width: 10px">#</th>
-                        <th>Name</th>
-                        <th>Batch</th>
-                        <th>Semester</th>
-                        <th>Section</th>
-                        <th>Username</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody id="studentTable">
-                    </tbody>
-                  </table>
-                </div>
-                <!-- /.card-body -->
-              </div>
-              <!-- /.card -->
-              </div>
-
-          </div>
-        </section>
-
+          </section>
         </div>
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-      </aside>
-      <!-- /.control-sidebar -->
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
 
@@ -479,6 +360,8 @@
     <!-- SweetAlert2 -->
     <script src="../../plugins/sweetalert2/sweetalert2.min.js"></script>
 
-    <script src="./manage-students.js"></script>
-    </body>
+    <script src="./profile.js"></script>
+
+    <script src="../../init.js"></script>
+</body>
 </html>

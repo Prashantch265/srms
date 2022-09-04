@@ -29,7 +29,7 @@ if (process.env.NODE_ENV && process.env.NODE_ENV === "development") {
     cors({
       origin: "*",
       credentials: true,
-      methods: ["GET", "POST", "PUT", "DELETE"],
+      methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     })
   ); //before routes
   app.use(morgan("dev", { stream: stream }));

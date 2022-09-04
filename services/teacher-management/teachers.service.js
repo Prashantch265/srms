@@ -116,12 +116,6 @@ const removeMapping = async (teacherId, subId) => {
   return res;
 };
 
-const getMappingDataByTeacherId = async (userName) => {
-  const { id } = await TeacherData.findOneByField({ userName: userName });
-  const res = await SemesterSubject.getDataByTeacherId(id);
-  return res;
-};
-
 module.exports = {
   add,
   update,
@@ -132,5 +126,4 @@ module.exports = {
   manageTeacher,
   removeMapping,
   getAllMapping,
-  getMappingDataByTeacherId,
 };

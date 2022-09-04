@@ -23,15 +23,15 @@ document.addEventListener(
 
 document.getElementById("filter").addEventListener("change", (e) => {
   if (e.srcElement.value !== "Semester") {
-    loadMappingBySemester(e.srcElement.value);
+    loadMapping(e.srcElement.value);
   } else {
     loadMapping();
   }
 });
 
 $("#selectSemester").on("select2:select", (e) => {
-  if (e.currentTarget.options[1].value) {
-    loadSubjectsBySemester(e.currentTarget.options[1].value);
+  if (e.currentTarget.selectedIndex) {
+    loadSubjectsBySemester(e.currentTarget.selectedIndex);
   }
 });
 
@@ -124,27 +124,88 @@ function loadSubjectsBySemester(id) {
     });
 }
 
-function loadMapping() {
-  fetch("http://localhost:3000/manage-teacher", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
-    },
-  })
-    .then((res) => res.json())
-    .then((resData) => {
-      let data = resData.data;
+function loadMapping(semId) {
+  if (semId) {
+    fetch("http://localhost:3000/manage-teacher/" + semId, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        //    Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((resData) => {
+        let data = resData.data;
 
-      let i = 1;
-      for (let keys of data) {
-        document.getElementById(
-          "main-content"
-        ).innerHTML += `<div class="card-header" id="semester">${keys.semester}</div>`;
-        for (let data of keys.schedule) {
+        document.getElementById("main-content").innerHTML = "";
+
+        let i = 1;
+        for (let keys of data) {
           document.getElementById(
             "main-content"
-          ).innerHTML += `<div class="row justify-content-center mt-4">
+          ).innerHTML += `<div class="card-header" id="semester">${keys.semester}</div>`;
+          for (let data of keys.schedule) {
+            document.getElementById(
+              "main-content"
+            ).innerHTML += `<div class="row justify-content-center mt-4">
+                          <div class="col-7">
+                            <div class="card">
+                              <div class="card-header" style="background-color: rgb(184, 184, 184);">
+                                <h3 class="card-title" id="section">${data.section}</h3>
+                
+                              </div>
+                              <!-- /.card-header -->
+                              <div class="card-body table-responsive p-0">
+                                <table class="table table-hover text-nowrap">
+                                  <thead>
+                                    <tr>
+                                       <th>Subject</th>
+                                       <th>Teacher</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody id="subjects${i}">`;
+            for (let subject of data.subjects) {
+              document.getElementById(`subjects${i}`).innerHTML += `<tr> 
+                              <td>${subject.subject}</td>
+                              <td>${subject.teacher}</td>
+                              </tr>`;
+            }
+            document.getElementById("main-content").innerHTML += `</tbody>
+                              </table>
+                            </div>
+                            <!-- /.card-body -->
+                          </div>
+                          <!-- /.card -->
+                          </div>
+                        </div>
+                        <!-- /.row -->`;
+            i++;
+          }
+        }
+      });
+  } else {
+    fetch("http://localhost:3000/manage-teacher", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        //    Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((resData) => {
+        let data = resData.data;
+
+        document.getElementById("main-content").innerHTML = "";
+
+        let i = 1;
+        for (let keys of data) {
+          document.getElementById(
+            "main-content"
+          ).innerHTML += `<div class="card-header" id="semester">${keys.semester}</div>`;
+          for (let data of keys.schedule) {
+            document.getElementById(
+              "main-content"
+            ).innerHTML += `<div class="row justify-content-center mt-4">
                         <div class="col-7">
                           <div class="card">
                             <div class="card-header" style="background-color: rgb(184, 184, 184);">
@@ -161,13 +222,13 @@ function loadMapping() {
                                   </tr>
                                 </thead>
                                 <tbody id="subjects${i}">`;
-          for (let subject of data.subjects) {
-            document.getElementById(`subjects${i}`).innerHTML += `<tr> 
+            for (let subject of data.subjects) {
+              document.getElementById(`subjects${i}`).innerHTML += `<tr> 
                             <td>${subject.subject}</td>
                             <td>${subject.teacher}</td>
                             </tr>`;
-          }
-          document.getElementById("main-content").innerHTML += `</tbody>
+            }
+            document.getElementById("main-content").innerHTML += `</tbody>
                             </table>
                           </div>
                           <!-- /.card-body -->
@@ -176,26 +237,11 @@ function loadMapping() {
                         </div>
                       </div>
                       <!-- /.row -->`;
-          i++;
+            i++;
+          }
         }
-      }
-    });
-}
-
-function loadMappingBySemester(semId) {
-  fetch("http://localhost:3000/manage-teacher/" + semId, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
-    },
-  })
-    .then((res) => res.json())
-    .then((resData) => {
-      let data = resData.data;
-
-      console.log(data);
-    });
+      });
+  }
 }
 
 function addMapping() {

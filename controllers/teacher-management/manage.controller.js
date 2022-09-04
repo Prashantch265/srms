@@ -1,6 +1,5 @@
 const TeacherService = require("../../services/teacher-management/teachers.service");
 const { successResponse } = require("../../utils");
-const httpContext = require("express-http-context");
 
 const add = async (req, res, next) => {
   try {
@@ -16,7 +15,7 @@ const getMappingData = async (req, res, next) => {
   try {
     const semId = req.params.id;
     if (semId) {
-      const resData = await TeacherService.getAllMapping(semId);
+      const resData = await TeacherService.getBySemester(semId);
       return successResponse(res, resData, "fetch", "mapping");
     }
     const resData = await TeacherService.getAllMapping();
@@ -26,14 +25,4 @@ const getMappingData = async (req, res, next) => {
   }
 };
 
-const getMappingDataByTeacherId = async (req, res, next) => {
-  try {
-    const { userName } = httpContext.get("user");
-    const resData = await TeacherService.getMappingDataByTeacherId(userName);
-    return successResponse(res, resData, "fetch", "mapping");
-  } catch (error) {
-    next(error);
-  }
-};
-
-module.exports = { add, getMappingData, getMappingDataByTeacherId };
+module.exports = { add, getMappingData };

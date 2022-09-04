@@ -8,8 +8,4 @@ module.exports = (router) => {
   router
     .route("/manage-teacher/:id")
     .get(ManageTeacherController.getMappingData);
-
-  router
-    .route("/manage-teacher/teacher")
-    .get(ManageTeacherController.getMappingDataByTeacherId);
 };

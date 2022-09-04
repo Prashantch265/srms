@@ -10,7 +10,7 @@ module.exports = (sequelize, dataTypes) => {
     },
     date: {
       field: "date",
-      type: dataTypes.ARRAY(dataTypes.ARRAY(dataTypes.STRING)),
+      type: dataTypes.STRING,
       allowNull: false,
     },
     status: {
@@ -35,6 +35,14 @@ module.exports = (sequelize, dataTypes) => {
         key: "id",
       },
       onDelete: "cascade",
+    },
+    teacherId: {
+      field: "teacher_id",
+      type: dataTypes.INTEGER,
+      references: {
+        model: "teachers",
+        key: "id",
+      },
     },
   };
 
