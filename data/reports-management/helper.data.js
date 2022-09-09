@@ -21,6 +21,14 @@ inner join subjects on subjects.id = semester_section.subject_id and subjects.is
 where semester_section.is_active = true and semester_section.is_deleted = false and
 semester_section.section_id = $1 and semester_section.teacher_id = $2`;
 
+const getStudentListQuery = `select
+students.id as "id", students.name
+from semester_student
+inner join students on students.id = semester_student.student_id and students.is_active is true
+where semester_student.is_active = true and semester_student.is_deleted = false and semester_student.semester_id = $1
+and students.section_id = $2
+order by students.name asc`;
+
 const getSemester = async (teacherId) => {
   const replacements = [teacherId];
   return await db.sequelize.query(getSemesterQuery, {
@@ -45,4 +53,12 @@ const getSubject = async (sectionId, teacherId) => {
   });
 };
 
-module.exports = { getSemester, getSection, getSubject };
+const getStudentList = async (semesterId, sectionId) => {
+  const replacements = [semesterId, sectionId];
+  return await db.sequelize.query(getStudentListQuery, {
+    bind: replacements,
+    type: QueryTypes.SELECT,
+  });
+};
+
+module.exports = { getSemester, getSection, getSubject, getStudentList };

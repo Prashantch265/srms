@@ -8,7 +8,7 @@ const allowedOrigins = [
 const unprotectedRoutes = [
   "/",
   "/favicon.ico",
-  "/auth/signin",
+  "/auth/login",
   "/auth/register",
 ];
 

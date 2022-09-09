@@ -32,7 +32,7 @@ const updateUser = async (data, userId) => {
     const res = await UserData.update(updatedUser, userId);
     return res;
   }
-  return;
+  return [];
 };
 
 const addProfilePicture = async (data, userId) => {

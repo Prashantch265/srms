@@ -3,7 +3,7 @@ const db = require("../../lib/sequelize");
 const { QueryTypes } = require("sequelize");
 
 let selectQuery = `select
-users.user_id as "userId", users.user_name as "userName", users.profile_pic as "profilePic", roles.name as "role",
+users.user_id as "userId", users.user_name as "userName", users.profile_pic as "profilePic", roles.name as "role", users.first_time_login as "firstTime",
 case
     when students.name is not null then students.name
     when teachers.name is not null then teachers.name
