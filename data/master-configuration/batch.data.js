@@ -1,5 +1,6 @@
 const { Batch } = require("../../database/models");
 const StudentData = require("../../data/student-management/students.data");
+const UserData = require("../../data/rsmp/users.data");
 
 const findOneByField = async (where) => {
   where = { ...where, isActive: true, isDeleted: false };
@@ -12,7 +13,13 @@ const add = async (data) => {
 
 const update = async (data, id) => {
   const { passedOut } = data;
-  if (passedOut) StudentData.updateStudentBatch({ isActive: false }, id);
+  if (passedOut) {
+    const students = await StudentData.findByBatch(id);
+    await StudentData.updateStudentBatch({ isActive: false }, id);
+    for (let student of students) {
+      await UserData.removeByUserName(student.userName);
+    }
+  }
   return await Batch.update(data, { where: { id: id } });
 };
 

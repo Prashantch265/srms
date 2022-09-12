@@ -44,6 +44,11 @@ module.exports = (sequelize, dataTypes) => {
       type: dataTypes.ENUM(["pass", "fail", "absent"]),
       allowNull: false,
     },
+    publish: {
+      field: "publish",
+      type: dataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   };
 
   const examinationMarks = { ...obj, ...CommonEntity };

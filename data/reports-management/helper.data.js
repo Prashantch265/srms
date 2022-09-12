@@ -1,4 +1,4 @@
-const { QueryTypes } = require("sequelize/types");
+const { QueryTypes } = require("sequelize");
 const db = require("../../lib/sequelize");
 
 const getSemesterQuery = `select distinct
@@ -28,6 +28,12 @@ inner join students on students.id = semester_student.student_id and students.is
 where semester_student.is_active = true and semester_student.is_deleted = false and semester_student.semester_id = $1
 and students.section_id = $2
 order by students.name asc`;
+
+const getTeacherIdQuery = `select
+teachers.id as "id"
+from teachers
+inner join users on users.user_name = teachers.user_name and users.is_active is true
+where teachers.is_active = true and teachers.is_deleted = false and users.user_id = $1`;
 
 const getSemester = async (teacherId) => {
   const replacements = [teacherId];
@@ -61,4 +67,18 @@ const getStudentList = async (semesterId, sectionId) => {
   });
 };
 
-module.exports = { getSemester, getSection, getSubject, getStudentList };
+const getTeacherId = async (userId) => {
+  const replacements = [userId];
+  return await db.sequelize.query(getTeacherIdQuery, {
+    bind: replacements,
+    type: QueryTypes.SELECT,
+  });
+};
+
+module.exports = {
+  getSemester,
+  getSection,
+  getSubject,
+  getStudentList,
+  getTeacherId,
+};

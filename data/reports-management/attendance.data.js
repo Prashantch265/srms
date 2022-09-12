@@ -1,14 +1,10 @@
 const { Attendance } = require("../../database/models");
 const db = require("../../lib/sequelize");
 
-const add = async (data) => {
+const makeAttendance = async (data, userId) => {
   return await db.sequelize.transaction(async (t) => {
-    return await Attendance.create(data);
+    return await Attendance.create(data, { userId });
   });
 };
 
-const remove = async () => {
-  return await db.sequelize.transaction(async (t) => {});
-};
-
-module.exports = { add };
+module.exports = { makeAttendance };

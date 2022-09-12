@@ -61,6 +61,14 @@ const fetchByRole = async (roleId) => {
   });
 };
 
+const removeByUserName = async (userName) => {
+  await User.update(
+    { isActive: false, isDeleted: true },
+    { where: { userName: userName } }
+  );
+  return userName;
+};
+
 module.exports = {
   register,
   update,
@@ -69,4 +77,5 @@ module.exports = {
   fetchAll,
   fetchById,
   fetchByRole,
+  removeByUserName,
 };
