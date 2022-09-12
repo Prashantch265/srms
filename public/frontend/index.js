@@ -55,7 +55,7 @@ function validateLogin() {
         const data = resData.data;
         document.getElementById("form").reset();
         if (resData.status === 200) {
-          window.localStorage.setItem("user", JSON.stringify(resData.data));
+          window.localStorage.setItem("user", JSON.stringify(data));
           const { role } = data;
           if (role === "admin")
             return window.location.replace("./pages/admin/");

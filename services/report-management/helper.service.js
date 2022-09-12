@@ -1,5 +1,10 @@
 const HelperData = require("../../data/reports-management/helper.data");
-const StudentData = require("../../data/student-management/students.data");
+
+const getSemester = async (userId) => {
+  const { id } = await HelperData.getTeacherId(userId);
+  const res = await HelperData.getSemester(id);
+  return res;
+};
 
 const getSection = async (semesterId, userId) => {
   const { id } = await HelperData.getTeacherId(userId);
@@ -13,5 +18,9 @@ const getSubject = async (sectionId, userId) => {
   return res;
 };
 
+const getStudentList = async (semesterId, sectionId) => {
+  const res = await HelperData.getStudentList(semesterId, sectionId);
+  return res;
+};
 
-module.exports = {getSection, getSubject};
+module.exports = { getSemester, getSection, getSubject, getStudentList };

@@ -1,11 +1,11 @@
 document.addEventListener("load", loadDataForDashboard());
 
 function loadDataForDashboard() {
-  fetch("http://localhost:3000/manage-teacher/teacher", {
+  fetch("", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
   })
     .then((res) => res.json())

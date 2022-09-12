@@ -1,3 +1,5 @@
+var bearerToken, roleName;
+
 document.addEventListener("load", getUser());
 
 function getUser() {
@@ -6,11 +8,14 @@ function getUser() {
       window.localStorage.getItem("user")
     );
 
+    bearerToken = accessToken;
+    roleName = role;
+
     fetch("http://localhost:3000/auth/init", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${bearerToken}`,
       },
     })
       .then((res) => {
@@ -21,14 +26,26 @@ function getUser() {
         if (resData && resData.status === 200) {
           const data = resData.data[0];
           document.getElementById(
-            "name"
+            "user_name"
           ).innerHTML += `<a href="./profile.html" class="d-block">${data.name}</a>`;
-          document.getElementById("role").innerHTML = role;
         } else {
           window.location.href = "/";
         }
       });
   } else {
+    window.location.href = "/";
+  }
+}
+
+document.getElementById("logout").addEventListener("click", (e) => {
+  e.preventDefault();
+  logout();
+});
+
+function logout() {
+  if (window.localStorage.getItem("user")) {
+    window.localStorage.clear();
+    bearerToken = null;
     window.location.href = "/";
   }
 }

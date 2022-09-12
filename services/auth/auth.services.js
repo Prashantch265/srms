@@ -14,7 +14,9 @@ const authenticate = async (userName, password) => {
 
   const accessToken = await signAccessToken(user);
 
-  const { roleId } = await UserRoleData.findOneByField({ userId: user.userId });
+  const { roleId } = await UserRoleData.findOneByField({
+    userId: user.userId,
+  });
 
   const { name } = await RoleData.findOneByField({ id: roleId });
   return { accessToken: accessToken, role: name };

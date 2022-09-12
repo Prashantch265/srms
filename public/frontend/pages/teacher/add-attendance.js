@@ -8,9 +8,18 @@ const bs = NepaliFunctions.AD2BS({ year: yyyy, month: mm, day: dd });
 today = `${bs.year}-${bs.month}-${bs.day}`;
 console.log(today);
 
-
-document.addEventListener("load", );
+document.addEventListener("load", loadHelperData());
 
 function loadHelperData() {
-    
+  fetch("http://localhost:3000/semester-list", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${bearerToken}`,
+    },
+  })
+    .then((res) => res.json())
+    .then((resData) => {
+      let data = resData.data;
+    });
 }

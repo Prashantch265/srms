@@ -113,7 +113,7 @@ function createStudentTable(data) {
   }
 
   for (let i = 1; i <= data.length; i++) {
-    document.getElementById(`view${i}`).addEventListener();
+    // document.getElementById(`view${i}`).addEventListener();
     // document
     //   .getElementById(`drop${i}`)
     //   .addEventListener("click", () => dropStudent(i).bind(null, i));

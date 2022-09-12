@@ -9,6 +9,8 @@ module.exports = (router) => {
 
   router.route("/user").get(UserController.fetchAllUser);
 
+  router.route("/user").patch(UserController.changeTemporaryPassword);
+
   router.route("/user/:userId").get(UserController.fetchUserById);
 
   router

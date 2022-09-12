@@ -28,6 +28,17 @@ const updateUser = async (req, res, next) => {
   }
 };
 
+const changeTemporaryPassword = async (req, res, next) => {
+  try {
+    const { userId } = httpContext.get("user");
+    const data = req.body;
+    const resData = await UserService.updateUser(data, userId);
+    return successResponse(res, resData, "update", "User");
+  } catch (error) {
+    next(error);
+  }
+};
+
 const addProfilePicture = async (req, res, next) => {
   try {
     const { userId } = httpContext.get("user");
@@ -77,4 +88,5 @@ module.exports = {
   deleteUser,
   fetchByRole,
   addProfilePicture,
+  changeTemporaryPassword,
 };
