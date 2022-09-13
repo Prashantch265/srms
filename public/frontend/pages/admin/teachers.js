@@ -16,7 +16,7 @@ function loadTeachers() {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
   })
     .then((res) => {
@@ -113,7 +113,7 @@ function addTeacher() {
   fetch(`${url}/teacher`, {
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
     method: "POST",
     body: JSON.stringify({ name, email, gender, contactNo, address, type }),
@@ -146,7 +146,7 @@ function editTeacher(i) {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
   })
     .then((res) => {
@@ -180,7 +180,7 @@ function update(id) {
   fetch(`${url}/teacher/${id}`, {
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
     method: "PUT",
     body: JSON.stringify({ name, email, gender, contactNo, address, type }),
@@ -211,7 +211,7 @@ function deleteTeacher(i) {
   fetch(`${url}/teacher/${id}`, {
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
     method: "DELETE",
   })

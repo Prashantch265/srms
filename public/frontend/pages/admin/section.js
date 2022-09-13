@@ -12,7 +12,7 @@ function loadSection() {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
   })
     .then((res) => {
@@ -94,7 +94,7 @@ function addSection() {
   fetch("http://localhost:3000/section", {
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
     method: "POST",
     body: JSON.stringify({ name, displayName }),
@@ -134,7 +134,7 @@ function update(id) {
   fetch("http://localhost:3000/section/" + id, {
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
     method: "PUT",
     body: JSON.stringify({ name, displayName }),
@@ -166,7 +166,7 @@ function deleteSection(i) {
   fetch("http://localhost:3000/section/" + id, {
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
     method: "DELETE",
   })

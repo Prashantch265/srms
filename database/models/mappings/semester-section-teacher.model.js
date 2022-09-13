@@ -43,6 +43,10 @@ module.exports = (sequelize, dataTypes) => {
       },
       onDelete: "CASCADE",
     },
+    time: {
+      field: "time",
+      type: dataTypes.STRING,
+    },
   };
 
   const semester_section = { ...obj, ...CommonEntity };

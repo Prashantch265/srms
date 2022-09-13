@@ -10,7 +10,7 @@ inner join (
 select
     semester_section.semester_id as "id",
     section.name as "section",
-    json_agg(jsonb_build_object('subject', subjects.name, 'teacher', teachers.name)) as "subjects"
+    json_agg(jsonb_build_object('subject', subjects.name, 'teacher', teachers.name, 'time', semester_section.time)) as "subjects"
 from semester_section
 inner join section on section.id = semester_section.section_id and section.is_active is true
 inner join teachers on teachers.id = semester_section.teacher_id and teachers.is_active is true

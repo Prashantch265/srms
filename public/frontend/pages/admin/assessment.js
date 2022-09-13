@@ -12,7 +12,7 @@ function loadAssessment() {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
   })
     .then((res) => {
@@ -95,7 +95,7 @@ function addAssessment() {
   fetch("http://localhost:3000/assessment", {
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
     method: "POST",
     body: JSON.stringify({ name, description }),
@@ -135,7 +135,7 @@ function update(id) {
   fetch("http://localhost:3000/assessment/" + id, {
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
     method: "PUT",
     body: JSON.stringify({ name, description }),
@@ -167,7 +167,7 @@ function deleteAssessment(i) {
   fetch("http://localhost:3000/assessment/" + id, {
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
     method: "DELETE",
   })

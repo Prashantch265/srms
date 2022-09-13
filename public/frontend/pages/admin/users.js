@@ -51,7 +51,7 @@ function loadUsers() {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
   })
     .then((res) => res.json())
@@ -67,7 +67,7 @@ function laodRoles() {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
   })
     .then((res) => res.json())
@@ -87,7 +87,7 @@ function loadUsersByRole(id) {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
   })
     .then((res) => res.json())
@@ -161,7 +161,7 @@ function addUser() {
   fetch("http://localhost:3000/user", {
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
     method: "POST",
     body: JSON.stringify({ userName, password }),
@@ -197,7 +197,7 @@ function deleteUser(i) {
   fetch("http://localhost:3000/user/" + userId, {
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
     method: "DELETE",
   })
@@ -233,7 +233,7 @@ function update(userId) {
   fetch("http://localhost:3000/user/" + userId, {
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
     method: "PUT",
     body: JSON.stringify({ password }),

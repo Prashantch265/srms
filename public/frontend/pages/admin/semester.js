@@ -12,7 +12,7 @@ function loadSemester() {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
   })
     .then((res) => {
@@ -101,7 +101,7 @@ function addSemester() {
   fetch("http://localhost:3000/semester", {
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
     method: "POST",
     body: JSON.stringify({ name, displayName }),
@@ -133,7 +133,7 @@ function viewSemester(i) {
   fetch("http://localhost:3000/semester/" + id, {
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
     method: "GET",
   })
@@ -208,7 +208,7 @@ function update(id) {
   fetch("http://localhost:3000/semester/" + id, {
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
     method: "PUT",
     body: JSON.stringify({ name, displayName }),
@@ -240,7 +240,7 @@ function deleteSemester(i) {
   fetch("http://localhost:3000/semester/" + id, {
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
     method: "DELETE",
   })

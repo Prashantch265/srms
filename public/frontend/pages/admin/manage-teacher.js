@@ -45,7 +45,7 @@ function loadTeachers() {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
   })
     .then((res) => res.json())
@@ -65,7 +65,7 @@ function loadSemester() {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
   })
     .then((res) => res.json())
@@ -89,7 +89,7 @@ function loadSection() {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
   })
     .then((res) => res.json())
@@ -109,7 +109,7 @@ function loadSubjectsBySemester(id) {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
   })
     .then((res) => res.json())
@@ -130,7 +130,7 @@ function loadMapping(semId) {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        //    Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${bearerToken}`,
       },
     })
       .then((res) => res.json())
@@ -161,6 +161,7 @@ function loadMapping(semId) {
                                     <tr>
                                        <th>Subject</th>
                                        <th>Teacher</th>
+                                       <th>Time</th>
                                     </tr>
                                   </thead>
                                   <tbody id="subjects${i}">`;
@@ -168,6 +169,7 @@ function loadMapping(semId) {
               document.getElementById(`subjects${i}`).innerHTML += `<tr> 
                               <td>${subject.subject}</td>
                               <td>${subject.teacher}</td>
+                              <td>${subject.time}</td>
                               </tr>`;
             }
             document.getElementById("main-content").innerHTML += `</tbody>
@@ -188,7 +190,7 @@ function loadMapping(semId) {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        //    Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${bearerToken}`,
       },
     })
       .then((res) => res.json())
@@ -219,6 +221,7 @@ function loadMapping(semId) {
                                   <tr>
                                      <th>Subject</th>
                                      <th>Teacher</th>
+                                     <th>Time</th>
                                   </tr>
                                 </thead>
                                 <tbody id="subjects${i}">`;
@@ -226,6 +229,7 @@ function loadMapping(semId) {
               document.getElementById(`subjects${i}`).innerHTML += `<tr> 
                             <td>${subject.subject}</td>
                             <td>${subject.teacher}</td>
+                            <td>${subject.time}</td>
                             </tr>`;
             }
             document.getElementById("main-content").innerHTML += `</tbody>
@@ -249,14 +253,28 @@ function addMapping() {
   const semId = document.getElementById("selectSemester").value;
   const subId = document.getElementById("selectSubject").value;
   const sections = $("#selectSection").val();
+  const time = document.getElementById("time").value;
+
+  if (
+    teacherId === "" ||
+    semId === "" ||
+    subId === "" ||
+    sections.length === 0 ||
+    time === ""
+  ) {
+    return Toast.fire({
+      icon: "error",
+      title: "Please fill up all the fields",
+    });
+  }
 
   fetch("http://localhost:3000/manage-teacher", {
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
     method: "POST",
-    body: JSON.stringify({ teacherId, semId, subId, sections }),
+    body: JSON.stringify({ teacherId, semId, subId, sections, time }),
   })
     .then((res) => res.json())
     .then((resData) => {

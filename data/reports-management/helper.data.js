@@ -33,7 +33,7 @@ const getTeacherIdQuery = `select
 teachers.id as "id"
 from teachers
 inner join users on users.user_name = teachers.user_name and users.is_active is true
-where teachers.is_active = true and teachers.is_deleted = false and users.user_id = $1`;
+where teachers.is_active = true and teachers.is_deleted = false and users.user_id = :userId `;
 
 const getSemester = async (teacherId) => {
   const replacements = [teacherId];
@@ -68,9 +68,8 @@ const getStudentList = async (semesterId, sectionId) => {
 };
 
 const getTeacherId = async (userId) => {
-  const replacements = [userId];
   return await db.sequelize.query(getTeacherIdQuery, {
-    bind: replacements,
+    replacements: { userId: userId },
     type: QueryTypes.SELECT,
   });
 };

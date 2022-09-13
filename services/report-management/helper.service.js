@@ -1,20 +1,20 @@
 const HelperData = require("../../data/reports-management/helper.data");
 
 const getSemester = async (userId) => {
-  const { id } = await HelperData.getTeacherId(userId);
-  const res = await HelperData.getSemester(id);
+  const [teacher] = await HelperData.getTeacherId(userId);
+  const res = await HelperData.getSemester(teacher.id);
   return res;
 };
 
 const getSection = async (semesterId, userId) => {
-  const { id } = await HelperData.getTeacherId(userId);
-  const res = await HelperData.getSection(semesterId, id);
+  const [teacher] = await HelperData.getTeacherId(userId);
+  const res = await HelperData.getSection(semesterId, teacher.id);
   return res;
 };
 
 const getSubject = async (sectionId, userId) => {
-  const { id } = await HelperData.getTeacherId(userId);
-  const res = await HelperData.getSubject(sectionId, id);
+  const [teacher] = await HelperData.getTeacherId(userId);
+  const res = await HelperData.getSubject(sectionId, teacher.id);
   return res;
 };
 

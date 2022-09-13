@@ -13,7 +13,7 @@ function loadSubject() {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
   })
     .then((res) => {
@@ -73,7 +73,7 @@ function loadSemester() {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
   })
     .then((res) => {
@@ -125,7 +125,7 @@ function addSubject() {
   fetch("http://localhost:3000/subject", {
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
     method: "POST",
     body: JSON.stringify({ name, displayName, code, semId }),
@@ -171,7 +171,7 @@ function update(id) {
   fetch("http://localhost:3000/subject/" + id, {
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
     method: "PUT",
     body: JSON.stringify({ name, displayName, code, semId }),
@@ -203,7 +203,7 @@ function deleteSubject(i) {
   fetch("http://localhost:3000/subject/" + id, {
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
     method: "DELETE",
   })

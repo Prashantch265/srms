@@ -12,7 +12,7 @@ function loadBatch() {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
   })
     .then((res) => {
@@ -103,7 +103,7 @@ function addBatch() {
   fetch("http://localhost:3000/batch", {
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
     method: "POST",
     body: JSON.stringify({ name, displayName }),
@@ -135,7 +135,7 @@ function viewBatch(i) {
   fetch("http://localhost:3000/batch/" + id, {
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
     method: "GET",
   })
@@ -218,7 +218,7 @@ function update(id) {
   fetch("http://localhost:3000/batch/" + id, {
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
     method: "PUT",
     body: JSON.stringify({ name, displayName, passedOut }),
@@ -250,7 +250,7 @@ function deleteBatch(i) {
   fetch("http://localhost:3000/batch/" + id, {
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
     method: "DELETE",
   })

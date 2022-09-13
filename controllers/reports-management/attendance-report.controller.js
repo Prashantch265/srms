@@ -2,20 +2,6 @@ const AttendanceService = require("../../services/report-management/attendance-r
 const httpContext = require("express-http-context");
 const { successResponse } = require("../../utils");
 
-const getStudentList = async (req, res, next) => {
-  try {
-    const semesterId = req.query.semId;
-    const sectionId = req.query.secId;
-    const resData = await AttendanceService.getStudentList(
-      semesterId,
-      sectionId
-    );
-    return successResponse(res, resData, "fetch", "student list");
-  } catch (error) {
-    next(error);
-  }
-};
-
 const makeAttendance = async (req, res, next) => {
   try {
     const { userId } = httpContext.get("user");
@@ -27,4 +13,4 @@ const makeAttendance = async (req, res, next) => {
   }
 };
 
-module.exports = { makeAttendance, getStudentList };
+module.exports = { makeAttendance };

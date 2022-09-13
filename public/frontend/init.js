@@ -27,7 +27,9 @@ function getUser() {
           const data = resData.data[0];
           document.getElementById(
             "user_name"
-          ).innerHTML += `<a href="./profile.html" class="d-block">${data.name}</a>`;
+          ).innerHTML += `<a href="./profile.html" class="d-block">${
+            roleName === "admin" ? data.userName.split("@")[0] : data.name
+          }</a>`;
         } else {
           window.location.href = "/";
         }

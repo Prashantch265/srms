@@ -39,7 +39,7 @@ function update(userId) {
   fetch("http://localhost:3000/user/" + userId, {
     headers: {
       "Content-Type": "application/json",
-      //    Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${bearerToken}`,
     },
     method: "PUT",
     body: JSON.stringify({ password }),
