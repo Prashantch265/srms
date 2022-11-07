@@ -1,6 +1,7 @@
 const validator = require("../../middlewares/joi.middleware");
 const userRegistration = require("../../validation/userRegistration");
 const UserController = require("../../controllers/rsmp/user.controller");
+const uploadFile = require("../../lib/multer");
 
 module.exports = (router) => {
   router
@@ -9,7 +10,7 @@ module.exports = (router) => {
 
   router.route("/user").get(UserController.fetchAllUser);
 
-  router.route("/user").patch(UserController.changeTemporaryPassword);
+  router.route("/user").patch(UserController.updateProfile);
 
   router.route("/user/:userId").get(UserController.fetchUserById);
 

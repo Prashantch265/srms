@@ -1,4 +1,4 @@
-var bearerToken, roleName;
+var bearerToken, roleName, usersname, profilePic, firstTimeLogin;
 
 document.addEventListener("load", getUser());
 
@@ -25,6 +25,9 @@ function getUser() {
         console.log(resData);
         if (resData && resData.status === 200) {
           const data = resData.data[0];
+          profilePic = data.profilePic;
+          firstTimeLogin = data.firstTime;
+          usersname = data.name ? data.userName.split("@")[0] : data.name;
           document.getElementById(
             "user_name"
           ).innerHTML += `<a href="./profile.html" class="d-block">${

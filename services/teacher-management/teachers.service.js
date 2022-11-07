@@ -73,12 +73,12 @@ const update = async (data, id) => {
 };
 
 const manageTeacher = async (data) => {
-  const { teacherId, semId, sections, subId } = data;
+  const { teacherId, semId, sections, subId, time } = data;
 
   await validateForiegnKey({ semId, teacherId, subId });
 
   for (const section of sections) {
-    let obj = { teacherId, semId, subId };
+    let obj = { teacherId, semId, subId, time };
     obj.secId = section;
     await SemesterSubject.add(obj);
   }

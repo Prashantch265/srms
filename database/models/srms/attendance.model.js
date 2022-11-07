@@ -16,7 +16,7 @@ module.exports = (sequelize, dataTypes) => {
     status: {
       field: "status",
       type: dataTypes.ENUM(["present", "absent", "on_leave"]),
-      allowNull: false,
+      defaultValue: "absent",
     },
     studentId: {
       field: "student_id",

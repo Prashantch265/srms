@@ -51,12 +51,13 @@ module.exports = (sequelize, dataTypes) => {
     },
   };
 
-  const examinationMarks = { ...obj, ...CommonEntity };
+  const examinationResults = { ...obj, ...CommonEntity };
 
-  const ExaminationMarks = sequelize.define(
-    "examination_marks",
-    examinationMarks
+  const ExaminationResults = sequelize.define(
+    "examination_results",
+    examinationResults,
+    { freezeTableName: true }
   );
 
-  return ExaminationMarks;
+  return ExaminationResults;
 };

@@ -13,7 +13,6 @@ module.exports = {
   Batch: db.batch,
   Semester: db.semester,
   Subject: db.subjects,
-  Result: db.results,
   Assessment: db.assessments,
   Teacher: db.teachers,
   ExaminationSchedule: db.examination_schedule,
@@ -22,4 +21,5 @@ module.exports = {
   SemesterSection: db.semester_section,
   SemesterStudent: db.semester_student,
   Attendance: db.attendance,
+  Result: db.examination_results,
 };

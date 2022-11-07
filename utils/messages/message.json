@@ -17,6 +17,8 @@
     "update": "%s updated successfully",
     "delete": "%s deleted successfully",
     "remove": "%s removed successfully",
-    "loggedIn": "logged in successfully"
+    "loggedIn": "logged in successfully",
+    "stored": "%s stored successfully",
+    "publish": "%s published successfully"
   }
 }

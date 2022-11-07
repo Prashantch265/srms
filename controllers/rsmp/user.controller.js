@@ -28,12 +28,15 @@ const updateUser = async (req, res, next) => {
   }
 };
 
-const changeTemporaryPassword = async (req, res, next) => {
+const updateProfile = async (req, res, next) => {
   try {
+    let data;
     const { userId } = httpContext.get("user");
-    const data = req.body;
+    const { password } = req.body;
+    data.password = password;
+    // data.profilePic = req.file.filename;
     const resData = await UserService.updateUser(data, userId);
-    return successResponse(res, resData, "update", "User");
+    return successResponse(res, resData, "update", "profile");
   } catch (error) {
     next(error);
   }
@@ -88,5 +91,5 @@ module.exports = {
   deleteUser,
   fetchByRole,
   addProfilePicture,
-  changeTemporaryPassword,
+  updateProfile,
 };

@@ -7,8 +7,10 @@ const findOneByField = async (where) => {
   return await Result.findOne({ where });
 };
 
-const add = async (data) => {
-  return await Result.create(data);
+const add = async (data, userId) => {
+  return await db.sequelize.transaction(async (t) => {
+    return await Result.create(data, { userId });
+  });
 };
 
 const update = async (data, id) => {

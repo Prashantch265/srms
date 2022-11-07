@@ -8,6 +8,13 @@ const bs = NepaliFunctions.AD2BS({ year: yyyy, month: mm, day: dd });
 today = `${bs.year}-${bs.month}-${bs.day}`;
 console.log(today);
 
+const Toast = Swal.mixin({
+  toast: true,
+  position: "bottom-end",
+  showConfirmButton: false,
+  timer: 3000,
+});
+
 document.addEventListener("load", loadSemester());
 
 document.getElementById("selectSemester").addEventListener("change", (e) => {
@@ -22,8 +29,6 @@ document.getElementById("selectSection").addEventListener("change", (e) => {
     loadStudents(e.target.value);
   }
 });
-
-document.getElementById("");
 
 function loadSemester() {
   fetch("http://localhost:3000/semester-list", {
@@ -118,20 +123,21 @@ function loadStudents(secId) {
             <td>${key.name}</td>
             <td>${section}</td>
             <td>
-              <div class="form-group clearfix">
-                <div class="icheck-success d-inline">
-                  <input type="radio" id="radioSuccess1" name="present${i}" value="present">
-                  <p id=${i} value=${key.id} hidden></p>
-                  <label for="radioSuccess1">
-                  Present
+              <div class="row">
+                <div class="form-check m-2">
+                  <input class="form-check-input" type="checkbox" name="checkbox${i}">
+                  <label>
+                    Present
                   </label>
+                  <input type="hidden" id="studentId${i}" value="${key.id}">
                 </div>
-                <div class="icheck-danger d-inline">
-                  <input type="radio" id="radioDanger1" name="absent${i}" value="absent">
-                  <p id=${i} value=${key.id} hidden></p>
-                  <label for="radioDanger1">
-                  Absent
+                <div class="form-check m-2">
+                  <input class="form-check-input" type="checkbox" name="uncheckbox${i}">
+                  <label>
+                    Absent
                   </label>
+                  <input type="hidden" id="studentId${i}" value="${key.id}">
+                </div>
                 </div>
               </div>
             </td>
@@ -141,24 +147,32 @@ function loadStudents(secId) {
 
       for (let j = 1; j <= data.length; j++) {
         document
-          .getElementsByName(`present${i}`)
+          .getElementsByName(`checkbox${j}`)[0]
           .addEventListener("change", (e) => {
-            makeAttendance(j, document.getElementsByName(`present${i}`).value);
-          })
-          .bind(null, j);
+            if (e.target.checked) {
+              makeAttendance(j, "present").bind(null, j);
+            }
+          });
         document
-          .getElementsByName(`absent${i}`)
+          .getElementsByName(`uncheckbox${j}`)[0]
           .addEventListener("change", (e) => {
-            makeAttendance(j, document.getElementsByName(`absent${i}`).value);
-          })
-          .bind(null, j);
+            if (e.target.checked) {
+              makeAttendance(j, "absent").bind(null, j);
+            }
+          });
       }
     });
 }
 
 function makeAttendance(i, status) {
-  const studentId = document.getElementById(i).value;
+  const studentId = document.getElementById(`studentId${i}`).value;
   const subjectId = document.getElementById("selectSubject").value;
+  if (subjectId === "Select") {
+    return Toast.fire({
+      icon: "error",
+      title: "Please select your subject.",
+    });
+  }
   const date = today;
   fetch("http://localhost:3000/attendance", {
     headers: {
@@ -170,6 +184,16 @@ function makeAttendance(i, status) {
   })
     .then((res) => res.json())
     .then((resData) => {
-      let data = resData.data;
+      if (resData.status === 200) {
+        return Toast.fire({
+          icon: "success",
+          title: resData.message,
+        });
+      } else {
+        return Toast.fire({
+          icon: "error",
+          title: resData.message,
+        });
+      }
     });
 }
