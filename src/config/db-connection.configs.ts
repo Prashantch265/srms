@@ -95,6 +95,7 @@ const pgConnectionForMikroOrm = (): MikroOrmModuleSyncOptions => {
       emit: 'ts',
       snapshot: false,
       generator: TSMigrationGenerator,
+      disableForeignKeys: false,
     },
     seeder: {
       path: Utils.detectTsNode()
