@@ -19,4 +19,4 @@ RUN npm run build
 
 ENV NODE_ENV=local
 
-CMD ["npm", "run", "start:prod"]
+CMD ["npm", "run", "start:dev"]
