@@ -5,6 +5,9 @@
   "author": "prashant",
   "private": true,
   "license": "LICENSED",
+  "engines": {
+    "node": ">=17.3"
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
