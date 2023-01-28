@@ -32,8 +32,8 @@ jwt:
 
 oauth:
   google:
-    clientID: 
-    clientSecret: 
+    clientID: 927949735021-op33jcgrhh6jel07fvdr88tra59efh3r.apps.googleusercontent.com
+    clientSecret: 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
   facebook:
-    clientID: 
-    clientSecret: 
+    clientID: 842068587091290
+    clientSecret: 7fa3e6994cbdc125d24d573c558462af

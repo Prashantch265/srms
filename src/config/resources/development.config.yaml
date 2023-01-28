@@ -7,21 +7,21 @@ database:
     port: 27017
     userName: 
     password: 
-    database: 
+  database: 
   postgres:
-    host: 
+    host: ep-small-wood-198254.ap-southeast-1.aws.neon.tech
     port: 5432
-    username: 
-    password: 
-    database: 
+    username: Prashantch265
+    password: xtPGIURX83lH
+    database: development
 
 mailer:
   service: Gmail
   host: smtp.gmail.com
   port: 465
   auth:
-    user: notifications.dopetech@gmail.com
-    pass: helishchy9591
+    user: 
+    pass: 
   domainName:
 
 jwt:
@@ -32,8 +32,8 @@ jwt:
 
 oauth:
   google:
-    clientId: 764337029995-angoin8104p2o81thsktcran8jlf0eds.apps.googleusercontent.com
-    clientSecret: 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
+    clientID: 927949735021-op33jcgrhh6jel07fvdr88tra59efh3r.apps.googleusercontent.com
+    clientSecret: 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
   facebook:
-    appId: 1122407995086846
-    appSecret: 6fd74e3a9eceaed8ee8ee5db6719fc6a
+    clientID: 842068587091290
+    clientSecret: 7fa3e6994cbdc125d24d573c558462af

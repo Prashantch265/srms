@@ -2,7 +2,7 @@
  * @Author: prashant.chaudhary
  * @Date: 2022-10-20 11:50:16
  * @Last Modified by: prashant.chaudhary
- * @Last Modified time: 2022-12-28 19:54:12
+ * @Last Modified time: 2023-01-26 23:45:33
  */
 
 import { MikroEntitySubscriber } from '@database/subscribers/mikro-entity.subscriber';
@@ -79,6 +79,9 @@ const pgConnectionForMikroOrm = (): MikroOrmModuleSyncOptions => {
     port: postgresConfig.port,
     user: postgresConfig.username,
     password: postgresConfig.password,
+    driverOptions: {
+      connection: { ssl: true },
+    },
     registerRequestContext: true,
     debug: process.env.NODE_ENV === 'local' || 'development' ? true : false,
     logger: (msg) => loggerService().log(msg),
