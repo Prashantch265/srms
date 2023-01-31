@@ -38,3 +38,10 @@ export enum ErrorStatusCode {
   UNPROCESSABLE_ENTITY = 422,
   INTERNAL_SERVER_ERROR = 500,
 }
+
+export enum JourneyStatus {
+  SUBMITTED = 'submitted',
+  PENDING = 'pending',
+  APPROVED = 'approved',
+  REJECTED = 'rejected',
+}
