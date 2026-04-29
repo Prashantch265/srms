@@ -1,5 +1,15 @@
-if (process.env.NODE_ENV && process.env.NODE_ENV === "development")
-  require("dotenv").config({ path: "local.env" });
+const { existsSync } = require("fs");
+const path = require("path");
+
+const envFile = existsSync(
+  path.join(process.cwd(), `.env.${process.env.NODE_ENV}`)
+)
+  ? `.env.${process.env.NODE_ENV}`
+  : ".env";
+
+require("dotenv").config({
+  path: envFile,
+});
 
 module.exports = {
   port: process.env.PORT || 3000,

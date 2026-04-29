@@ -1,6 +1,6 @@
 const validator = require("../../middlewares/joi.middleware");
 const role = require("../../validation/role");
-const RoleController = require("../../controllers/rsmp/role.controller");
+const RoleController = require("../../controllers/rbac/role.controller");
 
 module.exports = (router) => {
   router.route("/role").post(validator(role), RoleController.addRole);

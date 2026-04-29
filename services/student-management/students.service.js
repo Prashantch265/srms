@@ -2,15 +2,17 @@ const StudentData = require("../../data/student-management/students.data");
 const BatchData = require("../../data/master-configuration/batch.data");
 const SectionData = require("../../data/master-configuration/section.data");
 const SemesterData = require("../../data/master-configuration/semester.data");
-const RoleData = require("../../data/rsmp/role.data");
-const UserData = require("../../data/rsmp/users.data");
+const RoleData = require("../../data/rbac/role.data");
+const UserData = require("../../data/rbac/users.data");
 const HttpException = require("../../utils/httpException");
 const slugify = require("slugify");
 const random = require("random-key");
 const { domainName } = require("../../config/config");
-const UserService = require("../rsmp/users.service");
+const UserService = require("../rbac/user.service");
 const mailer = require("../../utils/node-mailer");
 const SemesterStudent = require("../../data/student-management/semester-student.data");
+const db = require("../../lib/sequelize");
+const { Transaction } = require("sequelize");
 
 const validateForiegnKey = async (obj) => {
   if (obj.batchId) {
@@ -26,7 +28,6 @@ const validateForiegnKey = async (obj) => {
     const user = await UserData.findOneByField({ userName: obj.userName });
     if (!user) throw new HttpException(400, "notFound", "user");
   }
-
   return;
 };
 
@@ -49,13 +50,13 @@ const addDetail = async (data) => {
   const password = random.generate(7);
   const { id } = await RoleData.findOneByField({ name: "student" });
 
-  const user = await UserService.registerNewUser({
+  const user = await UserService.createUser({
     userName,
-    password,
-    roleId: id,
+    password, // Handled automatically by our Area 1 update
+    roles: [id],
   });
 
-  data.userName = user.userName;
+  data.userName = user.user.userName; // Adjusting for the new returned payload format
 
   const res = await StudentData.addStudentDetails(data);
 
@@ -69,13 +70,14 @@ const addDetail = async (data) => {
     batchId: data.batchId,
   });
 
+  // Adjusting node-mailer implementation
   let mailerData = {
     reciever: res.email,
     subject: "SRMS login credential",
     templateFile: "login-credential",
     context: {
-      userName: user.userName,
-      password: password,
+      userName: user.user.userName,
+      password: user.tempPassword,
     },
   };
 
@@ -100,23 +102,34 @@ const addMappingSemesterStudent = async (data) => {
   };
   await validateForiegnKey(obj);
 
-  const existingMapping = await SemesterStudent.getExistingMappingByBatch(
-    data.batchId
+  // ABSTRACT ALIGNMENT: Transactional Integrity for Batch Operations
+  // Using cls-hooked injected transaction context to ensure atomicity.
+  // If this fails halfway, the transaction rolls back, preventing a corrupted split-batch state.
+  return await db.sequelize.transaction(
+    { isolationLevel: Transaction.ISOLATION_LEVELS.SERIALIZABLE },
+    async (t) => {
+      const existingMapping = await SemesterStudent.getExistingMappingByBatch(
+        batchId
+      );
+
+      if (existingMapping && existingMapping.length > 0) {
+        await SemesterStudent.remove(batchId);
+      }
+
+      const students = await SemesterStudent.getStudentsByBatch(batchId);
+      for (const student of students) {
+        let mapData = {
+          batchId: parseInt(batchId),
+          semId: parseInt(semesterId),
+          studentId: student.id,
+        };
+
+        // Because CLS is used in lib/sequelize.js, this nested DAL call uses the transaction automatically
+        await SemesterStudent.add(mapData);
+      }
+      return [];
+    }
   );
-
-  if (existingMapping) await SemesterStudent.remove(batchId);
-
-  const students = await SemesterStudent.getStudentsByBatch(batchId);
-  for (const student of students) {
-    let data = {
-      batchId: parseInt(batchId),
-      semId: parseInt(semesterId),
-      studentId: student.id,
-    };
-
-    await SemesterStudent.add(data);
-  }
-  return [];
 };
 
 const getAll = async () => {

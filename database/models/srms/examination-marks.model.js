@@ -1,63 +1,50 @@
-const CommonEntity = require("../common");
-
-module.exports = (sequelize, dataTypes) => {
-  const obj = {
-    id: {
-      field: "id",
-      type: dataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    assessmentId: {
-      field: "assessment_id",
-      type: dataTypes.INTEGER,
-      references: {
-        model: "assessments",
-        key: "id",
+module.exports = (sequelize, DataTypes) => {
+  const ExaminationMarks = sequelize.define(
+    "examination_marks",
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
       },
-      onDelete: "CASCADE",
-    },
-    subId: {
-      field: "subject_id",
-      type: dataTypes.INTEGER,
-      references: {
-        model: "subjects",
-        key: "id",
+      obtained_marks: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
       },
-      onDelete: "CASCADE",
-    },
-    studentId: {
-      field: "student_id",
-      type: dataTypes.INTEGER,
-      references: {
-        model: "students",
-        key: "id",
+      remarks: {
+        type: DataTypes.ENUM("excellent", "good", "average", "poor", "fail"),
       },
-      onDelete: "CASCADE",
     },
-    obtainedMarks: {
-      field: "obtained_marks",
-      type: dataTypes.DECIMAL(4, 2),
-    },
-    remarks: {
-      field: "remarks",
-      type: dataTypes.ENUM(["pass", "fail", "absent"]),
-      allowNull: false,
-    },
-    publish: {
-      field: "publish",
-      type: dataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-  };
-
-  const examinationResults = { ...obj, ...CommonEntity };
-
-  const ExaminationResults = sequelize.define(
-    "examination_results",
-    examinationResults,
-    { freezeTableName: true }
+    {
+      tableName: "examination_marks",
+      // ABSTRACT ALIGNMENT: Query optimization for grade aggregations
+      indexes: [
+        {
+          name: "exam_marks_student_assessment_idx",
+          fields: ["student_id", "assessment_id"],
+        },
+        {
+          name: "exam_marks_subject_idx",
+          fields: ["sub_id"],
+        },
+      ],
+    }
   );
 
-  return ExaminationResults;
+  ExaminationMarks.associate = function (models) {
+    ExaminationMarks.belongsTo(models.students, {
+      foreignKey: "student_id",
+      onDelete: "CASCADE",
+    });
+    ExaminationMarks.belongsTo(models.assessments, {
+      foreignKey: "assessment_id",
+      onDelete: "RESTRICT",
+    });
+    ExaminationMarks.belongsTo(models.subjects, {
+      foreignKey: "sub_id",
+      onDelete: "RESTRICT",
+    });
+  };
+
+  return ExaminationMarks;
 };

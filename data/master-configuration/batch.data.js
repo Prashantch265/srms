@@ -1,6 +1,6 @@
 const { Batch } = require("../../database/models");
 const StudentData = require("../../data/student-management/students.data");
-const UserData = require("../../data/rsmp/users.data");
+const UserData = require("../../data/rbac/users.data");
 
 const findOneByField = async (where) => {
   where = { ...where, isActive: true, isDeleted: false };

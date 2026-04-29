@@ -1,10 +1,10 @@
 const TeacherData = require("../../data/teacher-management/teachers.data");
-const RoleData = require("../../data/rsmp/role.data");
+const RoleData = require("../../data/rbac/role.data");
 const HttpException = require("../../utils/httpException");
 const slugify = require("slugify");
 const random = require("random-key");
 const { domainName } = require("../../config/config");
-const UserService = require("../rsmp/users.service");
+const UserService = require("../rbac/user.service");
 const mailer = require("../../utils/node-mailer");
 const SemesterData = require("../../data/master-configuration/semester.data");
 const SubjectData = require("../../data/master-configuration/subject.data");

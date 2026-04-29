@@ -1,5 +1,5 @@
-const UserService = require("../../services/rsmp/users.service");
-const { successResponse } = require("../../utils");
+const UserService = require("../../services/rbac/user.service");
+const { successResponse, errorResponse } = require("../../utils");
 const httpContext = require("express-http-context");
 
 const addUser = async (req, res, next) => {
@@ -8,6 +8,34 @@ const addUser = async (req, res, next) => {
     const resData = await UserService.registerNewUser(data);
     return successResponse(res, resData, "create", "User");
   } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Endpoint for Admins to assign or re-assign roles to a specific user
+ */
+const assignRole = async (req, res, next) => {
+  try {
+    const { userId, roleIds } = req.body;
+
+    if (!userId || !roleIds || !Array.isArray(roleIds)) {
+      return res
+        .status(400)
+        .json(
+          errorResponse(400, "userId and an array of roleIds are required.")
+        );
+    }
+
+    await UserService.assignUserRoles(userId, roleIds);
+
+    return res
+      .status(200)
+      .json(successResponse(200, "User roles updated successfully."));
+  } catch (error) {
+    if (error.message === "User not found.") {
+      return res.status(404).json(errorResponse(404, error.message));
+    }
     next(error);
   }
 };
@@ -85,6 +113,7 @@ const deleteUser = async (req, res, next) => {
 
 module.exports = {
   addUser,
+  assignRole,
   updateUser,
   fetchAllUser,
   fetchUserById,

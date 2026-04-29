@@ -1,4 +1,4 @@
-const RoleData = require("../../data/rsmp/role.data");
+const RoleData = require("../../data/rbac/role.data");
 const HttpException = require("../../utils/httpException");
 
 const add = async (data) => {

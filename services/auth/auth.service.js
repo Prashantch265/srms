@@ -1,15 +1,18 @@
-const UserData = require("../../data/rsmp/users.data");
-const RoleData = require("../../data/rsmp/role.data");
-const UserRoleData = require("../../data/rsmp/user-role.data");
+const RoleData = require("../../data/rbac/role.data");
+const UserRoleData = require("../../data/rbac/user-role.data");
 const HttpException = require("../../utils/httpException");
-const bcrypt = require("bcrypt");
 const { signAccessToken } = require("../../lib/jwt");
+const db = require("../../lib/sequelize"); // Imported for OOP model access
 
 const authenticate = async (userName, password) => {
-  const user = await UserData.findOneByField({ userName: userName });
+  // ABSTRACT ALIGNMENT: Security & OOP Encapsulation
+  // Bypassing raw data layer to retrieve the rich Sequelize Model instance.
+  // This allows us to use the encapsulated cryptographic methods defined in the Model.
+  const user = await db.User.findOne({ where: { userName: userName } });
   if (!user) throw new HttpException(400, "invalidCredential");
 
-  const isMatch = await bcrypt.compare(password, user.password);
+  // Calling the encapsulated instance method to verify password in constant time
+  const isMatch = await user.validPassword(password);
   if (!isMatch) throw new HttpException(400, "invalidCredential");
 
   const accessToken = await signAccessToken(user);
@@ -23,7 +26,7 @@ const authenticate = async (userName, password) => {
 };
 
 const init = async (userId) => {
-  const user = await UserData.fetchById(userId);
+  const user = await db.User.findByPk(userId);
   if (!user) throw new HttpException(400, "notFound", "user");
   return user;
 };

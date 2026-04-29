@@ -1,7 +1,6 @@
 const { successResponse } = require("../../utils");
-const AuthService = require("../../services/auth/auth.services");
+const AuthService = require("../../services/auth/auth.service");
 const httpContext = require("express-http-context");
-const UserService = require("../../services/rsmp/users.service");
 
 const authenticate = async (req, res, next) => {
   try {

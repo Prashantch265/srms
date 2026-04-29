@@ -1,6 +1,6 @@
 const validator = require("../../middlewares/joi.middleware");
 const userRegistration = require("../../validation/userRegistration");
-const UserController = require("../../controllers/rsmp/user.controller");
+const UserController = require("../../controllers/rbac/user.controller");
 const uploadFile = require("../../lib/multer");
 
 module.exports = (router) => {

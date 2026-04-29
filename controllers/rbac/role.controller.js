@@ -1,4 +1,4 @@
-const RoleService = require("../../services/rsmp/role.service");
+const RoleService = require("../../services/rbac/role.service");
 const { successResponse } = require("../../utils");
 
 const addRole = async (req, res, next) => {

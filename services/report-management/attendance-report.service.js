@@ -1,25 +1,38 @@
-const AttendanceData = require("../../data/reports-management/attendance.data");
-const HelperData = require("../../data/reports-management/helper.data");
-const HttpException = require("../../utils/httpException");
+const db = require("../../lib/sequelize");
+const { executeSerializableTransaction } = require("./results.service");
 
-const makeAttendance = async (data, userId) => {
-  const existingAttendance = await AttendanceData.findOneByField({
-    date: data.date,
-    studentId: data.studentId,
-    subjectId: data.subjectId,
+/**
+ * ABSTRACT ALIGNMENT: Critical Data-Entry Module
+ * Secures high-volume attendance marking (where multiple teachers might
+ * submit data at the exact same minute) using the serializable wrapper.
+ */
+const bulkMarkAttendance = async (attendanceData) => {
+  // Reusing the robust transaction wrapper from results.service to
+  // ensure DRY (Don't Repeat Yourself) principles across the Service Layer
+  return await executeSerializableTransaction(async (t) => {
+    const promises = attendanceData.map(async (record) => {
+      const { student_id, subject_id, date, status } = record;
+
+      return await db.Attendance.upsert(
+        {
+          student_id,
+          subject_id,
+          date,
+          status,
+        },
+        { transaction: t }
+      );
+    });
+
+    return await Promise.all(promises);
   });
-
-  if (existingAttendance)
-    throw new HttpException(400, "duplicateData", "attendance");
-
-  const [teacher] = await HelperData.getTeacherId(userId);
-  data.teacherId = teacher.id;
-  const res = await AttendanceData.makeAttendance(data);
-  return res;
 };
 
-const fetchAttendanceByStudentId = async () => {};
+const getAttendanceByStudent = async (student_id) => {
+  return await db.Attendance.findAll({ where: { student_id } });
+};
 
-const fethcAttendanceBySemester = async () => {};
-
-module.exports = { makeAttendance };
+module.exports = {
+  bulkMarkAttendance,
+  getAttendanceByStudent,
+};

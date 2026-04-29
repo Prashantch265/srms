@@ -1,6 +1,6 @@
-const UserRoleData = require("../../data/rsmp/user-role.data");
-const UserData = require("../../data/rsmp/users.data");
-const RoleData = require("../../data/rsmp/role.data");
+const UserRoleData = require("../../data/rbac/user-role.data");
+const UserData = require("../../data/rbac/users.data");
+const RoleData = require("../../data/rbac/role.data");
 const { errorResponse } = require("../../utils");
 
 const validateForeignKey = async (userId, roleId) => {

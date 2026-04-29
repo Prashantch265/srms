@@ -1,56 +1,47 @@
-const CommonEntity = require("../common");
-
-module.exports = (sequelize, dataTypes) => {
-  const obj = {
-    id: {
-      field: "id",
-      type: dataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    date: {
-      field: "date",
-      type: dataTypes.STRING,
-      allowNull: false,
-    },
-    status: {
-      field: "status",
-      type: dataTypes.ENUM(["present", "absent", "on_leave"]),
-      defaultValue: "absent",
-    },
-    studentId: {
-      field: "student_id",
-      type: dataTypes.INTEGER,
-      references: {
-        model: "students",
-        key: "id",
+module.exports = (sequelize, DataTypes) => {
+  const Attendance = sequelize.define(
+    "attendance",
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
       },
+      date: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+      },
+      status: {
+        type: DataTypes.ENUM("present", "absent", "late"),
+        allowNull: false,
+      },
+    },
+    {
+      tableName: "attendance",
+      // ABSTRACT ALIGNMENT: Time-series B-tree indexes for fast attendance reporting
+      indexes: [
+        {
+          name: "attendance_student_date_idx",
+          fields: ["student_id", "date"],
+        },
+        {
+          name: "attendance_subject_idx",
+          fields: ["subject_id"],
+        },
+      ],
+    }
+  );
+
+  Attendance.associate = function (models) {
+    Attendance.belongsTo(models.students, {
+      foreignKey: "student_id",
       onDelete: "CASCADE",
-    },
-    subjectId: {
-      field: "subject_id",
-      type: dataTypes.INTEGER,
-      references: {
-        model: "subjects",
-        key: "id",
-      },
-      onDelete: "cascade",
-    },
-    teacherId: {
-      field: "teacher_id",
-      type: dataTypes.INTEGER,
-      references: {
-        model: "teachers",
-        key: "id",
-      },
-    },
+    });
+    Attendance.belongsTo(models.subjects, {
+      foreignKey: "subject_id",
+      onDelete: "CASCADE",
+    });
   };
-
-  const attendance = { ...obj, ...CommonEntity };
-
-  const Attendance = sequelize.define("attendance", attendance, {
-    freezeTableName: true,
-  });
 
   return Attendance;
 };

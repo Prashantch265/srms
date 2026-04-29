@@ -1,62 +1,51 @@
-const CommonEntity = require("../common");
+module.exports = (sequelize, DataTypes) => {
+  const Results = sequelize.define(
+    "examination_results",
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      score: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+      },
+      remarks: {
+        type: DataTypes.STRING,
+      },
+    },
+    {
+      tableName: "results",
+      // ABSTRACT ALIGNMENT: Explicit B-tree indexes for O(log n) lookups
+      indexes: [
+        {
+          name: "results_student_assessment_idx",
+          fields: ["student_id", "assessment_id"], // High cardinality compound index
+        },
+        {
+          name: "results_subject_idx",
+          fields: ["subject_id"],
+        },
+      ],
+    }
+  );
 
-module.exports = (sequelize, dataTypes) => {
-  const obj = {
-    id: {
-      field: "id",
-      type: dataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    studentId: {
-      field: "student_id",
-      type: dataTypes.INTEGER,
-      references: {
-        model: "students",
-        key: "id",
-      },
-      onDelete: "CASCADE",
-    },
-    assessmentId: {
-      field: "assessment_id",
-      type: dataTypes.INTEGER,
-      references: {
-        model: "assessments",
-        key: "id",
-      },
-      onDelete: "CASCADE",
-    },
-    semesterId: {
-      field: "semester_id",
-      type: dataTypes.INTEGER,
-      references: {
-        model: "semester",
-        key: "id",
-      },
-      onDelete: "CASCADE",
-    },
-    subjectId: {
-      field: "subject_id",
-      type: dataTypes.INTEGER,
-      references: {
-        model: "subjects",
-        key: "id",
-      },
-      onDelete: "CASCADE",
-    },
-    score: {
-      field: "score",
-      type: dataTypes.DECIMAL(4, 2),
-    },
-    remarks: {
-      field: "remarks",
-      type: dataTypes.ENUM(["pass", "fail", "absent"]),
-    },
+  Results.associate = function (models) {
+    // ABSTRACT ALIGNMENT: Normalization edge case handling
+    Results.belongsTo(models.students, {
+      foreignKey: "student_id",
+      onDelete: "CASCADE", // Prevents orphaned result data if a student record is dropped
+    });
+    Results.belongsTo(models.assessments, {
+      foreignKey: "assessment_id",
+      onDelete: "RESTRICT", // Prevents dropping an assessment that has active result dependencies
+    });
+    Results.belongsTo(models.subjects, {
+      foreignKey: "subject_id",
+      onDelete: "RESTRICT",
+    });
   };
 
-  const result = { ...obj, ...CommonEntity };
-
-  const Result = sequelize.define("results", result);
-
-  return Result;
+  return Results;
 };
