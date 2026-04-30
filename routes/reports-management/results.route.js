@@ -23,5 +23,5 @@ module.exports = (app) => {
     resultsController.dispatchBatchReports
   );
 
-  app.use("/api/v1/results", router);
+  app.use("/results", router);
 };

@@ -12,5 +12,5 @@ module.exports = (app) => {
     predictionController.getStudentPrediction
   );
 
-  app.use("/api/v1/analytics/predictions", router);
+  app.use("/analytics/predictions", router);
 };

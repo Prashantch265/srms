@@ -1,5 +1,5 @@
 const httpContext = require("express-http-context");
-const db = require("../lib/sequelize");
+const { Student } = require("../database/models");
 const { errorResponse } = require("../utils");
 
 /**
@@ -25,7 +25,7 @@ const authorizeStudentData = async (req, res, next) => {
 
     // For Students and Parents, enforce Row-Level Security (RLS)
     // We look up the student profile linked to the currently authenticated credential
-    const linkedStudent = await db.Student.findOne({
+    const linkedStudent = await Student.findOne({
       where: { user_name: currentUser.userName },
     });
 

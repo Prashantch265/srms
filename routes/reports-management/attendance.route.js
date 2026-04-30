@@ -16,5 +16,5 @@ module.exports = (app) => {
     attendanceController.getAttendance
   );
 
-  app.use("/api/v1/attendance", router);
+  app.use("/attendance", router);
 };

@@ -1,4 +1,5 @@
 const db = require("../../lib/sequelize");
+const { Result } = require("../../database/models");
 const { Transaction } = require("sequelize");
 const { logger } = require("../../utils/logger");
 
@@ -51,7 +52,7 @@ const upsertBulkResults = async (resultsData) => {
   return await executeSerializableTransaction(async (t) => {
     const promises = resultsData.map(async (result) => {
       const { student_id, assessment_id, subject_id, score, remarks } = result;
-      return await db.Result.upsert(
+      return await Result.upsert(
         { student_id, assessment_id, subject_id, score, remarks },
         { transaction: t, returning: true }
       );
@@ -62,7 +63,7 @@ const upsertBulkResults = async (resultsData) => {
 };
 
 const getResultsByStudent = async (student_id) => {
-  return await db.Result.findAll({ where: { student_id } });
+  return await Result.findAll({ where: { student_id } });
 };
 
 /**

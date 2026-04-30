@@ -8,9 +8,11 @@
     "lint": "eslint --fix . && echo 'Lint complete.'",
     "start": "npm run build && cross-env NODE_ENV=production node dist/server.js",
     "dev": "cross-env NODE_ENV=development nodemon --inspect",
-    "migration:run": "cross-env NODE_ENV=development npx sequelize-cli db:migrate",
+    "migration:generate": "npx sequelize-cli migration:generate --name",
+    "migration:run": "npx sequelize-cli db:migrate",
     "migration:revert": "npx sequelize-cli db:migrate:undo",
-    "seed:run": "npx sequelize-cli db:seed",
+    "seed:generate": "npx sequelize-cli seed:generate --name",
+    "seed:run": "npx sequelize-cli db:seed:all",
     "seed:revert": "npx sequelize-cli db:seed:undo"
   },
   "repository": {

@@ -1,4 +1,4 @@
-const db = require("../../lib/sequelize");
+const { Result, Subject } = require("../../database/models");
 const { logger } = require("../../utils/logger");
 
 /**
@@ -62,15 +62,15 @@ const calculateLinearRegression = (historicalGPAs) => {
 const generateStudentPrediction = async (studentId) => {
   try {
     // 1. Fetch all historical results with their associated subject metadata (for credits and semester context)
-    const results = await db.Result.findAll({
+    const results = await Result.findAll({
       where: { student_id: studentId },
       include: [
         {
-          model: db.Subject,
+          model: Subject,
           attributes: ["id", "semester_id"], // Assuming credit_hours defaults to 3 if not present in your schema
         },
       ],
-      order: [[db.Subject, "semester_id", "ASC"]], // Ensure chronological ordering
+      order: [[Subject, "semester_id", "ASC"]], // Ensure chronological ordering
       raw: true,
       nest: true,
     });

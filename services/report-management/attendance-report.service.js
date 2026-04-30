@@ -1,4 +1,4 @@
-const db = require("../../lib/sequelize");
+const { Attendance } = require("../../database/models");
 const { executeSerializableTransaction } = require("./results.service");
 
 /**
@@ -13,7 +13,7 @@ const bulkMarkAttendance = async (attendanceData) => {
     const promises = attendanceData.map(async (record) => {
       const { student_id, subject_id, date, status } = record;
 
-      return await db.Attendance.upsert(
+      return await Attendance.upsert(
         {
           student_id,
           subject_id,
@@ -29,7 +29,7 @@ const bulkMarkAttendance = async (attendanceData) => {
 };
 
 const getAttendanceByStudent = async (student_id) => {
-  return await db.Attendance.findAll({ where: { student_id } });
+  return await Attendance.findAll({ where: { student_id } });
 };
 
 module.exports = {

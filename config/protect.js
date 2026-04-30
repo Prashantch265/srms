@@ -9,7 +9,7 @@ const unprotectedRoutes = [
   "/",
   "/favicon.ico",
   "/auth/login",
-  "/auth/register",
+  "/api/v1/auth/login",
 ];
 
 const allowedExtension = ["jpeg", "jpg", "png", "gif", "svg"];

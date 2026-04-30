@@ -2,7 +2,7 @@ const httpContext = require("express-http-context");
 const passport = require("passport");
 const { unprotectedRoutes } = require("../config/protect");
 const { match } = require("node-match-path");
-const db = require("../lib/sequelize");
+const { User, Role } = require("../database/models");
 const { logger } = require("../utils/logger");
 
 const authMiddleware = (req, res, next) => {
@@ -35,9 +35,9 @@ const authMiddleware = (req, res, next) => {
       // to guarantee the RBAC Row-Level Security middleware has the exact security context.
       if (!userObj.role) {
         try {
-          const userWithRoles = await db.User.findOne({
+          const userWithRoles = await User.findOne({
             where: { user_name: userObj.userName || userObj.user_name },
-            include: [{ model: db.Role }],
+            include: [{ model: Role }],
           });
 
           if (

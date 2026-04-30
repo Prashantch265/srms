@@ -251,3 +251,81 @@ function saveResultSet() {
       }
     });
 }
+
+function submitResults() {
+  let resultData = [];
+  const elements = document.getElementsByClassName("score");
+  const remarks = document.getElementsByClassName("remarks");
+
+  for (let index = 0; index < elements.length; index++) {
+    if (elements[index].value != "") {
+      let result = {
+        student_id: elements[index].id,
+        assessment_id: state.assessmentId,
+        subject_id: state.subjectId,
+        score: elements[index].value,
+        remarks: remarks[index].value,
+      };
+      resultData.push(result);
+    }
+  }
+
+  if (resultData.length === 0) {
+    Swal.fire({
+      icon: "warning",
+      title: "No Data",
+      text: "Please enter scores for at least one student.",
+    });
+    return;
+  }
+
+  let payload = {
+    results: resultData,
+  };
+
+  fetch(url + "results/bulk", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+    body: JSON.stringify(payload),
+  })
+    .then((res) => {
+      // ABSTRACT ALIGNMENT: Transaction Conflict Handling (HTTP 409)
+      if (res.status === 409) {
+        return Promise.reject(
+          new Error("Database conflict due to heavy concurrent load.")
+        );
+      }
+      if (!res.ok) {
+        return res.json().then((err) => Promise.reject(err));
+      }
+      return res.json();
+    })
+    .then((res) => {
+      Swal.fire({
+        icon: "success",
+        title: "Success",
+        text: "Results recorded successfully!",
+      }).then(() => {
+        location.reload();
+      });
+    })
+    .catch((err) => {
+      // Specifically handle the SerializationFailure / 409 Conflict
+      if (err.message && err.message.includes("conflict")) {
+        Swal.fire({
+          icon: "warning",
+          title: "System Busy",
+          text: "The system is currently under heavy load from other teachers submitting grades. Please wait a moment and click submit again.",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: err.message || "An error occurred while saving the results.",
+        });
+      }
+    });
+}

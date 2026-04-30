@@ -1,4 +1,4 @@
-const db = require("../../lib/sequelize");
+const { User, Role } = require("../../database/models");
 const crypto = require("crypto");
 const { logger } = require("../../utils/logger");
 
@@ -13,7 +13,7 @@ const createUser = async (userData, transaction = null) => {
     // Generate an 8-byte (16 character hex) cryptographically secure random password
     const tempPassword = crypto.randomBytes(8).toString("hex");
 
-    const newUser = await db.User.create(
+    const newUser = await User.create(
       {
         userName: userData.userName,
         password: tempPassword, // Hashing is securely deferred to Model's beforeCreate hook
@@ -41,7 +41,7 @@ const createUser = async (userData, transaction = null) => {
  * Standalone API service to assign or update a user's roles dynamically.
  */
 const assignUserRoles = async (userId, roleIds) => {
-  const user = await db.User.findByPk(userId);
+  const user = await User.findByPk(userId);
   if (!user) {
     throw new Error("User not found.");
   }
@@ -52,27 +52,27 @@ const assignUserRoles = async (userId, roleIds) => {
 };
 
 const findUserByUsername = async (userName) => {
-  return await db.User.findOne({
+  return await User.findOne({
     where: { userName },
-    include: [{ model: db.Role }],
+    include: [{ model: Role }],
   });
 };
 
 const findUserById = async (userId) => {
-  return await db.User.findByPk(userId, {
-    include: [{ model: db.Role }],
+  return await User.findByPk(userId, {
+    include: [{ model: Role }],
   });
 };
 
 const getAllUsers = async () => {
-  return await db.User.findAll({
-    include: [{ model: db.Role }],
+  return await User.findAll({
+    include: [{ model: Role }],
     attributes: { exclude: ["password"] }, // Prevent fetching password hashes for listings
   });
 };
 
 const updateUserPassword = async (userId, newPassword) => {
-  const user = await db.User.findByPk(userId);
+  const user = await User.findByPk(userId);
   if (!user) throw new Error("User not found");
 
   // Assigning plaintext triggers the beforeUpdate hook to re-hash adaptively
@@ -82,7 +82,7 @@ const updateUserPassword = async (userId, newPassword) => {
 };
 
 const deleteUser = async (userId) => {
-  const user = await db.User.findByPk(userId);
+  const user = await User.findByPk(userId);
   if (!user) throw new Error("User not found");
   return await user.destroy();
 };

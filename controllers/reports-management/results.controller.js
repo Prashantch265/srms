@@ -1,6 +1,6 @@
 const resultService = require("../../services/report-management/results.service");
 const { successResponse, errorResponse } = require("../../utils");
-const db = require("../../lib/sequelize"); // Required for decoupled data fetching
+const { Student, Subject, Result } = require("../../database/models");
 const dispatcherService = require("../../services/report-management/report-dispatcher.service");
 
 const addBulkResults = async (req, res, next) => {
@@ -58,12 +58,12 @@ const generateBatchReport = async (req, res, next) => {
     // 1. Decoupled Asynchronous Data Retrieval (Concurrent I/O)
     // We execute these three heavy queries concurrently instead of sequentially
     const [students, subjects, results] = await Promise.all([
-      db.Student.findAll({ where: { batch_id: batch_id }, raw: true }),
-      db.Subject.findAll({ where: { semester_id: semester_id }, raw: true }),
-      db.Result.findAll({
+      Student.findAll({ where: { batch_id: batch_id }, raw: true }),
+      Subject.findAll({ where: { semester_id: semester_id }, raw: true }),
+      Result.findAll({
         include: [
           {
-            model: db.Student,
+            model: Student,
             where: { batch_id: batch_id },
             attributes: [],
           },
